@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nossa Viagem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff8f0;
+      --surface: #ffffff;
+      --ink: #2b2118;
+      --muted: #7a6a5c;
+      --line: #f0e2d2;
+      --accent: #e8590c;
+      --accent-soft: #ffe8d6;
+      --sea: #0c8599;
+      --sea-soft: #d6f3f7;
+      --ok: #2b8a3e;
+      --shadow: 0 6px 24px rgba(120, 70, 20, .08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17120e;
+        --surface: #221b15;
+        --ink: #f6ece2;
+        --muted: #b3a291;
+        --line: #3a2e24;
+        --accent: #ff8a3d;
+        --accent-soft: #3d2615;
+        --sea: #3bc9db;
+        --sea-soft: #12343a;
+        --ok: #69db7c;
+        --shadow: 0 6px 24px rgba(0, 0, 0, .35);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Nunito", system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.15; margin: 0; }
+    a { color: var(--sea); }
+
+    /* ---------- Topo ---------- */
+    .hero {
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 75% 35%, rgba(255,255,255,.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,.15) 0 2px, transparent 3px),
+        linear-gradient(160deg, #f76707 0%, #e8590c 40%, #0c8599 100%);
+      background-size: 120px 120px, 160px 160px, 140px 140px, 100% 100%;
+      color: #fff;
+      padding: 48px 16px 64px;
+      text-align: center;
+    }
+    .hero .destino {
+      display: inline-block;
+      background: rgba(255,255,255,.2);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      font-size: .85rem;
+      text-transform: uppercase;
+    }
+    .hero h1 { font-size: clamp(1.9rem, 6vw, 3.2rem); margin: 14px auto 6px; max-width: 760px; }
+    .hero p { margin: 0 0 28px; opacity: .95; font-size: 1.1rem; }
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .countdown div {
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 18px;
+      padding: 14px 4px;
+      backdrop-filter: blur(4px);
+    }
+    .countdown strong {
+      display: block;
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.8rem, 8vw, 3rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .countdown span { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; opacity: .9; }
+    .hero .sub { margin-top: 18px; font-size: .95rem; opacity: .9; }
+    .chegou { font-family: "Fraunces", serif; font-size: clamp(1.6rem, 6vw, 2.4rem); }
+
+    /* ---------- Menu ---------- */
+    nav {
+      position: sticky; top: 0; z-index: 5;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      display: flex; gap: 4px; overflow-x: auto;
+      padding: 8px 12px;
+      scrollbar-width: none;
+    }
+    nav::-webkit-scrollbar { display: none; }
+    nav a {
+      flex: none;
+      text-decoration: none; color: var(--ink);
+      padding: 8px 14px; border-radius: 999px;
+      font-weight: 600; font-size: .95rem;
+    }
+    nav a:hover { background: var(--accent-soft); }
+
+    /* ---------- Seções ---------- */
+    main { max-width: 860px; margin: 0 auto; padding: 8px 16px 64px; }
+    section { padding-top: 40px; scroll-margin-top: 56px; }
+    section > h2 { font-size: 1.7rem; margin-bottom: 16px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .label { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 800; }
+    .big { font-size: 1.15rem; font-weight: 800; }
+    .muted { color: var(--muted); }
+    .pill {
+      display: inline-block; background: var(--sea-soft); color: var(--sea);
+      padding: 2px 10px; border-radius: 999px; font-weight: 800; font-size: .85rem;
+    }
+
+    /* Hotel */
+    .hotel h3 { font-size: 1.4rem; margin-bottom: 4px; }
+    .hotel .rows { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin: 16px 0; }
+    .map { width: 100%; height: 260px; border: 0; border-radius: 14px; margin-top: 12px; }
+    .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent); color: #fff; text-decoration: none;
+      padding: 10px 16px; border-radius: 12px; font-weight: 800; border: 0;
+      font-family: inherit; font-size: .95rem; cursor: pointer;
+    }
+    .btn.ghost { background: var(--accent-soft); color: var(--accent); }
+
+    /* Roteiro */
+    .day { margin-bottom: 14px; }
+    .day header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .day h3 { font-size: 1.25rem; }
+    .day.hoje { outline: 3px solid var(--accent); }
+    .day.passou { opacity: .55; }
+    .ativ { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 10px 0; border-top: 1px dashed var(--line); }
+    .ativ:first-of-type { border-top: 0; }
+    .ativ time { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
+    .ativ .nome { font-weight: 800; }
+    .ativ .local { color: var(--muted); font-size: .95rem; }
+    .ativ .local a { color: inherit; }
+    .ativ .obs { font-size: .9rem; background: var(--accent-soft); display: inline-block; padding: 2px 8px; border-radius: 8px; margin-top: 4px; }
+
+    /* Checklist */
+    .progress { height: 12px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 8px 0 4px; }
+    .progress div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--sea)); transition: width .3s; }
+    .quem { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .quem input, .add input {
+      flex: 1; min-width: 0;
+      font: inherit; padding: 10px 12px; border-radius: 12px;
+      border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+    }
+    .cat { margin-top: 18px; }
+    .cat h3 { font-family: "Nunito", sans-serif; font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
+    .item { display: flex; align-items: center; gap: 10px; padding: 8px 4px; border-radius: 10px; }
+    .item:hover { background: var(--bg); }
+    .item input { width: 22px; height: 22px; accent-color: var(--ok); flex: none; }
+    .item label { flex: 1; cursor: pointer; }
+    .item.done label { text-decoration: line-through; color: var(--muted); }
+    .item .del { background: none; border: 0; color: var(--muted); font-size: 1.1rem; cursor: pointer; padding: 2px 6px; }
+    .add { display: flex; gap: 8px; margin-top: 6px; }
+    .add button { flex: none; }
+
+    /* Contatos */
+    .contato { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+    .contato:first-child { border-top: 0; }
+    .contato a { font-weight: 800; text-decoration: none; white-space: nowrap; }
+
+    footer { text-align: center; color: var(--muted); padding: 24px 16px 40px; font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <span class="destino" id="destino"></span>
+    <h1 id="titulo"></h1>
+    <p id="frase"></p>
+    <div id="contador">
+      <div class="countdown">
+        <div><strong id="d">0</strong><span>dias</span></div>
+        <div><strong id="h">0</strong><span>horas</span></div>
+        <div><strong id="m">0</strong><span>min</span></div>
+        <div><strong id="s">0</strong><span>seg</span></div>
+      </div>
+    </div>
+    <div class="sub" id="sub"></div>
+  </header>
+
+  <nav>
+    <a href="#resumo">📅 Datas</a>
+    <a href="#hotel">🏨 Hotel</a>
+    <a href="#roteiro">🗺️ Roteiro</a>
+    <a href="#checklist">✅ Checklist</a>
+    <a href="#contatos">📞 Contatos</a>
+  </nav>
+
+  <main>
+    <section id="resumo">
+      <h2>Datas e transporte</h2>
+      <div class="grid" id="transporte"></div>
+    </section>
+
+    <section id="hotel">
+      <h2>Onde vamos ficar</h2>
+      <div class="card hotel" id="hotelCard"></div>
+    </section>
+
+    <section id="roteiro">
+      <h2>Roteiro dia a dia</h2>
+      <div id="dias"></div>
+    </section>
+
+    <section id="checklist">
+      <h2>Checklist da mala</h2>
+      <div class="card">
+        <div class="quem">
+          <span class="label">Checklist de:</span>
+          <input id="pessoa" placeholder="Seu nome (ex.: Ana)" maxlength="30">
+        </div>
+        <div class="muted" id="progressoTxt"></div>
+        <div class="progress"><div id="barra"></div></div>
+        <div id="cats"></div>
+        <div class="btns" style="margin-top:20px">
+          <button class="btn ghost" id="limpar">Desmarcar tudo</button>
+        </div>
+        <p class="muted" style="font-size:.85rem;margin-bottom:0">
+          As marcações ficam salvas neste celular/computador. Cada pessoa da família usa o seu.
+        </p>
+      </div>
+    </section>
+
+    <section id="contatos">
+      <h2>Contatos importantes</h2>
+      <div class="card" id="listaContatos"></div>
+    </section>
+  </main>
+
+  <footer>Feito com ❤️ para a nossa família</footer>
+
+  <script src="viagem.js"></script>
+  <script>
+    const V = VIAGEM;
+    const $ = (id) => document.getElementById(id);
+    const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+    // Datas "AAAA-MM-DD" ou "AAAA-MM-DDTHH:MM" lidas no horário local
+    function data(txt) {
+      const [d, t = "00:00"] = txt.split("T");
+      const [a, m, dia] = d.split("-").map(Number);
+      const [h, min] = t.split(":").map(Number);
+      return new Date(a, m - 1, dia, h, min);
+    }
+    const fmtDia = (d) => d.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+    const fmtCurto = (d) => d.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "2-digit" });
+    const fmtHora = (d) => d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    const mapa = (q) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+    const tel = (t) => "tel:" + String(t).replace(/[^\d+]/g, "");
+
+    // ---------- Topo ----------
+    document.title = V.titulo;
+    $("destino").textContent = "📍 " + V.destino;
+    $("titulo").textContent = V.titulo;
+    $("frase").textContent = V.frase;
+
+    const partida = data(V.partida);
+    const retorno = data(V.retorno);
+
+    function tick() {
+      const agora = new Date();
+      const falta = partida - agora;
+      if (falta > 0) {
+        const s = Math.floor(falta / 1000);
+        $("d").textContent = Math.floor(s / 86400);
+        $("h").textContent = String(Math.floor((s % 86400) / 3600)).padStart(2, "0");
+        $("m").textContent = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
+        $("s").textContent = String(s % 60).padStart(2, "0");
+        $("sub").textContent = "até a partida · " + fmtDia(partida) + " às " + fmtHora(partida);
+      } else if (agora < retorno) {
+        $("contador").innerHTML = '<div class="chegou">🎉 Estamos de férias! Aproveitem! 🎉</div>';
+        $("sub").textContent = "Volta: " + fmtDia(retorno);
+        return true;
+      } else {
+        $("contador").innerHTML = '<div class="chegou">Que viagem incrível! Até a próxima 💛</div>';
+        $("sub").textContent = "";
+        return true;
+      }
+    }
+    if (!tick()) { const timer = setInterval(() => { if (tick()) clearInterval(timer); }, 1000); }
+
+    // ---------- Transporte ----------
+    $("transporte").innerHTML = V.transporte.map((t) => {
+      const q = data(t.quando);
+      return `<div class="card">
+        <div class="label">${esc(t.tipo)}</div>
+        <div class="big">${esc(fmtDia(q))}</div>
+        <div><span class="pill">${esc(fmtHora(q))}</span></div>
+        <p style="margin:10px 0 4px">${esc(t.detalhe)}</p>
+        ${t.obs ? `<div class="muted">${esc(t.obs)}</div>` : ""}
+      </div>`;
+    }).join("");
+
+    // ---------- Hotel ----------
+    const H = V.hotel;
+    const ci = data(H.checkin), co = data(H.checkout);
+    const noites = Math.round((new Date(co.getFullYear(), co.getMonth(), co.getDate()) - new Date(ci.getFullYear(), ci.getMonth(), ci.getDate())) / 86400000);
+    $("hotelCard").innerHTML = `
+      <h3>${esc(H.nome)}</h3>
+      <div class="muted">📍 ${esc(H.endereco)}</div>
+      <div class="rows">
+        <div><div class="label">Check-in</div><div class="big">${esc(fmtCurto(ci))}</div><div class="muted">a partir das ${esc(fmtHora(ci))}</div></div>
+        <div><div class="label">Check-out</div><div class="big">${esc(fmtCurto(co))}</div><div class="muted">até ${esc(fmtHora(co))}</div></div>
+        <div><div class="label">Estadia</div><div class="big">${noites} noites</div><div class="muted">${esc(H.reserva)}</div></div>
+      </div>
+      ${H.obs ? `<p style="margin:0">${esc(H.obs)}</p>` : ""}
+      <div class="btns">
+        <a class="btn" href="${mapa(H.nome + ", " + H.endereco)}" target="_blank" rel="noopener">🗺️ Abrir no mapa</a>
+        ${H.telefone ? `<a class="btn ghost" href="${tel(H.telefone)}">📞 ${esc(H.telefone)}</a>` : ""}
+        ${H.site ? `<a class="btn ghost" href="${esc(H.site)}" target="_blank" rel="noopener">🌐 Site</a>` : ""}
+      </div>
+      <iframe class="map" loading="lazy" title="Mapa do hotel"
+        src="https://maps.google.com/maps?q=${encodeURIComponent(H.nome + ", " + H.endereco)}&output=embed"></iframe>`;
+
+    // ---------- Roteiro ----------
+    const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+    $("dias").innerHTML = V.roteiro.map((d) => {
+      const dia = data(d.dia);
+      const cls = +dia === +hoje ? "hoje" : dia < hoje ? "passou" : "";
+      return `<div class="card day ${cls}">
+        <header>
+          <h3>${esc(d.titulo)}</h3>
+          <span class="muted" style="text-transform:capitalize">${esc(fmtDia(dia))}</span>
+          ${cls === "hoje" ? '<span class="pill">HOJE</span>' : ""}
+        </header>
+        ${d.atividades.map((a) => `<div class="ativ">
+          <time>${esc(a.hora)}</time>
+          <div>
+            <div class="nome">${esc(a.nome)}</div>
+            ${a.local ? `<div class="local">📍 <a href="${mapa(a.local + ", " + V.destino)}" target="_blank" rel="noopener">${esc(a.local)}</a></div>` : ""}
+            ${a.obs ? `<div class="obs">💡 ${esc(a.obs)}</div>` : ""}
+          </div>
+        </div>`).join("")}
+      </div>`;
+    }).join("");
+
+    // ---------- Checklist ----------
+    const store = {
+      get(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } },
+      set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+    };
+    let estado = store.get("checklist-estado", { marcados: {}, extras: {}, removidos: {} });
+    $("pessoa").value = store.get("checklist-nome", "");
+    $("pessoa").addEventListener("input", (e) => store.set("checklist-nome", e.target.value));
+
+    function salvar() { store.set("checklist-estado", estado); }
+
+    function render() {
+      let total = 0, feitos = 0;
+      $("cats").innerHTML = Object.entries(V.checklist).map(([cat, itens], ci) => {
+        const lista = [...itens, ...(estado.extras[cat] || [])].filter((i) => !estado.removidos[cat + "|" + i]);
+        const html = lista.map((item) => {
+          const key = cat + "|" + item;
+          const ok = !!estado.marcados[key];
+          total++; if (ok) feitos++;
+          const id = "c" + btoa(unescape(encodeURIComponent(key))).replace(/[^a-z0-9]/gi, "");
+          return `<div class="item ${ok ? "done" : ""}">
+            <input type="checkbox" id="${id}" data-key="${esc(key)}" ${ok ? "checked" : ""}>
+            <label for="${id}">${esc(item)}</label>
+            <button class="del" title="Remover" data-del="${esc(key)}">×</button>
+          </div>`;
+        }).join("");
+        return `<div class="cat">
+          <h3>${esc(cat)}</h3>
+          ${html}
+          <form class="add" data-cat="${esc(cat)}">
+            <input placeholder="Adicionar item..." maxlength="80">
+            <button class="btn ghost" type="submit">+</button>
+          </form>
+        </div>`;
+      }).join("");
+      const pct = total ? Math.round((feitos / total) * 100) : 0;
+      $("barra").style.width = pct + "%";
+      $("progressoTxt").textContent = pct === 100 ? "🎉 Mala pronta! Tudo certo!" : `${feitos} de ${total} itens prontos (${pct}%)`;
+    }
+
+    $("cats").addEventListener("change", (e) => {
+      const k = e.target.dataset.key; if (!k) return;
+      if (e.target.checked) estado.marcados[k] = true; else delete estado.marcados[k];
+      salvar(); render();
+    });
+    $("cats").addEventListener("click", (e) => {
+      const k = e.target.dataset.del; if (!k) return;
+      estado.removidos[k] = true; delete estado.marcados[k];
+      salvar(); render();
+    });
+    $("cats").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const cat = e.target.dataset.cat;
+      const txt = e.target.querySelector("input").value.trim();
+      if (!txt) return;
+      estado.extras[cat] = [...(estado.extras[cat] || []), txt];
+      delete estado.removidos[cat + "|" + txt];
+      salvar(); render();
+    });
+    $("limpar").addEventListener("click", () => {
+      if (confirm("Desmarcar todos os itens?")) { estado.marcados = {}; salvar(); render(); }
+    });
+    render();
+
+    // ---------- Contatos ----------
+    $("listaContatos").innerHTML = V.contatos.map((c) =>
+      `<div class="contato"><span>${esc(c.nome)}</span><a href="${tel(c.telefone)}">📞 ${esc(c.telefone)}</a></div>`
+    ).join("");
+  </script>
+</body>
+</html>
