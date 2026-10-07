@@ -66,7 +66,7 @@ const VIAGEM = {
     {
       cidade: "Orlando", de: "2026-12-24", ate: "2027-01-05",
       tema: "parque",
-      foto: "",
+      foto: "fotos/orlando-disney.jpg",
       frase: { pt: "Parques, fogos de Réveillon e muitas compras.", en: "Theme parks, New Year's fireworks and lots of shopping." },
       destaques: [
         { pt: "Disney", en: "Disney" },
@@ -90,6 +90,11 @@ const VIAGEM = {
       oque: { pt: "Posto de salva-vidas em Miami Beach", en: "Miami Beach lifeguard stand" },
       autor: "Radomianin", licenca: "CC BY-SA 4.0",
       link: "https://commons.wikimedia.org/wiki/File:Lifeguard_stand,_Miami_Beach.jpg",
+    },
+    {
+      oque: { pt: "Castelo da Cinderela, Magic Kingdom", en: "Cinderella Castle, Magic Kingdom" },
+      autor: "Carlos Cruz (Rstoplabe14)", licenca: "CC BY-SA 3.0",
+      link: "https://commons.wikimedia.org/wiki/File:Cinderella_Castle_@_Magic_Kingdom.jpg",
     },
   ],
 
