@@ -18,6 +18,16 @@ Regras simples:
 - Textos no formato `{ pt: "...", en: "..." }` têm versão em português e em inglês. Escreva nas duas línguas.
   Textos só entre aspas (nome de hotel, número de voo) aparecem iguais nas duas.
 
+## Como colocar fotos das cidades
+
+1. No GitHub, abra a pasta **`fotos`** e clique em **Add file → Upload files**
+2. Envie a foto (ex.: `nova-york.jpg`) e clique em **Commit changes**
+3. No `viagem.js`, na cidade certa, escreva o nome do arquivo em `foto:`
+   → `foto: "fotos/nova-york.jpg",`
+
+Enquanto não houver foto, o site mostra uma cena animada da cidade (neve, pôr do sol, fogos).
+Dica: fotos deitadas (horizontais) ficam melhores.
+
 ## Português / English
 
 No topo do site há o botão **🇧🇷 PT / 🇺🇸 EN**. O site lembra a língua escolhida em cada celular.

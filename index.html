@@ -149,13 +149,47 @@
   .sec-head p { margin: 0; color: var(--muted); }
   .muted { color: var(--muted); }
 
-  /* Destinos */
-  .destinos { display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-  .destino { background: var(--surface); padding: 24px; display: grid; gap: 10px; align-content: start; min-width: 0; }
-  .destino .n { font: 500 .75rem/1 var(--f-mono); color: var(--gold); letter-spacing: .14em; }
-  .destino h3 { font-family: var(--f-display); font-size: 2.2rem; line-height: 1; }
-  .destino .datas { font: 500 .85rem/1.4 var(--f-mono); }
-  .destino .obs { color: var(--muted); font-size: .92rem; }
+  /* Destinos: cartões-postais com foto (ou cena temática enquanto não há foto) */
+  .postais { display: grid; gap: 16px; }
+  .postal {
+    position: relative; overflow: hidden; isolation: isolate;
+    min-height: clamp(360px, 52vw, 520px);
+    border-radius: 20px; color: #fff;
+    display: grid; align-content: end;
+    background: #0d1626;
+  }
+  .postal .foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+  .postal::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, rgba(5,10,20,0) 30%, rgba(5,10,20,.55) 62%, rgba(5,10,20,.88) 100%);
+  }
+  .postal .cena { position: absolute; inset: 0; z-index: -2; }
+  .postal .txt { padding: clamp(22px, 4vw, 40px); display: grid; gap: 12px; max-width: 640px; }
+  .postal .n { font: 500 .75rem/1 var(--f-mono); letter-spacing: .18em; color: #e8c987; }
+  .postal h3 { font-family: var(--f-display); font-size: clamp(3rem, 9vw, 5.6rem); line-height: .92; letter-spacing: -.01em; }
+  .postal .datas { font: 500 .9rem/1.3 var(--f-mono); letter-spacing: .04em; }
+  .postal .frase { font-size: 1.05rem; margin: 0; color: rgba(255,255,255,.88); }
+  .postal .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .postal .chips span {
+    font: 500 .78rem/1 var(--f-body); padding: 7px 11px; border-radius: 999px;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .postal .obs { font-size: .85rem; color: rgba(255,255,255,.7); }
+
+  /* Cenas temáticas */
+  .cena.neve { background:
+      radial-gradient(60% 40% at 70% 20%, rgba(255, 214, 150, .28), transparent 70%),
+      linear-gradient(180deg, #1d2b45 0%, #33476b 55%, #8aa0bf 100%); }
+  .cena.sol { background:
+      radial-gradient(circle at 72% 46%, #ffe3a3 0 7%, rgba(255, 196, 120, .7) 12%, transparent 34%),
+      linear-gradient(180deg, #1f5f86 0%, #ef8a5f 52%, #f6b77a 60%, #1c8c9a 61%, #0d5c73 100%); }
+  .cena.parque { background:
+      radial-gradient(50% 40% at 30% 30%, rgba(186, 120, 255, .35), transparent 70%),
+      radial-gradient(40% 35% at 75% 25%, rgba(255, 120, 190, .25), transparent 70%),
+      linear-gradient(180deg, #120d2e 0%, #2a1a55 60%, #3b2470 100%); }
+  .cena canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .cena .skyline { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 46%; }
 
   /* Cartões de embarque */
   .passes { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); }
@@ -335,7 +369,7 @@
       <span class="eyebrow" data-i18n="eDestinos"></span>
       <h2 data-i18n="tDestinos"></h2>
     </div>
-    <div class="destinos" id="etapas"></div>
+    <div class="postais" id="etapas"></div>
   </section>
 
   <section id="voos">
@@ -555,13 +589,18 @@
       (i ? `<i class="${p.carro ? "carro" : ""}"></i>` : "") + `<span class="cod ${p.cod === casa ? "casa" : ""}">${esc(p.cod)}</span>`
     ).join("");
 
-    // Destinos
-    $("etapas").innerHTML = V.destinos.map((d, i) => `<article class="destino">
-        <span class="n">${String(i + 1).padStart(2, "0")}</span>
-        <h3>${esc(tx(d.cidade))}</h3>
-        <div class="datas">${esc(curto(d.de))} → ${esc(curto(d.ate))}</div>
-        ${tx(d.obs) ? `<div class="obs">${esc(tx(d.obs))}</div>` : ""}
+    // Destinos (cartões-postais)
+    $("etapas").innerHTML = V.destinos.map((d, i) => `<article class="postal">
+        ${d.foto ? `<img class="foto" src="${esc(d.foto)}" alt="${esc(tx(d.cidade))}" loading="lazy">` : `<div class="cena ${esc(d.tema)}" data-tema="${esc(d.tema)}">${CENAS[d.tema] || ""}</div>`}
+        <div class="txt">
+          <span class="n">${String(i + 1).padStart(2, "0")} · ${esc(curto(d.de))} → ${esc(curto(d.ate))}</span>
+          <h3>${esc(tx(d.cidade))}</h3>
+          ${tx(d.frase) ? `<p class="frase">${esc(tx(d.frase))}</p>` : ""}
+          ${d.destaques ? `<div class="chips">${d.destaques.map((x) => `<span>${esc(tx(x))}</span>`).join("")}</div>` : ""}
+          ${tx(d.obs) ? `<div class="obs">${esc(tx(d.obs))}</div>` : ""}
+        </div>
       </article>`).join("");
+    animaCenas();
 
     // Cartões de embarque
     $("listaVoos").innerHTML = V.trajetos.map((v) => {
@@ -731,6 +770,75 @@
     ents.forEach((en) => { if (en.isIntersecting) links.forEach((a) => a.classList.toggle("ativo", a.getAttribute("href") === "#" + en.target.id)); });
   }, { rootMargin: "-40% 0px -55% 0px" });
   document.querySelectorAll("main section").forEach((s) => obs.observe(s));
+
+  // ---------- Cenas temáticas dos destinos ----------
+  const CENAS = {
+    neve: `<svg class="skyline" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="#0c1424" d="M0 120V78h14V60h10v18h8V40h6V22h4v18h6v38h10V52h18v26h6V30l8-10 8 10v48h8V58h14v20h10V12h3V0h2v12h3v66h8V48h16v30h6V64h12v14h10V36h12v42h8V56h18v22h6V44h4V30h6v14h4v34h10V62h16v16h8V50h14v28h10V70h14v8h14V58h12v20H400V120z"/>
+      <g fill="#ffd58a" opacity=".75"><rect x="44" y="50" width="2" height="2"/><rect x="48" y="58" width="2" height="2"/><rect x="104" y="40" width="2" height="2"/><rect x="108" y="50" width="2" height="2"/><rect x="148" y="30" width="2" height="2"/><rect x="152" y="44" width="2" height="2"/><rect x="186" y="58" width="2" height="2"/><rect x="236" y="48" width="2" height="2"/><rect x="240" y="60" width="2" height="2"/><rect x="290" y="56" width="2" height="2"/><rect x="330" y="62" width="2" height="2"/></g>
+    </svg><canvas data-fx="neve"></canvas>`,
+    sol: `<svg class="skyline" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="#0b3a4a" opacity=".9" d="M0 120V96h20V70h8v26h10V60h12v36h8V50h6V40h4v10h6v46h10V66h14v30h12V56h10v40h20V76h8v20h200v24z"/>
+      <g fill="#0a2a33"><path d="M330 120c2-26 4-40 10-56-8 4-16 2-22-4 8 0 16-2 22-6-8-4-14-10-16-18 8 4 14 10 18 16 0-8 4-16 10-20-2 8-2 16 0 22 6-6 14-8 22-6-6 4-14 8-20 10 8 2 14 8 16 16-8-4-14-8-20-8-4 16-6 30-6 54z"/></g>
+    </svg><canvas data-fx="sol"></canvas>`,
+    parque: `<svg class="skyline" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="#0b0820" d="M0 120V92h40V80h12v12h30V70l6-10 6 10v22h14V58l8-14 8 14v-10l6-12 6 12v10l8-14 8 14v34h14V66l6-10 6 10v26h30V84h20v8h40c4-30 14-50 30-56 16 6 26 26 30 56h12v28z"/>
+      <circle cx="330" cy="96" r="22" fill="none" stroke="#0b0820" stroke-width="3"/>
+    </svg><canvas data-fx="fogos"></canvas>`,
+  };
+
+  let cenaRAF = null;
+  function animaCenas() {
+    cancelAnimationFrame(cenaRAF);
+    const calma = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const telas = [...document.querySelectorAll(".cena canvas")].map((c) => {
+      const r = devicePixelRatio || 1, w = c.offsetWidth, h = c.offsetHeight;
+      c.width = w * r; c.height = h * r;
+      const ctx = c.getContext("2d"); ctx.setTransform(r, 0, 0, r, 0, 0);
+      const fx = c.dataset.fx;
+      const n = fx === "neve" ? Math.round(w * h / 2600) : fx === "sol" ? 40 : 0;
+      const parts = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + .6, v: Math.random() * .6 + .3, f: Math.random() * 6.28 }));
+      return { c, ctx, w, h, fx, parts, fogos: [] };
+    });
+    function quadro(t) {
+      for (const s of telas) {
+        const { ctx, w, h } = s;
+        ctx.clearRect(0, 0, w, h);
+        if (s.fx === "neve") {
+          ctx.fillStyle = "rgba(255,255,255,.85)";
+          for (const p of s.parts) {
+            if (!calma) { p.y += p.v; p.x += Math.sin(t / 1200 + p.f) * .3; if (p.y > h) { p.y = -4; p.x = Math.random() * w; } }
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.28); ctx.fill();
+          }
+        } else if (s.fx === "sol") {
+          for (const p of s.parts) {
+            const y = h * .62 + (p.y / h) * h * .3;
+            const a = calma ? .3 : .15 + .35 * Math.abs(Math.sin(t / 900 + p.f));
+            ctx.fillStyle = `rgba(255,236,190,${a})`;
+            ctx.fillRect(p.x, y, p.r * 6, 1);
+          }
+        } else if (s.fx === "fogos") {
+          if (!calma && Math.random() < .03) {
+            const cx = w * (.15 + Math.random() * .7), cy = h * (.12 + Math.random() * .3);
+            const cor = ["255,214,140", "255,140,200", "170,190,255", "190,255,220"][Math.floor(Math.random() * 4)];
+            s.fogos.push(...Array.from({ length: 44 }, (_, i) => { const ang = i / 44 * 6.28, v = 1 + Math.random() * 1.6; return { x: cx, y: cy, vx: Math.cos(ang) * v, vy: Math.sin(ang) * v, vida: 1, cor }; }));
+          }
+          if (calma && !s.fogos.length) {
+            [[.3, .22], [.7, .3]].forEach(([fx, fy]) => { for (let i = 0; i < 44; i++) { const ang = i / 44 * 6.28; s.fogos.push({ x: w * fx + Math.cos(ang) * 40, y: h * fy + Math.sin(ang) * 40, vx: 0, vy: 0, vida: .8, cor: "255,214,140" }); } });
+          }
+          s.fogos = s.fogos.filter((p) => p.vida > 0);
+          for (const p of s.fogos) {
+            if (!calma) { p.x += p.vx; p.y += p.vy; p.vy += .02; p.vx *= .985; p.vy *= .985; p.vida -= .012; }
+            ctx.fillStyle = `rgba(${p.cor},${p.vida})`;
+            ctx.beginPath(); ctx.arc(p.x, p.y, 1.6, 0, 6.28); ctx.fill();
+          }
+        }
+      }
+      if (!calma) cenaRAF = requestAnimationFrame(quadro);
+    }
+    cenaRAF = requestAnimationFrame(quadro);
+  }
+  addEventListener("resize", () => { clearTimeout(animaCenas.t); animaCenas.t = setTimeout(animaCenas, 200); });
 
   // ---------- Céu estrelado ----------
   (function ceu() {

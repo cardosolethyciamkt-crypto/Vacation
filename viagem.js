@@ -38,15 +38,43 @@ const VIAGEM = {
   destinos: [
     {
       cidade: { pt: "Nova York", en: "New York" }, de: "2026-12-19", ate: "2026-12-22",
-      obs: { pt: "Inverno: frio de 0 °C ou menos · passeios a definir", en: "Winter: 32 °F (0 °C) or colder · activities TBD" },
+      tema: "neve",
+      // Foto: coloque o arquivo na pasta "fotos" e escreva o nome aqui. Ex.: "fotos/nova-york.jpg"
+      foto: "",
+      frase: { pt: "Natal de filme: neve, luzes e frio de verdade.", en: "A movie-style Christmas: snow, lights and real winter." },
+      destaques: [
+        { pt: "Árvore do Rockefeller", en: "Rockefeller Tree" },
+        { pt: "Times Square", en: "Times Square" },
+        { pt: "Patinação no gelo", en: "Ice skating" },
+        { pt: "Vitrines de Natal", en: "Holiday windows" },
+      ],
+      obs: { pt: "Inverno: 0 °C ou menos · passeios a definir", en: "Winter: 32 °F (0 °C) or colder · activities TBD" },
     },
     {
       cidade: "Miami", de: "2026-12-22", ate: "2026-12-24",
+      tema: "sol",
+      foto: "",
+      frase: { pt: "Sol, mar azul e o skyline de Brickell.", en: "Sunshine, blue water and the Brickell skyline." },
+      destaques: [
+        { pt: "South Beach", en: "South Beach" },
+        { pt: "Brickell", en: "Brickell" },
+        { pt: "Ocean Drive", en: "Ocean Drive" },
+        { pt: "Pôr do sol na baía", en: "Bay sunset" },
+      ],
       obs: { pt: "Clima quente: 20–27 °C · passeios a definir", en: "Warm weather: 68–80 °F · activities TBD" },
     },
     {
       cidade: "Orlando", de: "2026-12-24", ate: "2027-01-05",
-      obs: { pt: "Natal, Réveillon e jogo da NBA · passeios a definir", en: "Christmas, New Year's and an NBA game · activities TBD" },
+      tema: "parque",
+      foto: "",
+      frase: { pt: "Parques, fogos de Réveillon e muitas compras.", en: "Theme parks, New Year's fireworks and lots of shopping." },
+      destaques: [
+        { pt: "Disney", en: "Disney" },
+        { pt: "Universal", en: "Universal" },
+        { pt: "Outlets", en: "Outlets" },
+        { pt: "Jogo da NBA", en: "NBA game" },
+      ],
+      obs: { pt: "Natal e Réveillon · passeios a definir", en: "Christmas and New Year's · activities TBD" },
     },
   ],
 
