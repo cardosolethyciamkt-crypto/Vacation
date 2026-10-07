@@ -42,6 +42,7 @@ const VIAGEM = {
       // Fotos que passam sozinhas no cartão. Coloque os arquivos na pasta "fotos".
       fotos: [
         { src: "fotos/nova-york.jpg", legenda: { pt: "Árvore do Rockefeller Center", en: "Rockefeller Center Tree" } },
+        { src: "fotos/nova-york-neve.jpg", legenda: { pt: "Central Park na neve", en: "Central Park in the snow" } },
       ],
       frase: { pt: "Natal de filme: neve, luzes e frio de verdade.", en: "A movie-style Christmas: snow, lights and real winter." },
       destaques: [
@@ -94,6 +95,11 @@ const VIAGEM = {
       oque: { pt: "Árvore do Rockefeller Center", en: "Rockefeller Center Tree" },
       autor: "JJonahJackalope", licenca: "CC BY-SA 4.0",
       link: "https://commons.wikimedia.org/wiki/File:Rockefeller_Center_Christmas_Tree,_2023-12-02.jpg",
+    },
+    {
+      oque: { pt: "Central Park na neve", en: "Central Park in the snow" },
+      autor: "King of Hearts", licenca: "CC BY-SA 4.0",
+      link: "https://commons.wikimedia.org/wiki/File:Central_Park_New_York_January_2016_007.jpg",
     },
     {
       oque: { pt: "Posto de salva-vidas em Miami Beach", en: "Miami Beach lifeguard stand" },
