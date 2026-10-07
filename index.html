@@ -1,577 +1,763 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nossa Viagem</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #fff8f0;
-      --surface: #ffffff;
-      --ink: #2b2118;
-      --muted: #7a6a5c;
-      --line: #f0e2d2;
-      --accent: #e8590c;
-      --accent-soft: #ffe8d6;
-      --sea: #0c8599;
-      --sea-soft: #d6f3f7;
-      --ok: #2b8a3e;
-      --shadow: 0 6px 24px rgba(120, 70, 20, .08);
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #17120e;
-        --surface: #221b15;
-        --ink: #f6ece2;
-        --muted: #b3a291;
-        --line: #3a2e24;
-        --accent: #ff8a3d;
-        --accent-soft: #3d2615;
-        --sea: #3bc9db;
-        --sea-soft: #12343a;
-        --ok: #69db7c;
-        --shadow: 0 6px 24px rgba(0, 0, 0, .35);
-      }
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "Nunito", system-ui, sans-serif;
-      line-height: 1.5;
-    }
-    h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.15; margin: 0; }
-    a { color: var(--sea); }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nossa Viagem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: céu noturno com painel de embarque no topo; abaixo, papel frio com cartões de embarque e linha do tempo. */
+  :root {
+    --paper: #f5f6f8;
+    --surface: #ffffff;
+    --ink: #0f1b2d;
+    --muted: #5d6a7d;
+    --line: #e2e6ec;
+    --gold: #a87a2c;
+    --gold-soft: #f4ecdd;
+    --ok: #2f7d5b;
+    /* topo sempre noturno */
+    --night: #0a1222;
+    --night-2: #13203a;
+    --night-ink: #eef2f8;
+    --night-muted: #93a1b8;
+    --night-gold: #e0bd76;
+    --night-line: rgba(255, 255, 255, .12);
 
-    /* ---------- Topo ---------- */
-    .hero {
-      background:
-        radial-gradient(circle at 15% 20%, rgba(255,255,255,.18) 0 2px, transparent 3px),
-        radial-gradient(circle at 75% 35%, rgba(255,255,255,.18) 0 2px, transparent 3px),
-        radial-gradient(circle at 40% 80%, rgba(255,255,255,.15) 0 2px, transparent 3px),
-        linear-gradient(160deg, #f76707 0%, #e8590c 40%, #0c8599 100%);
-      background-size: 120px 120px, 160px 160px, 140px 140px, 100% 100%;
-      color: #fff;
-      padding: 48px 16px 64px;
-      text-align: center;
+    --f-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+    --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0b111c; --surface: #121a28; --ink: #e8ecf2; --muted: #8f9bae;
+      --line: #222c3d; --gold: #d9b36a; --gold-soft: #2a2416; --ok: #6cc59c;
+      color-scheme: dark;
     }
-    .hero .destino {
-      display: inline-block;
-      background: rgba(255,255,255,.2);
-      padding: 4px 14px;
-      border-radius: 999px;
-      font-weight: 800;
-      letter-spacing: .04em;
-      font-size: .85rem;
-      text-transform: uppercase;
-    }
-    .hero h1 { font-size: clamp(1.9rem, 6vw, 3.2rem); margin: 14px auto 6px; max-width: 760px; }
-    .hero p { margin: 0 0 28px; opacity: .95; font-size: 1.1rem; }
-    .countdown {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      max-width: 560px;
-      margin: 0 auto;
-    }
-    .countdown div {
-      background: rgba(255,255,255,.16);
-      border: 1px solid rgba(255,255,255,.3);
-      border-radius: 18px;
-      padding: 14px 4px;
-      backdrop-filter: blur(4px);
-    }
-    .countdown strong {
-      display: block;
-      font-family: "Fraunces", serif;
-      font-size: clamp(1.8rem, 8vw, 3rem);
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-    }
-    .countdown span { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; opacity: .9; }
-    .hero .sub { margin-top: 18px; font-size: .95rem; opacity: .9; }
-    .chegou { font-family: "Fraunces", serif; font-size: clamp(1.6rem, 6vw, 2.4rem); }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0b111c; --surface: #121a28; --ink: #e8ecf2; --muted: #8f9bae;
+    --line: #222c3d; --gold: #d9b36a; --gold-soft: #2a2416; --ok: #6cc59c;
+    color-scheme: dark;
+  }
 
-    /* ---------- Menu ---------- */
-    nav {
-      position: sticky; top: 0; z-index: 5;
-      background: var(--surface);
-      border-bottom: 1px solid var(--line);
-      display: flex; gap: 4px; overflow-x: auto;
-      padding: 8px 12px;
-      scrollbar-width: none;
-    }
-    nav::-webkit-scrollbar { display: none; }
-    nav a {
-      flex: none;
-      text-decoration: none; color: var(--ink);
-      padding: 8px 14px; border-radius: 999px;
-      font-weight: 600; font-size: .95rem;
-    }
-    nav a:hover { background: var(--accent-soft); }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 16px/1.6 var(--f-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-weight: 400; margin: 0; text-wrap: balance; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
+  .eyebrow {
+    font: 500 .72rem/1 var(--f-mono);
+    letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
+  }
 
-    /* ---------- Seções ---------- */
-    main { max-width: 860px; margin: 0 auto; padding: 8px 16px 64px; }
-    section { padding-top: 40px; scroll-margin-top: 56px; }
-    section > h2 { font-size: 1.7rem; margin-bottom: 16px; }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-    }
-    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-    .label { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 800; }
-    .big { font-size: 1.15rem; font-weight: 800; }
-    .muted { color: var(--muted); }
-    .pill {
-      display: inline-block; background: var(--sea-soft); color: var(--sea);
-      padding: 2px 10px; border-radius: 999px; font-weight: 800; font-size: .85rem;
-    }
+  /* ---------- Topo ---------- */
+  .hero {
+    background:
+      radial-gradient(1200px 500px at 85% -10%, rgba(224, 189, 118, .16), transparent 60%),
+      radial-gradient(900px 400px at -10% 110%, rgba(80, 120, 200, .18), transparent 60%),
+      linear-gradient(180deg, var(--night) 0%, var(--night-2) 100%);
+    color: var(--night-ink);
+    position: relative; overflow: hidden;
+  }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .hero .wrap { position: relative; padding-block: 20px 56px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .marca { font: 500 .75rem/1 var(--f-mono); letter-spacing: .18em; text-transform: uppercase; color: var(--night-muted); }
+  .marca b { color: var(--night-gold); font-weight: 500; }
+  .lang { display: flex; border: 1px solid var(--night-line); border-radius: 999px; padding: 3px; }
+  .lang button {
+    font: 500 .75rem/1 var(--f-mono); letter-spacing: .1em;
+    background: none; border: 0; color: var(--night-muted);
+    padding: 7px 12px; border-radius: 999px; cursor: pointer;
+  }
+  .lang button[aria-pressed="true"] { background: var(--night-ink); color: var(--night); }
 
-    /* Hotel */
-    .hotel h3 { font-size: 1.4rem; margin-bottom: 4px; }
-    .hotel .rows { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin: 16px 0; }
-    .map { width: 100%; height: 260px; border: 0; border-radius: 14px; margin-top: 12px; }
-    .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--accent); color: #fff; text-decoration: none;
-      padding: 10px 16px; border-radius: 12px; font-weight: 800; border: 0;
-      font-family: inherit; font-size: .95rem; cursor: pointer;
-    }
-    .btn.ghost { background: var(--accent-soft); color: var(--accent); }
+  .hero h1 {
+    font-family: var(--f-display);
+    font-size: clamp(2.6rem, 8.5vw, 5.6rem);
+    line-height: .98; letter-spacing: -.01em;
+    margin: 56px 0 14px; max-width: 12ch;
+  }
+  .hero h1 em { color: var(--night-gold); }
+  .hero .frase { color: var(--night-muted); font-size: 1.05rem; margin: 0; max-width: 46ch; }
 
-    /* Roteiro */
-    .day { margin-bottom: 14px; }
-    .day header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-    .day h3 { font-size: 1.25rem; }
-    .day.hoje { outline: 3px solid var(--accent); }
-    .day.passou { opacity: .55; }
-    .ativ { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 10px 0; border-top: 1px dashed var(--line); }
-    .ativ:first-of-type { border-top: 0; }
-    .ativ time { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
-    .ativ .nome { font-weight: 800; }
-    .ativ .local { color: var(--muted); font-size: .95rem; }
-    .ativ .local a { color: inherit; }
-    .ativ .obs { font-size: .9rem; background: var(--accent-soft); display: inline-block; padding: 2px 8px; border-radius: 8px; margin-top: 4px; }
+  .board { margin-top: 40px; display: grid; gap: 14px; }
+  .board .eyebrow { color: var(--night-muted); }
+  .flaps { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: flex-end; }
+  .unit { display: grid; gap: 8px; }
+  .unit .digits { display: flex; gap: 4px; }
+  .flap {
+    position: relative;
+    width: clamp(32px, 8.6vw, 58px); height: clamp(46px, 12.4vw, 80px);
+    display: grid; place-items: center;
+    background: linear-gradient(180deg, #1b2944 0 50%, #16233b 50% 100%);
+    border-radius: 8px;
+    font: 700 clamp(1.5rem, 5.6vw, 2.9rem)/1 var(--f-mono);
+    color: var(--night-ink);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 18px rgba(0,0,0,.35);
+  }
+  .flap::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(0,0,0,.55); }
+  .flap.tick { animation: flip .35s ease; }
+  @keyframes flip { 0% { transform: rotateX(0); } 50% { transform: rotateX(-70deg); filter: brightness(.7); } 100% { transform: rotateX(0); } }
+  .unit small { font: 500 .68rem/1 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--night-muted); }
+  .sep { font: 700 2rem/1 var(--f-mono); color: var(--night-muted); padding-bottom: 30px; }
+  .chegou { font-family: var(--f-display); font-style: italic; font-size: clamp(2rem, 6vw, 3rem); color: var(--night-gold); }
+  .partida-txt { color: var(--night-muted); font-size: .92rem; }
 
-    /* Checklist */
-    .progress { height: 12px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 8px 0 4px; }
-    .progress div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--sea)); transition: width .3s; }
-    .quem { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
-    .quem input, .add input {
-      flex: 1; min-width: 0;
-      font: inherit; padding: 10px 12px; border-radius: 12px;
-      border: 1px solid var(--line); background: var(--bg); color: var(--ink);
-    }
-    .cat { margin-top: 18px; }
-    .cat h3 { font-family: "Nunito", sans-serif; font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
-    .item { display: flex; align-items: center; gap: 10px; padding: 8px 4px; border-radius: 10px; }
-    .item:hover { background: var(--bg); }
-    .item input { width: 22px; height: 22px; accent-color: var(--ok); flex: none; }
-    .item label { flex: 1; cursor: pointer; }
-    .item.done label { text-decoration: line-through; color: var(--muted); }
-    .item .del { background: none; border: 0; color: var(--muted); font-size: 1.1rem; cursor: pointer; padding: 2px 6px; }
-    .add { display: flex; gap: 8px; margin-top: 6px; }
-    .add button { flex: none; }
+  .rota {
+    margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--night-line);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 6px;
+    font: 500 .85rem/1 var(--f-mono); letter-spacing: .08em; color: var(--night-muted);
+  }
+  .rota span.cod { color: var(--night-ink); }
+  .rota span.cod.casa { color: var(--night-gold); }
+  .rota i { width: 16px; height: 1px; background: var(--night-muted); opacity: .5; display: inline-block; }
+  .rota i.carro { background: none; border-top: 1px dashed var(--night-muted); height: 0; }
 
-    /* Contatos */
-    .contato { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
-    .contato:first-child { border-top: 0; }
-    .contato a { font-weight: 800; text-decoration: none; white-space: nowrap; }
+  /* ---------- Menu ---------- */
+  nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none; }
+  nav .wrap::-webkit-scrollbar { display: none; }
+  nav a {
+    flex: none; text-decoration: none; padding: 14px 0;
+    font: 500 .74rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid transparent;
+  }
+  nav a:hover, nav a.ativo { color: var(--ink); border-bottom-color: var(--gold); }
 
-    /* Destinos */
-    .etapas { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-    .etapa { position: relative; }
-    .etapa .emoji { font-size: 2rem; }
-    .etapa .num { position: absolute; top: 14px; right: 16px; color: var(--muted); font-weight: 800; }
+  /* ---------- Seções ---------- */
+  section { padding-block: 64px 8px; scroll-margin-top: 48px; }
+  .sec-head { display: grid; gap: 8px; margin-bottom: 28px; }
+  .sec-head h2 { font-family: var(--f-display); font-size: clamp(2.1rem, 5vw, 3rem); line-height: 1.05; }
+  .sec-head p { margin: 0; color: var(--muted); }
+  .muted { color: var(--muted); }
 
-    /* Voos */
-    .voo-rota { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; margin: 10px 0; }
-    .voo-rota .ap { font-family: "Fraunces", serif; font-size: 1.7rem; font-weight: 800; line-height: 1; }
-    .voo-rota .dir { text-align: right; }
-    .voo-rota .seta { color: var(--muted); font-size: 1.3rem; }
-    .hotel + .hotel { margin-top: 14px; }
+  /* Destinos */
+  .destinos { display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .destino { background: var(--surface); padding: 24px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .destino .n { font: 500 .75rem/1 var(--f-mono); color: var(--gold); letter-spacing: .14em; }
+  .destino h3 { font-family: var(--f-display); font-size: 2.2rem; line-height: 1; }
+  .destino .datas { font: 500 .85rem/1.4 var(--f-mono); }
+  .destino .obs { color: var(--muted); font-size: .92rem; }
 
-    footer { text-align: center; color: var(--muted); padding: 24px 16px 40px; font-size: .9rem; }
+  /* Cartões de embarque */
+  .passes { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); }
+  .pass {
+    position: relative;
+    display: grid; grid-template-columns: minmax(0, 1fr) 128px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    min-width: 0;
+  }
+  .pass .main { padding: 18px 20px; display: grid; gap: 14px; min-width: 0; align-content: start; }
+  .pass .stub {
+    border-left: 1.5px dashed var(--line);
+    padding: 18px 16px; display: grid; gap: 4px; align-content: center; text-align: center;
+  }
+  .pass .furo { position: absolute; right: 120px; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); }
+  .pass .furo.a { top: -9px; clip-path: inset(50% 0 0 0); }
+  .pass .furo.b { bottom: -9px; clip-path: inset(0 0 50% 0); }
+  .pass .rota-pass { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
+  .pass .cod { font: 700 clamp(1.7rem, 6vw, 2.3rem)/1 var(--f-mono); letter-spacing: .02em; }
+  .pass .cidade { font-size: .82rem; color: var(--muted); margin-top: 4px; }
+  .pass .linha { position: relative; height: 1px; background: var(--line); }
+  .pass .linha::after {
+    content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold); transform: translate(-50%, -50%);
+  }
+  .pass.carro .linha { background: none; border-top: 1.5px dashed var(--line); height: 0; }
+  .pass .dir { text-align: right; }
+  .pass .horas { display: flex; justify-content: space-between; gap: 10px; font: 500 .85rem/1.3 var(--f-mono); }
+  .pass .horas b { display: block; font-size: 1.1rem; font-weight: 700; }
+  .pass .nota { font-size: .88rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+  .pass .stub .voo { font: 700 1.05rem/1.2 var(--f-mono); }
+  .pass .stub .cia { font-size: .78rem; color: var(--muted); }
+  .pass .stub .eyebrow { margin-bottom: 4px; }
 
-    /* Botão de idioma */
-    .lang {
-      position: absolute; top: 14px; right: 16px;
-      display: flex; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.35);
-      border-radius: 999px; padding: 3px;
-    }
-    .lang button {
-      border: 0; background: none; color: #fff; font: inherit; font-weight: 800; font-size: .85rem;
-      padding: 6px 12px; border-radius: 999px; cursor: pointer;
-    }
-    .lang button[aria-pressed="true"] { background: #fff; color: var(--accent); }
-    .hero { position: relative; padding-top: 68px; }
-    #destinos { padding-top: 24px; }
-  </style>
+  /* Hospedagem */
+  .hoteis { display: grid; border-top: 1px solid var(--line); }
+  .hotel { display: grid; grid-template-columns: 160px minmax(0, 1fr) auto; gap: 8px 28px; padding-block: 24px; border-bottom: 1px solid var(--line); align-items: start; }
+  .hotel .eyebrow { padding-top: 10px; }
+  .hotel h3 { font-family: var(--f-display); font-size: 1.75rem; line-height: 1.1; }
+  .hotel .end { font: 400 .85rem/1.5 var(--f-mono); color: var(--muted); margin-top: 6px; }
+  .hotel .obs { margin: 8px 0 0; font-size: .95rem; }
+  .hotel .estadia { display: flex; gap: 22px; margin-top: 14px; flex-wrap: wrap; }
+  .hotel .estadia div { display: grid; gap: 6px; }
+  .hotel .estadia b { font: 500 .95rem/1.2 var(--f-mono); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+    font: 600 .85rem/1 var(--f-body); text-decoration: none;
+    padding: 11px 16px; border-radius: 999px; cursor: pointer;
+    background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
+  }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn.ghost:hover { border-color: var(--ink); }
+  .btn.perigo { background: transparent; color: var(--gold); border-color: var(--gold); }
+
+  /* Roteiro */
+  .dias { display: grid; }
+  .dia { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 24px; padding-block: 26px; border-top: 1px solid var(--line); }
+  .dia .data { display: grid; align-content: start; gap: 4px; }
+  .dia .data .num { font-family: var(--f-display); font-size: 3.4rem; line-height: .9; }
+  .dia .data .mes { font: 500 .72rem/1.3 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .dia h3 { font-family: var(--f-display); font-size: 1.7rem; line-height: 1.1; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .tag { font: 600 .68rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; background: var(--gold); color: var(--surface); }
+  .dia.passou { opacity: .5; }
+  .ativs { list-style: none; margin: 14px 0 0; padding: 0; display: grid; }
+  .ativ { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; padding-block: 10px; }
+  .ativ + .ativ { border-top: 1px dashed var(--line); }
+  .ativ time { font: 500 .9rem/1.6 var(--f-mono); color: var(--gold); }
+  .ativ .nome { font-weight: 600; }
+  .ativ .local { font-size: .9rem; color: var(--muted); }
+  .ativ .local a { text-decoration-color: var(--line); text-underline-offset: 3px; }
+  .ativ .local a:hover { text-decoration-color: var(--gold); }
+  .ativ .obs { display: inline-block; margin-top: 6px; font-size: .86rem; background: var(--gold-soft); padding: 4px 10px; border-radius: 8px; }
+
+  /* Checklist */
+  .check-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 24px; align-items: end; margin-bottom: 26px; }
+  .campo { display: grid; gap: 8px; max-width: 360px; }
+  .campo input, .add input {
+    font: 500 1rem/1.2 var(--f-body); color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; width: 100%; min-width: 0;
+  }
+  .progresso { display: grid; gap: 8px; min-width: 220px; }
+  .progresso .txt { font: 500 .85rem/1 var(--f-mono); }
+  .barra { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .barra div { height: 100%; width: 0; background: var(--gold); transition: width .4s ease; }
+  .cats { columns: 2 320px; column-gap: 40px; }
+  .cat { break-inside: avoid; margin-bottom: 30px; }
+  .cat h3 { font-family: var(--f-display); font-size: 1.45rem; margin-bottom: 8px; }
+  .item { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  .item input { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; margin: 0; border: 1.5px solid var(--muted); border-radius: 6px; display: grid; place-items: center; cursor: pointer; flex: none; background: var(--surface); }
+  .item input:checked { background: var(--ok); border-color: var(--ok); }
+  .item input:checked::after { content: ""; width: 9px; height: 5px; border: 2px solid var(--surface); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+  .item label { flex: 1; cursor: pointer; font-size: .96rem; min-width: 0; }
+  .item.done label { color: var(--muted); text-decoration: line-through; }
+  .item .del { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 4px 6px; opacity: .5; }
+  .item:hover .del, .item .del:focus-visible { opacity: 1; }
+  .add { display: flex; gap: 8px; margin-top: 10px; }
+  .add input { padding: 9px 12px; font-size: .92rem; }
+  .add button { flex: none; width: 40px; justify-content: center; padding: 0; }
+  .check-foot { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 18px; }
+  .check-foot p { margin: 0; font-size: .85rem; color: var(--muted); max-width: 52ch; }
+  .confirma { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: .9rem; }
+
+  /* Contatos */
+  .contatos { display: grid; border-top: 1px solid var(--line); }
+  .contato { display: flex; justify-content: space-between; gap: 16px; padding-block: 16px; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .contato a { font: 700 1.2rem/1 var(--f-mono); text-decoration: none; color: var(--gold); white-space: nowrap; }
+
+  footer { padding-block: 72px 48px; text-align: center; }
+  footer p { font-family: var(--f-display); font-style: italic; font-size: 1.4rem; color: var(--muted); margin: 0; }
+
+  @media (max-width: 720px) {
+    .hotel { grid-template-columns: minmax(0, 1fr); }
+    .hotel .eyebrow { padding-top: 0; }
+    .hotel .btn { justify-self: start; }
+    .dia { grid-template-columns: 60px minmax(0, 1fr); gap: 16px; }
+    .dia .data .num { font-size: 2.6rem; }
+    .check-top { grid-template-columns: minmax(0, 1fr); }
+    .progresso { min-width: 0; }
+  }
+  @media (max-width: 480px) {
+    .wrap { padding-inline: 16px; }
+    .pass { grid-template-columns: minmax(0, 1fr) 92px; }
+    .pass .furo { right: 84px; }
+    .pass .main { padding: 16px; }
+    .pass .stub { padding: 14px 8px; }
+    .sep { display: none; }
+    .flaps { gap: 10px 12px; }
+    .unit .digits { gap: 3px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .flap.tick { animation: none; }
+    .barra div { transition: none; }
+  }
+</style>
 </head>
 <body>
 
-  <header class="hero">
-    <div class="lang" role="group" aria-label="Idioma / Language">
-      <button data-lang="pt" aria-pressed="true">🇧🇷 PT</button>
-      <button data-lang="en" aria-pressed="false">🇺🇸 EN</button>
-    </div>
-    <span class="destino" id="destino"></span>
-    <h1 id="titulo"></h1>
-    <p id="frase"></p>
-    <div id="contador">
-      <div class="countdown">
-        <div><strong id="d">0</strong><span data-i18n="dias"></span></div>
-        <div><strong id="h">0</strong><span data-i18n="horas"></span></div>
-        <div><strong id="m">0</strong><span data-i18n="min"></span></div>
-        <div><strong id="s">0</strong><span data-i18n="seg"></span></div>
+<header class="hero">
+  <canvas id="ceu" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="marca" id="marca"></div>
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
     </div>
-    <div class="sub" id="sub"></div>
-  </header>
+    <h1 id="titulo"></h1>
+    <p class="frase" id="frase"></p>
 
-  <nav>
+    <div class="board">
+      <div class="eyebrow" id="boardLabel"></div>
+      <div id="contador"></div>
+      <div class="partida-txt" id="sub"></div>
+    </div>
+
+    <div class="rota" id="rota"></div>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
     <a href="#destinos" data-i18n="navDestinos"></a>
     <a href="#voos" data-i18n="navTrajetos"></a>
     <a href="#hotel" data-i18n="navHoteis"></a>
     <a href="#roteiro" data-i18n="navRoteiro"></a>
     <a href="#checklist" data-i18n="navChecklist"></a>
     <a href="#contatos" data-i18n="navContatos"></a>
-  </nav>
+  </div>
+</nav>
 
-  <main>
-    <section id="destinos">
+<main class="wrap">
+  <section id="destinos">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="eDestinos"></span>
       <h2 data-i18n="tDestinos"></h2>
-      <div class="etapas" id="etapas"></div>
-    </section>
+    </div>
+    <div class="destinos" id="etapas"></div>
+  </section>
 
-    <section id="voos">
+  <section id="voos">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="eTrajetos"></span>
       <h2 data-i18n="tTrajetos"></h2>
-      <p class="muted" style="margin-top:-8px" data-i18n="horaLocal"></p>
-      <div class="grid" id="listaVoos"></div>
-    </section>
+      <p data-i18n="horaLocal"></p>
+    </div>
+    <div class="passes" id="listaVoos"></div>
+  </section>
 
-    <section id="hotel">
+  <section id="hotel">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="eHoteis"></span>
       <h2 data-i18n="tHoteis"></h2>
-      <div id="listaHoteis"></div>
-    </section>
+    </div>
+    <div class="hoteis" id="listaHoteis"></div>
+  </section>
 
-    <section id="roteiro">
+  <section id="roteiro">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="eRoteiro"></span>
       <h2 data-i18n="tRoteiro"></h2>
-      <div id="dias"></div>
-    </section>
+    </div>
+    <div class="dias" id="dias"></div>
+  </section>
 
-    <section id="checklist">
+  <section id="checklist">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="eChecklist"></span>
       <h2 data-i18n="tChecklist"></h2>
-      <div class="card">
-        <div class="quem">
-          <span class="label" data-i18n="checklistDe"></span>
-          <input id="pessoa" maxlength="30">
-        </div>
-        <div class="muted" id="progressoTxt"></div>
-        <div class="progress"><div id="barra"></div></div>
-        <div id="cats"></div>
-        <div class="btns" style="margin-top:20px">
-          <button class="btn ghost" id="limpar" data-i18n="desmarcar"></button>
-        </div>
-        <p class="muted" style="font-size:.85rem;margin-bottom:0" data-i18n="salvoAqui"></p>
+    </div>
+    <div class="check-top">
+      <label class="campo" for="pessoa">
+        <span class="eyebrow" data-i18n="checklistDe"></span>
+        <input id="pessoa" maxlength="30" autocomplete="given-name">
+      </label>
+      <div class="progresso">
+        <span class="txt" id="progressoTxt"></span>
+        <div class="barra"><div id="barra"></div></div>
       </div>
-    </section>
+    </div>
+    <div class="cats" id="cats"></div>
+    <div class="check-foot">
+      <p data-i18n="salvoAqui"></p>
+      <div id="limparBox"></div>
+    </div>
+  </section>
 
-    <section id="contatos">
+  <section id="contatos">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="eContatos"></span>
       <h2 data-i18n="tContatos"></h2>
-      <div class="card" id="listaContatos"></div>
-    </section>
-  </main>
+    </div>
+    <div class="contatos" id="listaContatos"></div>
+  </section>
+</main>
 
-  <footer data-i18n="rodape"></footer>
+<footer class="wrap"><p data-i18n="rodape"></p></footer>
 
-  <script src="viagem.js"></script>
-  <script>
-    const V = VIAGEM;
-    const $ = (id) => document.getElementById(id);
-    const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-    const store = {
-      get(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } },
-      set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
-    };
+<script src="viagem.js"></script>
+<script>
+  const V = VIAGEM;
+  const $ = (id) => document.getElementById(id);
+  const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const store = {
+    get(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  };
 
-    // ---------- Textos fixos do site ----------
-    const UI = {
-      pt: {
-        dias: "dias", horas: "horas", min: "min", seg: "seg",
-        ateAPartida: "até a partida", as: "às",
-        ferias: "🎉 Estamos de férias! Aproveitem! 🎉", volta: "Chegada em casa",
-        fim: "Que viagem incrível! Até a próxima 💛",
-        navDestinos: "🌎 Destinos", navTrajetos: "✈️ Trajetos", navHoteis: "🏨 Hospedagem",
-        navRoteiro: "🗺️ Roteiro", navChecklist: "✅ Checklist", navContatos: "📞 Contatos",
-        tDestinos: "Destinos", tTrajetos: "Voos e estradas", tHoteis: "Onde vamos ficar",
-        tRoteiro: "Roteiro dia a dia", tChecklist: "Checklist da mala", tContatos: "Contatos importantes",
-        horaLocal: "Todos os horários estão no horário local de cada cidade.",
-        deCarro: "🚗 De carro", vooAConfirmar: "Voo a confirmar", aConfirmar: "a confirmar",
-        checkin: "Check-in", checkout: "Check-out", estadia: "Estadia",
-        noite: "noite", noites: "noites", enderecoAConfirmar: "Endereço a confirmar",
-        abrirMapa: "🗺️ Abrir no mapa", site: "🌐 Site", hoje: "HOJE",
-        checklistDe: "Checklist de:", seuNome: "Seu nome (ex.: Ana)",
-        adicionar: "Adicionar item...", remover: "Remover",
-        desmarcar: "Desmarcar tudo", confirmaDesmarcar: "Desmarcar todos os itens?",
-        prontos: (f, t, p) => `${f} de ${t} itens prontos (${p}%)`, malaPronta: "🎉 Mala pronta! Tudo certo!",
-        salvoAqui: "As marcações ficam salvas neste celular/computador. Cada pessoa da família usa o seu.",
-        rodape: "Feito com ❤️ para a nossa família",
-      },
-      en: {
-        dias: "days", horas: "hours", min: "min", seg: "sec",
-        ateAPartida: "until departure", as: "at",
-        ferias: "🎉 We're on vacation! Enjoy! 🎉", volta: "Back home",
-        fim: "What an amazing trip! See you next time 💛",
-        navDestinos: "🌎 Destinations", navTrajetos: "✈️ Travel", navHoteis: "🏨 Stays",
-        navRoteiro: "🗺️ Itinerary", navChecklist: "✅ Checklist", navContatos: "📞 Contacts",
-        tDestinos: "Destinations", tTrajetos: "Flights & drives", tHoteis: "Where we're staying",
-        tRoteiro: "Day-by-day itinerary", tChecklist: "Packing checklist", tContatos: "Important contacts",
-        horaLocal: "All times are local time in each city.",
-        deCarro: "🚗 By car", vooAConfirmar: "Flight TBD", aConfirmar: "TBD",
-        checkin: "Check-in", checkout: "Check-out", estadia: "Stay",
-        noite: "night", noites: "nights", enderecoAConfirmar: "Address TBD",
-        abrirMapa: "🗺️ Open in Maps", site: "🌐 Website", hoje: "TODAY",
-        checklistDe: "Checklist for:", seuNome: "Your name (e.g. Ana)",
-        adicionar: "Add item...", remover: "Remove",
-        desmarcar: "Uncheck all", confirmaDesmarcar: "Uncheck all items?",
-        prontos: (f, t, p) => `${f} of ${t} items packed (${p}%)`, malaPronta: "🎉 All packed! You're ready!",
-        salvoAqui: "Your checks are saved on this phone/computer. Each family member uses their own.",
-        rodape: "Made with ❤️ for our family",
-      },
-    };
+  // ---------- Textos fixos do site ----------
+  const UI = {
+    pt: {
+      marca: "Fim de ano · <b>2026/27</b>",
+      dias: "dias", horas: "horas", min: "min", seg: "seg",
+      boardLabel: "Embarque em", ateAPartida: "Partida", as: "às",
+      ferias: "Estamos de férias.", volta: "Chegada em casa",
+      fim: "Até a próxima viagem.",
+      navDestinos: "Destinos", navTrajetos: "Voos", navHoteis: "Hospedagem",
+      navRoteiro: "Roteiro", navChecklist: "Checklist", navContatos: "Contatos",
+      eDestinos: "O caminho", tDestinos: "Três cidades, dezenove dias",
+      eTrajetos: "Cartões de embarque", tTrajetos: "Voos e estradas",
+      eHoteis: "Onde vamos dormir", tHoteis: "Hospedagem",
+      eRoteiro: "Dia a dia", tRoteiro: "Roteiro",
+      eChecklist: "Antes de fechar a mala", tChecklist: "Checklist",
+      eContatos: "Para guardar", tContatos: "Contatos importantes",
+      horaLocal: "Horários no fuso local de cada cidade.",
+      deCarro: "De carro", carro: "Estrada", voo: "Voo", vooAConfirmar: "A confirmar", aConfirmar: "a confirmar",
+      checkin: "Check-in", checkout: "Check-out", estadia: "Estadia", reserva: "Reserva",
+      noite: "noite", noites: "noites", enderecoAConfirmar: "Endereço a confirmar",
+      abrirMapa: "Abrir no mapa", hoje: "Hoje",
+      checklistDe: "Checklist de", seuNome: "Seu nome",
+      adicionar: "Adicionar item", remover: "Remover",
+      desmarcar: "Desmarcar tudo", confirmaDesmarcar: "Desmarcar todos os itens?", sim: "Sim, desmarcar", nao: "Cancelar",
+      prontos: (f, t, p) => `${f}/${t} itens · ${p}%`, malaPronta: "Mala pronta.",
+      salvoAqui: "As marcações ficam salvas neste aparelho. Cada pessoa usa o seu.",
+      rodape: "Feito para a nossa família.",
+    },
+    en: {
+      marca: "Holiday trip · <b>2026/27</b>",
+      dias: "days", horas: "hours", min: "min", seg: "sec",
+      boardLabel: "Boarding in", ateAPartida: "Departure", as: "at",
+      ferias: "We're on vacation.", volta: "Back home",
+      fim: "Until the next trip.",
+      navDestinos: "Destinations", navTrajetos: "Flights", navHoteis: "Stays",
+      navRoteiro: "Itinerary", navChecklist: "Checklist", navContatos: "Contacts",
+      eDestinos: "The route", tDestinos: "Three cities, nineteen days",
+      eTrajetos: "Boarding passes", tTrajetos: "Flights & drives",
+      eHoteis: "Where we sleep", tHoteis: "Stays",
+      eRoteiro: "Day by day", tRoteiro: "Itinerary",
+      eChecklist: "Before you zip the bag", tChecklist: "Checklist",
+      eContatos: "Keep these handy", tContatos: "Important contacts",
+      horaLocal: "All times are local to each city.",
+      deCarro: "By car", carro: "Road", voo: "Flight", vooAConfirmar: "TBD", aConfirmar: "TBD",
+      checkin: "Check-in", checkout: "Check-out", estadia: "Stay", reserva: "Booking",
+      noite: "night", noites: "nights", enderecoAConfirmar: "Address TBD",
+      abrirMapa: "Open in Maps", hoje: "Today",
+      checklistDe: "Checklist for", seuNome: "Your name",
+      adicionar: "Add item", remover: "Remove",
+      desmarcar: "Uncheck all", confirmaDesmarcar: "Uncheck every item?", sim: "Yes, uncheck", nao: "Cancel",
+      prontos: (f, t, p) => `${f}/${t} items · ${p}%`, malaPronta: "All packed.",
+      salvoAqui: "Your checks are saved on this device. Each person uses their own.",
+      rodape: "Made for our family.",
+    },
+  };
 
-    let lang = store.get("idioma", "pt") === "en" ? "en" : "pt";
-    const L = () => UI[lang];
-    const locale = () => (lang === "en" ? "en-US" : "pt-BR");
-    // Texto que pode ser "simples" ou { pt, en }
-    const tx = (v) => (v && typeof v === "object" ? v[lang] ?? v.pt ?? "" : v ?? "");
+  let lang = store.get("idioma", "pt") === "en" ? "en" : "pt";
+  const L = () => UI[lang];
+  const locale = () => (lang === "en" ? "en-US" : "pt-BR");
+  // Texto que pode ser "simples" ou { pt, en }
+  const tx = (v) => (v && typeof v === "object" ? v[lang] ?? v.pt ?? "" : v ?? "");
 
-    // Datas "AAAA-MM-DD" ou "AAAA-MM-DDTHH:MM" lidas no horário local
-    function data(txt) {
-      const [d, t = "00:00"] = txt.split("T");
-      const [a, m, dia] = d.split("-").map(Number);
-      const [h, min] = t.split(":").map(Number);
-      return new Date(a, m - 1, dia, h, min);
-    }
-    const fmtDia = (d) => d.toLocaleDateString(locale(), { weekday: "long", day: "numeric", month: "long" });
-    const fmtCurto = (d) => d.toLocaleDateString(locale(), { weekday: "short", day: "2-digit", month: lang === "en" ? "short" : "2-digit" });
-    const curto = (txt) => (txt ? fmtCurto(data(txt)) : L().aConfirmar);
-    const mapa = (q) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
-    const tel = (t) => "tel:" + String(t).replace(/[^\d+]/g, "");
+  // Datas "AAAA-MM-DD" ou "AAAA-MM-DDTHH:MM" lidas no horário local
+  function data(txt) {
+    const [d, t = "00:00"] = txt.split("T");
+    const [a, m, dia] = d.split("-").map(Number);
+    const [h, min] = t.split(":").map(Number);
+    return new Date(a, m - 1, dia, h, min);
+  }
+  const fmtDia = (d) => d.toLocaleDateString(locale(), { weekday: "long", day: "numeric", month: "long" });
+  const fmtCurto = (d) => d.toLocaleDateString(locale(), { day: "2-digit", month: "short" }).replace(".", "").replace(" de ", " ");
+  const curto = (txt) => (txt ? fmtCurto(data(txt)) : L().aConfirmar);
+  const mapa = (q) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+  const tel = (t) => "tel:" + String(t).replace(/[^\d+]/g, "");
 
-    // ---------- Contador ----------
-    const partida = new Date(V.partida);
-    const retorno = V.retorno ? data(V.retorno) : null;
-    let timer = null;
+  // ---------- Contador (painel de embarque) ----------
+  const partida = new Date(V.partida);
+  const retorno = V.retorno ? data(V.retorno) : null;
+  let timer = null, ultimo = {};
 
-    function tick() {
-      const agora = new Date();
-      const falta = partida - agora;
-      if (falta > 0) {
-        const s = Math.floor(falta / 1000);
-        $("d").textContent = Math.floor(s / 86400);
-        $("h").textContent = String(Math.floor((s % 86400) / 3600)).padStart(2, "0");
-        $("m").textContent = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
-        $("s").textContent = String(s % 60).padStart(2, "0");
-        const tz = { timeZone: "America/Sao_Paulo" };
-        $("sub").textContent = `${L().ateAPartida} · ${partida.toLocaleDateString(locale(), { ...tz, weekday: "long", day: "numeric", month: "long" })} ${L().as} ${partida.toLocaleTimeString(locale(), { ...tz, hour: "2-digit", minute: "2-digit" })} (Curitiba)`;
-        return false;
+  function montaPainel() {
+    const u = (id, label) => `<div class="unit"><div class="digits" id="u-${id}"></div><small>${label}</small></div>`;
+    $("contador").innerHTML = `<div class="flaps">${u("d", L().dias)}<span class="sep">:</span>${u("h", L().horas)}<span class="sep">:</span>${u("m", L().min)}<span class="sep">:</span>${u("s", L().seg)}</div>`;
+    ultimo = {};
+  }
+  function setFlaps(id, valor) {
+    const box = $("u-" + id); if (!box) return;
+    if (box.children.length !== valor.length) box.innerHTML = [...valor].map(() => '<span class="flap"></span>').join("");
+    [...valor].forEach((c, i) => {
+      const el = box.children[i];
+      if (el.textContent !== c) {
+        el.textContent = c;
+        if (ultimo[id] !== undefined) { el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick"); }
       }
-      if (!retorno || agora < retorno) {
-        $("contador").innerHTML = `<div class="chegou">${esc(L().ferias)}</div>`;
-        $("sub").textContent = retorno ? `${L().volta}: ${fmtDia(retorno)}` : "";
-      } else {
-        $("contador").innerHTML = `<div class="chegou">${esc(L().fim)}</div>`;
-        $("sub").textContent = "";
-      }
-      return true;
+    });
+    ultimo[id] = valor;
+  }
+  function tick() {
+    const agora = new Date();
+    const falta = partida - agora;
+    if (falta > 0) {
+      const s = Math.floor(falta / 1000);
+      setFlaps("d", String(Math.floor(s / 86400)).padStart(2, "0"));
+      setFlaps("h", String(Math.floor((s % 86400) / 3600)).padStart(2, "0"));
+      setFlaps("m", String(Math.floor((s % 3600) / 60)).padStart(2, "0"));
+      setFlaps("s", String(s % 60).padStart(2, "0"));
+      return false;
     }
+    $("boardLabel").textContent = "";
+    if (!retorno || agora < retorno) {
+      $("contador").innerHTML = `<div class="chegou">${esc(L().ferias)}</div>`;
+      $("sub").textContent = retorno ? `${L().volta} · ${fmtDia(retorno)}` : "";
+    } else {
+      $("contador").innerHTML = `<div class="chegou">${esc(L().fim)}</div>`;
+      $("sub").textContent = "";
+    }
+    return true;
+  }
 
-    // ---------- Montagem da página ----------
-    function renderTudo() {
-      document.documentElement.lang = lang === "en" ? "en" : "pt-BR";
-      document.title = tx(V.titulo);
-      document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = L()[el.dataset.i18n]; });
-      document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === lang));
-      $("pessoa").placeholder = L().seuNome;
+  // ---------- Montagem ----------
+  function renderTudo() {
+    document.documentElement.lang = lang === "en" ? "en" : "pt-BR";
+    document.title = tx(V.titulo);
+    document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = L()[el.dataset.i18n]; });
+    document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+    $("pessoa").placeholder = L().seuNome;
+    $("marca").innerHTML = L().marca;
 
-      $("destino").textContent = "📍 " + tx(V.destino);
-      $("titulo").textContent = tx(V.titulo);
-      $("frase").textContent = tx(V.frase);
-      if (!tick() && !timer) timer = setInterval(() => { if (tick()) { clearInterval(timer); timer = null; } }, 1000);
+    // Título: última palavra em itálico dourado
+    const t = tx(V.titulo).split(" ");
+    const fim = t.pop();
+    $("titulo").innerHTML = `${esc(t.join(" "))} <em>${esc(fim)}</em>`;
+    $("frase").textContent = tx(V.frase);
 
-      // Destinos
-      $("etapas").innerHTML = V.destinos.map((d, i) => `<div class="card etapa">
-          <span class="num">${i + 1}</span>
-          <div class="emoji">${esc(d.emoji)}</div>
-          <div class="big">${esc(tx(d.cidade))}</div>
-          <div><span class="pill">${esc(curto(d.de))} → ${esc(curto(d.ate))}</span></div>
-          ${tx(d.obs) ? `<div class="muted" style="margin-top:8px;font-size:.92rem">${esc(tx(d.obs))}</div>` : ""}
-        </div>`).join("");
+    // Painel
+    const tz = { timeZone: "America/Sao_Paulo" };
+    $("boardLabel").textContent = L().boardLabel;
+    $("sub").textContent = `${L().ateAPartida} · ${partida.toLocaleDateString(locale(), { ...tz, weekday: "long", day: "numeric", month: "long" })} ${L().as} ${partida.toLocaleTimeString(locale(), { ...tz, hour: "2-digit", minute: "2-digit" })} · Curitiba (CWB)`;
+    montaPainel();
+    if (tick()) { clearInterval(timer); timer = null; }
+    else if (!timer) timer = setInterval(() => { if (tick()) { clearInterval(timer); timer = null; } }, 1000);
 
-      // Trajetos
-      const horaPill = (h) => (h ? `<span class="pill">${esc(h)}</span>` : "");
-      $("listaVoos").innerHTML = V.trajetos.map((v) => {
-        const carro = v.tipo === "carro";
-        const titulo = carro ? L().deCarro : "✈️ " + ([v.companhia, v.voo].filter(Boolean).join(" ") || L().vooAConfirmar);
-        return `<div class="card">
-          <div class="label">${esc(tx(v.trecho))}</div>
-          <div class="big">${esc(titulo)}</div>
-          <div class="voo-rota">
-            <div><div class="ap">${esc(v.sai.sigla)}</div><div class="muted">${esc(tx(v.sai.cidade))}</div></div>
-            <div class="seta">${carro ? "🛣️" : "✈"}</div>
-            <div class="dir"><div class="ap">${esc(v.chega.sigla)}</div><div class="muted">${esc(tx(v.chega.cidade))}</div></div>
+    // Rota completa em códigos de aeroporto
+    const casa = V.trajetos[0].sai.sigla;
+    const pontos = [{ cod: casa }].concat(V.trajetos.map((v) => ({ cod: v.chega.sigla, carro: v.tipo === "carro" })));
+    $("rota").innerHTML = pontos.map((p, i) =>
+      (i ? `<i class="${p.carro ? "carro" : ""}"></i>` : "") + `<span class="cod ${p.cod === casa ? "casa" : ""}">${esc(p.cod)}</span>`
+    ).join("");
+
+    // Destinos
+    $("etapas").innerHTML = V.destinos.map((d, i) => `<article class="destino">
+        <span class="n">${String(i + 1).padStart(2, "0")}</span>
+        <h3>${esc(tx(d.cidade))}</h3>
+        <div class="datas">${esc(curto(d.de))} → ${esc(curto(d.ate))}</div>
+        ${tx(d.obs) ? `<div class="obs">${esc(tx(d.obs))}</div>` : ""}
+      </article>`).join("");
+
+    // Cartões de embarque
+    $("listaVoos").innerHTML = V.trajetos.map((v) => {
+      const carro = v.tipo === "carro";
+      const hora = (p, dir) => `<div class="${dir ? "dir" : ""}"><b>${esc(p.hora || "—")}</b><span class="muted">${esc(curto(p.data))}</span></div>`;
+      return `<article class="pass ${carro ? "carro" : ""}">
+        <span class="furo a"></span><span class="furo b"></span>
+        <div class="main">
+          <span class="eyebrow">${esc(tx(v.trecho))}</span>
+          <div class="rota-pass">
+            <div><div class="cod">${esc(v.sai.sigla)}</div><div class="cidade">${esc(tx(v.sai.cidade))}</div></div>
+            <div class="linha"></div>
+            <div class="dir"><div class="cod">${esc(v.chega.sigla)}</div><div class="cidade">${esc(tx(v.chega.cidade))}</div></div>
           </div>
-          <div class="voo-rota" style="margin:0">
-            <div>${horaPill(v.sai.hora)}<div class="muted" style="font-size:.9rem">${esc(curto(v.sai.data))}</div></div>
-            <div></div>
-            <div class="dir">${horaPill(v.chega.hora)}<div class="muted" style="font-size:.9rem">${carro ? "" : esc(curto(v.chega.data))}</div></div>
-          </div>
-          ${tx(v.obs) ? `<div class="muted" style="margin-top:10px">${esc(tx(v.obs))}</div>` : ""}
-        </div>`;
-      }).join("");
+          ${carro ? "" : `<div class="horas">${hora(v.sai)}${hora(v.chega, true)}</div>`}
+          ${tx(v.obs) ? `<div class="nota">${esc(tx(v.obs))}</div>` : ""}
+        </div>
+        <div class="stub">
+          <span class="eyebrow">${carro ? L().carro : L().voo}</span>
+          <span class="voo">${esc(carro ? curto(v.sai.data) : v.voo || L().vooAConfirmar)}</span>
+          <span class="cia">${esc(carro ? L().deCarro : v.companhia)}</span>
+        </div>
+      </article>`;
+    }).join("");
 
-      // Hospedagens
-      $("listaHoteis").innerHTML = V.hoteis.map((H) => {
-        let noites = "";
-        if (H.checkin && H.checkout) {
-          const n = Math.round((data(H.checkout) - data(H.checkin)) / 86400000);
-          noites = `${n} ${n === 1 ? L().noite : L().noites}`;
-        }
-        const nome = tx(H.nome);
-        const q = H.endereco;
-        return `<div class="card hotel">
-          <div class="label">${esc(tx(H.cidade))}</div>
-          <h3>${esc(nome)}</h3>
-          <div class="muted">📍 ${esc(H.endereco || L().enderecoAConfirmar)}</div>
-          <div class="rows">
-            <div><div class="label">${L().checkin}</div><div class="big">${esc(curto(H.checkin))}</div></div>
-            <div><div class="label">${L().checkout}</div><div class="big">${esc(curto(H.checkout))}</div></div>
-            ${noites || H.reserva ? `<div><div class="label">${L().estadia}</div><div class="big">${esc(noites || "—")}</div><div class="muted">${esc(H.reserva)}</div></div>` : ""}
+    // Hospedagem
+    $("listaHoteis").innerHTML = V.hoteis.map((H) => {
+      let noites = "";
+      if (H.checkin && H.checkout) {
+        const n = Math.round((data(H.checkout) - data(H.checkin)) / 86400000);
+        noites = `${n} ${n === 1 ? L().noite : L().noites}`;
+      }
+      return `<article class="hotel">
+        <span class="eyebrow">${esc(tx(H.cidade))}</span>
+        <div>
+          <h3>${esc(tx(H.nome))}</h3>
+          <div class="end">${esc(H.endereco || L().enderecoAConfirmar)}</div>
+          ${tx(H.obs) ? `<p class="obs">${esc(tx(H.obs))}</p>` : ""}
+          <div class="estadia">
+            <div><span class="eyebrow">${L().checkin}</span><b>${esc(curto(H.checkin))}</b></div>
+            <div><span class="eyebrow">${L().checkout}</span><b>${esc(curto(H.checkout))}</b></div>
+            ${noites ? `<div><span class="eyebrow">${L().estadia}</span><b>${esc(noites)}</b></div>` : ""}
+            ${H.reserva ? `<div><span class="eyebrow">${L().reserva}</span><b>${esc(H.reserva)}</b></div>` : ""}
+            ${H.telefone ? `<div><span class="eyebrow">Tel.</span><b><a href="${tel(H.telefone)}">${esc(H.telefone)}</a></b></div>` : ""}
           </div>
-          ${tx(H.obs) ? `<p style="margin:0">${esc(tx(H.obs))}</p>` : ""}
-          <div class="btns">
-            ${q ? `<a class="btn" href="${mapa(q)}" target="_blank" rel="noopener">${L().abrirMapa}</a>` : ""}
-            ${H.telefone ? `<a class="btn ghost" href="${tel(H.telefone)}">📞 ${esc(H.telefone)}</a>` : ""}
-            ${H.site ? `<a class="btn ghost" href="${esc(H.site)}" target="_blank" rel="noopener">${L().site}</a>` : ""}
-          </div>
-          ${q ? `<iframe class="map" loading="lazy" title="${esc(nome)}"
-            src="https://maps.google.com/maps?q=${encodeURIComponent(q)}&output=embed"></iframe>` : ""}
-        </div>`;
-      }).join("");
+        </div>
+        ${H.endereco ? `<a class="btn ghost" href="${mapa(tx(H.nome) + ", " + H.endereco)}" target="_blank" rel="noopener">${L().abrirMapa} ↗</a>` : "<span></span>"}
+      </article>`;
+    }).join("");
 
-      // Roteiro
-      const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
-      $("dias").innerHTML = V.roteiro.map((d) => {
-        const dia = data(d.dia);
-        const cls = +dia === +hoje ? "hoje" : dia < hoje ? "passou" : "";
-        return `<div class="card day ${cls}">
-          <header>
-            <h3>${esc(tx(d.titulo))}</h3>
-            <span class="muted" style="text-transform:capitalize">${esc(fmtDia(dia))}</span>
-            ${cls === "hoje" ? `<span class="pill">${L().hoje}</span>` : ""}
-          </header>
-          ${d.atividades.map((a) => `<div class="ativ">
+    // Roteiro
+    const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+    $("dias").innerHTML = V.roteiro.map((d) => {
+      const dia = data(d.dia);
+      const cls = +dia === +hoje ? "hoje" : dia < hoje ? "passou" : "";
+      const mes = dia.toLocaleDateString(locale(), { month: "short" }).replace(".", "");
+      const sem = dia.toLocaleDateString(locale(), { weekday: "short" }).replace(".", "");
+      return `<article class="dia ${cls}">
+        <div class="data"><span class="num">${dia.getDate()}</span><span class="mes">${esc(mes)}<br>${esc(sem)}</span></div>
+        <div>
+          <h3>${esc(tx(d.titulo))}${cls === "hoje" ? `<span class="tag">${L().hoje}</span>` : ""}</h3>
+          <ul class="ativs">${d.atividades.map((a) => `<li class="ativ">
             <time>${esc(a.hora || "—")}</time>
             <div>
               <div class="nome">${esc(tx(a.nome))}</div>
-              ${a.local ? `<div class="local">📍 <a href="${mapa(tx(a.local))}" target="_blank" rel="noopener">${esc(tx(a.local))}</a></div>` : ""}
-              ${tx(a.obs) ? `<div class="obs">💡 ${esc(tx(a.obs))}</div>` : ""}
+              ${a.local ? `<div class="local"><a href="${mapa(tx(a.local))}" target="_blank" rel="noopener">${esc(tx(a.local))}</a></div>` : ""}
+              ${tx(a.obs) ? `<div class="obs">${esc(tx(a.obs))}</div>` : ""}
             </div>
-          </div>`).join("")}
+          </li>`).join("")}</ul>
+        </div>
+      </article>`;
+    }).join("");
+
+    renderChecklist();
+    renderLimpar(false);
+
+    // Contatos
+    $("listaContatos").innerHTML = V.contatos.map((c) =>
+      `<div class="contato"><span>${esc(tx(c.nome))}</span><a href="${tel(c.telefone)}">${esc(c.telefone)}</a></div>`
+    ).join("");
+  }
+
+  // ---------- Checklist ----------
+  // O texto em português é o identificador de cada item; trocar de idioma não perde marcações.
+  let estado = store.get("checklist-estado", { marcados: {}, extras: {}, removidos: {} });
+  const salvar = () => store.set("checklist-estado", estado);
+  $("pessoa").value = store.get("checklist-nome", "");
+  $("pessoa").addEventListener("input", (e) => store.set("checklist-nome", e.target.value));
+
+  function renderChecklist() {
+    let total = 0, feitos = 0;
+    $("cats").innerHTML = V.checklist.map((grupo, gi) => {
+      const cat = grupo.categoria.pt ?? grupo.categoria;
+      const lista = [
+        ...grupo.itens.map((i) => ({ id: i.pt ?? i, txt: tx(i) })),
+        ...(estado.extras[cat] || []).map((i) => ({ id: i, txt: i })),
+      ].filter((i) => !estado.removidos[cat + "|" + i.id]);
+      const html = lista.map((item, ii) => {
+        const key = cat + "|" + item.id;
+        const ok = !!estado.marcados[key];
+        total++; if (ok) feitos++;
+        const id = `chk-${gi}-${ii}`;
+        return `<div class="item ${ok ? "done" : ""}">
+          <input type="checkbox" id="${id}" data-key="${esc(key)}" ${ok ? "checked" : ""}>
+          <label for="${id}">${esc(item.txt)}</label>
+          <button type="button" class="del" aria-label="${L().remover}: ${esc(item.txt)}" data-del="${esc(key)}">×</button>
         </div>`;
       }).join("");
+      return `<div class="cat">
+        <h3>${esc(tx(grupo.categoria))}</h3>
+        ${html}
+        <form class="add" data-cat="${esc(cat)}">
+          <input id="add-${gi}" placeholder="${esc(L().adicionar)}" maxlength="80" aria-label="${esc(L().adicionar)}">
+          <button class="btn ghost" type="submit" aria-label="${esc(L().adicionar)}">+</button>
+        </form>
+      </div>`;
+    }).join("");
+    const pct = total ? Math.round((feitos / total) * 100) : 0;
+    $("barra").style.width = pct + "%";
+    $("progressoTxt").textContent = pct === 100 ? L().malaPronta : L().prontos(feitos, total, pct);
+  }
 
-      renderChecklist();
+  // Confirmação dentro da página (sem janelas pop-up)
+  function renderLimpar(perguntando) {
+    $("limparBox").innerHTML = perguntando
+      ? `<div class="confirma"><span>${L().confirmaDesmarcar}</span>
+           <button type="button" class="btn perigo" id="limparSim">${L().sim}</button>
+           <button type="button" class="btn ghost" id="limparNao">${L().nao}</button></div>`
+      : `<button type="button" class="btn ghost" id="limpar">${L().desmarcar}</button>`;
+  }
+  $("limparBox").addEventListener("click", (e) => {
+    if (e.target.id === "limpar") renderLimpar(true);
+    else if (e.target.id === "limparNao") renderLimpar(false);
+    else if (e.target.id === "limparSim") { estado.marcados = {}; salvar(); renderChecklist(); renderLimpar(false); }
+  });
 
-      // Contatos
-      $("listaContatos").innerHTML = V.contatos.map((c) =>
-        `<div class="contato"><span>${esc(tx(c.nome))}</span><a href="${tel(c.telefone)}">📞 ${esc(c.telefone)}</a></div>`
-      ).join("");
-    }
+  $("cats").addEventListener("change", (e) => {
+    const k = e.target.dataset.key; if (!k) return;
+    if (e.target.checked) estado.marcados[k] = true; else delete estado.marcados[k];
+    salvar(); renderChecklist();
+  });
+  $("cats").addEventListener("click", (e) => {
+    const k = e.target.dataset.del; if (!k) return;
+    estado.removidos[k] = true; delete estado.marcados[k];
+    salvar(); renderChecklist();
+  });
+  $("cats").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const cat = e.target.dataset.cat;
+    const txt = e.target.querySelector("input").value.trim();
+    if (!txt) return;
+    estado.extras[cat] = [...(estado.extras[cat] || []), txt];
+    delete estado.removidos[cat + "|" + txt];
+    salvar(); renderChecklist();
+  });
 
-    // ---------- Checklist ----------
-    // As marcações usam o texto em português como identificador,
-    // então trocar de idioma não perde nada do que já foi marcado.
-    let estado = store.get("checklist-estado", { marcados: {}, extras: {}, removidos: {} });
-    const salvar = () => store.set("checklist-estado", estado);
-    $("pessoa").value = store.get("checklist-nome", "");
-    $("pessoa").addEventListener("input", (e) => store.set("checklist-nome", e.target.value));
-
-    function renderChecklist() {
-      let total = 0, feitos = 0;
-      $("cats").innerHTML = V.checklist.map((grupo) => {
-        const cat = grupo.categoria.pt ?? grupo.categoria;
-        const lista = [
-          ...grupo.itens.map((i) => ({ id: i.pt ?? i, txt: tx(i) })),
-          ...(estado.extras[cat] || []).map((i) => ({ id: i, txt: i })),
-        ].filter((i) => !estado.removidos[cat + "|" + i.id]);
-        const html = lista.map((item) => {
-          const key = cat + "|" + item.id;
-          const ok = !!estado.marcados[key];
-          total++; if (ok) feitos++;
-          const id = "c" + btoa(unescape(encodeURIComponent(key))).replace(/[^a-z0-9]/gi, "");
-          return `<div class="item ${ok ? "done" : ""}">
-            <input type="checkbox" id="${id}" data-key="${esc(key)}" ${ok ? "checked" : ""}>
-            <label for="${id}">${esc(item.txt)}</label>
-            <button class="del" title="${L().remover}" data-del="${esc(key)}">×</button>
-          </div>`;
-        }).join("");
-        return `<div class="cat">
-          <h3>${esc(tx(grupo.categoria))}</h3>
-          ${html}
-          <form class="add" data-cat="${esc(cat)}">
-            <input placeholder="${esc(L().adicionar)}" maxlength="80">
-            <button class="btn ghost" type="submit">+</button>
-          </form>
-        </div>`;
-      }).join("");
-      const pct = total ? Math.round((feitos / total) * 100) : 0;
-      $("barra").style.width = pct + "%";
-      $("progressoTxt").textContent = pct === 100 ? L().malaPronta : L().prontos(feitos, total, pct);
-    }
-
-    $("cats").addEventListener("change", (e) => {
-      const k = e.target.dataset.key; if (!k) return;
-      if (e.target.checked) estado.marcados[k] = true; else delete estado.marcados[k];
-      salvar(); renderChecklist();
-    });
-    $("cats").addEventListener("click", (e) => {
-      const k = e.target.dataset.del; if (!k) return;
-      estado.removidos[k] = true; delete estado.marcados[k];
-      salvar(); renderChecklist();
-    });
-    $("cats").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const cat = e.target.dataset.cat;
-      const txt = e.target.querySelector("input").value.trim();
-      if (!txt) return;
-      estado.extras[cat] = [...(estado.extras[cat] || []), txt];
-      delete estado.removidos[cat + "|" + txt];
-      salvar(); renderChecklist();
-    });
-    $("limpar").addEventListener("click", () => {
-      if (confirm(L().confirmaDesmarcar)) { estado.marcados = {}; salvar(); renderChecklist(); }
-    });
-
-    // ---------- Troca de idioma ----------
-    document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => {
-      lang = b.dataset.lang;
-      store.set("idioma", lang);
-      renderTudo();
-    }));
-
+  // ---------- Idioma ----------
+  document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => {
+    lang = b.dataset.lang;
+    store.set("idioma", lang);
     renderTudo();
-  </script>
+  }));
+
+  // ---------- Menu: destaca a seção visível ----------
+  const links = [...document.querySelectorAll("nav a")];
+  const obs = new IntersectionObserver((ents) => {
+    ents.forEach((en) => { if (en.isIntersecting) links.forEach((a) => a.classList.toggle("ativo", a.getAttribute("href") === "#" + en.target.id)); });
+  }, { rootMargin: "-40% 0px -55% 0px" });
+  document.querySelectorAll("main section").forEach((s) => obs.observe(s));
+
+  // ---------- Céu estrelado ----------
+  (function ceu() {
+    const c = $("ceu"), ctx = c.getContext("2d");
+    const calma = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let estrelas = [], w, h;
+    function tamanho() {
+      const r = devicePixelRatio || 1;
+      w = c.offsetWidth; h = c.offsetHeight;
+      c.width = w * r; c.height = h * r; ctx.setTransform(r, 0, 0, r, 0, 0);
+      estrelas = Array.from({ length: Math.round(w * h / 5000) }, () => ({
+        x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.1 + .2, f: Math.random() * Math.PI * 2,
+      }));
+    }
+    function quadro(t) {
+      ctx.clearRect(0, 0, w, h);
+      for (const s of estrelas) {
+        const a = calma ? .6 : .35 + .35 * Math.sin(t / 1400 + s.f);
+        ctx.fillStyle = `rgba(238,242,248,${a})`;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+      }
+      if (!calma) requestAnimationFrame(quadro);
+    }
+    tamanho(); addEventListener("resize", tamanho); requestAnimationFrame(quadro);
+  })();
+
+  renderTudo();
+</script>
 </body>
 </html>

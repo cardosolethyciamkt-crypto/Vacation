@@ -24,8 +24,8 @@ const VIAGEM = {
   titulo: { pt: "Fim de Ano da Família nos EUA", en: "Family Holiday Trip to the USA" },
   destino: { pt: "Nova York · Miami · Orlando", en: "New York · Miami · Orlando" },
   frase: {
-    pt: "Natal e Réveillon com a família toda junta! 🎄🗽🌴🏀",
-    en: "Christmas and New Year's with the whole family together! 🎄🗽🌴🏀",
+    pt: "Natal e Réveillon com a família toda junta!",
+    en: "Christmas and New Year's with the whole family together!",
   },
 
   // Momento exato da partida (é para cá que o contador conta).
@@ -37,16 +37,16 @@ const VIAGEM = {
   // ---------------- Destinos (etapas da viagem) ----------------
   destinos: [
     {
-      cidade: { pt: "Nova York", en: "New York" }, emoji: "🗽", de: "2026-12-19", ate: "2026-12-22",
+      cidade: { pt: "Nova York", en: "New York" }, de: "2026-12-19", ate: "2026-12-22",
       obs: { pt: "Inverno: frio de 0 °C ou menos · passeios a definir", en: "Winter: 32 °F (0 °C) or colder · activities TBD" },
     },
     {
-      cidade: "Miami", emoji: "🌴", de: "2026-12-22", ate: "2026-12-24",
+      cidade: "Miami", de: "2026-12-22", ate: "2026-12-24",
       obs: { pt: "Clima quente: 20–27 °C · passeios a definir", en: "Warm weather: 68–80 °F · activities TBD" },
     },
     {
-      cidade: "Orlando", emoji: "🎢", de: "2026-12-24", ate: "2027-01-05",
-      obs: { pt: "Natal, Réveillon e jogo da NBA 🏀 · passeios a definir", en: "Christmas, New Year's and an NBA game 🏀 · activities TBD" },
+      cidade: "Orlando", de: "2026-12-24", ate: "2027-01-05",
+      obs: { pt: "Natal, Réveillon e jogo da NBA · passeios a definir", en: "Christmas, New Year's and an NBA game · activities TBD" },
     },
   ],
 
@@ -149,7 +149,7 @@ const VIAGEM = {
   roteiro: [
     {
       dia: "2026-12-18",
-      titulo: { pt: "Partida de Curitiba ✈️", en: "Departure from Curitiba ✈️" },
+      titulo: { pt: "Partida de Curitiba", en: "Departure from Curitiba" },
       atividades: [
         {
           hora: "17:20", nome: { pt: "Voo LA782 Curitiba → Santiago", en: "Flight LA782 Curitiba → Santiago" },
@@ -162,7 +162,7 @@ const VIAGEM = {
     },
     {
       dia: "2026-12-19",
-      titulo: { pt: "Chegada em Nova York 🗽", en: "Arrival in New York 🗽" },
+      titulo: { pt: "Chegada em Nova York", en: "Arrival in New York" },
       atividades: [
         {
           hora: "08:25", nome: { pt: "Chegada no JFK", en: "Landing at JFK" }, local: "JFK Airport",
@@ -173,7 +173,7 @@ const VIAGEM = {
     },
     {
       dia: "2026-12-22",
-      titulo: { pt: "Nova York → Miami 🌴", en: "New York → Miami 🌴" },
+      titulo: { pt: "Nova York → Miami", en: "New York → Miami" },
       atividades: [
         { hora: "", nome: { pt: "Check-out do hotel", en: "Hotel check-out" }, local: "Hotel Edison Times Square" },
         { hora: "15:32", nome: { pt: "Voo DL2500 Nova York → Miami", en: "Flight DL2500 New York → Miami" }, local: "JFK Airport" },
@@ -183,7 +183,7 @@ const VIAGEM = {
     },
     {
       dia: "2026-12-24",
-      titulo: { pt: "Estrada para Orlando 🚗🎄", en: "Road trip to Orlando 🚗🎄" },
+      titulo: { pt: "Estrada para Orlando", en: "Road trip to Orlando" },
       atividades: [
         { hora: "", nome: { pt: "Check-out do hotel em Miami", en: "Check out of the Miami hotel" }, local: "Comfort Inn & Suites Downtown Brickell, 100 SE 4th St, Miami" },
         { hora: "", nome: { pt: "Viagem de carro Miami → Orlando", en: "Drive Miami → Orlando" }, obs: { pt: "Cerca de 4 horas de estrada", en: "About a 4-hour drive" } },
@@ -192,7 +192,7 @@ const VIAGEM = {
     },
     {
       dia: "2027-01-03",
-      titulo: { pt: "Jogo da NBA 🏀", en: "NBA Game 🏀" },
+      titulo: { pt: "Jogo da NBA", en: "NBA Game" },
       atividades: [
         {
           hora: "18:00", nome: "Orlando Magic vs. Memphis Grizzlies",
@@ -206,7 +206,7 @@ const VIAGEM = {
     },
     {
       dia: "2027-01-05",
-      titulo: { pt: "Orlando → Miami → Brasil 🏠", en: "Orlando → Miami → Brazil 🏠" },
+      titulo: { pt: "Orlando → Miami → Brasil", en: "Orlando → Miami → Brazil" },
       atividades: [
         {
           hora: "", nome: { pt: "Check-out e saída cedo de Orlando", en: "Check out and leave Orlando early" },
@@ -221,7 +221,7 @@ const VIAGEM = {
     },
     {
       dia: "2027-01-06",
-      titulo: { pt: "De volta para casa 💛", en: "Back home 💛" },
+      titulo: { pt: "De volta para casa", en: "Back home" },
       atividades: [
         { hora: "05:40", nome: { pt: "Chegada em Guarulhos", en: "Arrival in Guarulhos" }, local: "Aeroporto de Guarulhos (GRU)" },
         { hora: "09:45", nome: { pt: "Voo LA3288 São Paulo → Curitiba", en: "Flight LA3288 São Paulo → Curitiba" }, local: "Aeroporto de Guarulhos (GRU)" },
@@ -234,7 +234,7 @@ const VIAGEM = {
   // Cada pessoa pode marcar e adicionar itens no próprio celular.
   checklist: [
     {
-      categoria: { pt: "📄 Documentos", en: "📄 Documents" },
+      categoria: { pt: "Documentos", en: "Documents" },
       itens: [
         { pt: "Passaporte válido", en: "Valid passport" },
         { pt: "Visto americano válido", en: "Valid US visa" },
@@ -246,7 +246,7 @@ const VIAGEM = {
       ],
     },
     {
-      categoria: { pt: "🧥 Roupas – Nova York (frio)", en: "🧥 Clothes – New York (cold)" },
+      categoria: { pt: "Roupas – Nova York (frio)", en: "Clothes – New York (cold)" },
       itens: [
         { pt: "Casaco grosso / jaqueta de inverno", en: "Heavy winter coat" },
         { pt: "Segunda pele (blusa e calça térmica)", en: "Thermal base layers" },
@@ -256,7 +256,7 @@ const VIAGEM = {
       ],
     },
     {
-      categoria: { pt: "🩳 Roupas – Miami e Orlando", en: "🩳 Clothes – Miami & Orlando" },
+      categoria: { pt: "Roupas – Miami e Orlando", en: "Clothes – Miami & Orlando" },
       itens: [
         { pt: "Roupa de banho", en: "Swimwear" },
         { pt: "Roupas leves e um casaquinho para a noite", en: "Light clothes and a light jacket for the evening" },
@@ -267,7 +267,7 @@ const VIAGEM = {
       ],
     },
     {
-      categoria: { pt: "🚗 Viagens de carro", en: "🚗 Road trips" },
+      categoria: { pt: "Viagens de carro", en: "Road trips" },
       itens: [
         { pt: "CNH de quem vai dirigir", en: "Driver's license for the drivers" },
         { pt: "Carregador de celular para o carro", en: "Car phone charger" },
@@ -276,7 +276,7 @@ const VIAGEM = {
       ],
     },
     {
-      categoria: { pt: "🧴 Higiene e saúde", en: "🧴 Toiletries & health" },
+      categoria: { pt: "Higiene e saúde", en: "Toiletries & health" },
       itens: [
         { pt: "Remédios de uso contínuo (com receita)", en: "Regular medication (with prescription)" },
         { pt: "Protetor solar", en: "Sunscreen" },
@@ -286,7 +286,7 @@ const VIAGEM = {
       ],
     },
     {
-      categoria: { pt: "🔌 Eletrônicos", en: "🔌 Electronics" },
+      categoria: { pt: "Eletrônicos", en: "Electronics" },
       itens: [
         { pt: "Carregador de celular", en: "Phone charger" },
         { pt: "Power bank (na bagagem de mão)", en: "Power bank (in carry-on)" },
@@ -296,7 +296,7 @@ const VIAGEM = {
       ],
     },
     {
-      categoria: { pt: "🏠 Antes de sair de casa", en: "🏠 Before leaving home" },
+      categoria: { pt: "Antes de sair de casa", en: "Before leaving home" },
       itens: [
         { pt: "Desligar o gás", en: "Turn off the gas" },
         { pt: "Tirar aparelhos da tomada", en: "Unplug appliances" },
