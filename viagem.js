@@ -198,8 +198,8 @@ const VIAGEM = {
           hora: "18:00", nome: "Orlando Magic vs. Memphis Grizzlies",
           local: "Kia Center, Orlando, FL",
           obs: {
-            pt: "20h no horário de Brasília · Seção 220 · Fileira 8 · Assentos 10–15",
-            en: "Section 220 · Row 8 · Seats 10–15",
+            pt: "20h no horário de Brasília · Seção 220 · Fileira 8 · Assentos 6 a 18",
+            en: "Section 220 · Row 8 · Seats 6–18",
           },
         },
       ],
