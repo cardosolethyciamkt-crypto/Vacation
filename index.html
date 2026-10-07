@@ -187,17 +187,6 @@
     .contato:first-child { border-top: 0; }
     .contato a { font-weight: 800; text-decoration: none; white-space: nowrap; }
 
-    /* Família */
-    .fam-resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 14px; }
-    .fam-resumo .card { padding: 16px; text-align: center; }
-    .fam-resumo strong { display: block; font-family: "Fraunces", serif; font-size: 2rem; line-height: 1.1; color: var(--accent); }
-    .grupo h3 { font-family: "Nunito", sans-serif; font-size: 1.05rem; font-weight: 800; }
-    .grupo .aviso { font-size: .9rem; background: var(--sea-soft); color: var(--ink); padding: 6px 10px; border-radius: 10px; margin: 8px 0 0; }
-    .pessoas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-    .pessoa { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px 4px 4px; }
-    .avatar { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--accent); font-size: .9rem; flex: none; }
-    .pessoa small { color: var(--muted); }
-
     /* Destinos */
     .etapas { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
     .etapa { position: relative; }
@@ -232,9 +221,8 @@
   </header>
 
   <nav>
-    <a href="#familia">👨‍👩‍👧‍👦 Quem vai</a>
     <a href="#destinos">🌎 Destinos</a>
-    <a href="#voos">✈️ Voos</a>
+    <a href="#voos">✈️ Trajetos</a>
     <a href="#hotel">🏨 Hotéis</a>
     <a href="#roteiro">🗺️ Roteiro</a>
     <a href="#checklist">✅ Checklist</a>
@@ -242,19 +230,13 @@
   </nav>
 
   <main>
-    <section id="familia">
-      <h2>Quem vai</h2>
-      <div class="fam-resumo" id="famResumo"></div>
-      <div class="grid" id="grupos"></div>
-    </section>
-
     <section id="destinos">
       <h2>Destinos</h2>
       <div class="etapas" id="etapas"></div>
     </section>
 
     <section id="voos">
-      <h2>Voos</h2>
+      <h2>Voos e estradas</h2>
       <p class="muted" style="margin-top:-8px">Todos os horários estão no horário local de cada cidade.</p>
       <div class="grid" id="listaVoos"></div>
     </section>
@@ -349,25 +331,6 @@
 
     const curto = (txt) => txt ? fmtCurto(data(txt)) : "a confirmar";
 
-    // ---------- Família ----------
-    const todos = V.familia.flatMap((g) => g.pessoas.map((p) => ({ ...p, desde: g.desde })));
-    const desdeInicio = todos.filter((p) => !p.desde);
-    const idades = todos.map((p) => p.idade).filter((n) => typeof n === "number");
-    $("famResumo").innerHTML = `
-      <div class="card"><strong>${todos.length}</strong><span class="muted">pessoas no total</span></div>
-      <div class="card"><strong>${desdeInicio.length}</strong><span class="muted">desde o início</span></div>
-      ${idades.length ? `<div class="card"><strong>${Math.min(...idades)}–${Math.max(...idades)}</strong><span class="muted">anos de idade</span></div>` : ""}`;
-    const cores = ["#e8590c", "#0c8599", "#ae3ec9", "#2b8a3e", "#c2255c", "#1971c2"];
-    $("grupos").innerHTML = V.familia.map((g, gi) => `<div class="card grupo">
-        <h3>${esc(g.grupo)}</h3>
-        <div class="muted" style="font-size:.9rem">${g.pessoas.length} pessoas${g.desde ? " · a partir de " + esc(curto(g.desde)) : ""}</div>
-        <div class="pessoas">${g.pessoas.map((p) => `<div class="pessoa">
-          <span class="avatar" style="background:${cores[gi % cores.length]}">${esc(p.nome.replace(/^(Meu|Minha) /, "").charAt(0).toUpperCase())}</span>
-          <span>${esc(p.nome)}${typeof p.idade === "number" ? ` <small>· ${p.idade} anos</small>` : ""}</span>
-        </div>`).join("")}</div>
-        ${g.obs ? `<p class="aviso">ℹ️ ${esc(g.obs)}</p>` : ""}
-      </div>`).join("");
-
     // ---------- Destinos ----------
     $("etapas").innerHTML = V.destinos.map((d, i) => `<div class="card etapa">
         <span class="num">${i + 1}</span>
@@ -377,22 +340,27 @@
         ${d.obs ? `<div class="muted" style="margin-top:8px;font-size:.92rem">${esc(d.obs)}</div>` : ""}
       </div>`).join("");
 
-    // ---------- Voos ----------
-    $("listaVoos").innerHTML = V.voos.map((v) => `<div class="card">
+    // ---------- Trajetos ----------
+    const horaPill = (h) => h ? `<span class="pill">${esc(h)}</span>` : "";
+    $("listaVoos").innerHTML = V.trajetos.map((v) => {
+      const carro = v.tipo === "carro";
+      const titulo = carro ? "🚗 De carro" : `✈️ ${esc([v.companhia, v.voo].filter(Boolean).join(" ") || "Voo a confirmar")}`;
+      return `<div class="card">
         <div class="label">${esc(v.trecho)}</div>
-        <div class="big">${esc(v.companhia)} ${esc(v.voo)}</div>
+        <div class="big">${titulo}</div>
         <div class="voo-rota">
-          <div><div class="ap">${esc(v.sai.aeroporto)}</div><div class="muted">${esc(v.sai.cidade)}</div></div>
-          <div class="seta">✈</div>
-          <div class="dir"><div class="ap">${esc(v.chega.aeroporto)}</div><div class="muted">${esc(v.chega.cidade)}</div></div>
+          <div><div class="ap">${esc(v.sai.sigla)}</div><div class="muted">${esc(v.sai.cidade)}</div></div>
+          <div class="seta">${carro ? "🛣️" : "✈"}</div>
+          <div class="dir"><div class="ap">${esc(v.chega.sigla)}</div><div class="muted">${esc(v.chega.cidade)}</div></div>
         </div>
         <div class="voo-rota" style="margin:0">
-          <div><span class="pill">${esc(v.sai.hora)}</span><div class="muted" style="font-size:.9rem">${esc(curto(v.sai.data))}</div></div>
+          <div>${horaPill(v.sai.hora)}<div class="muted" style="font-size:.9rem">${esc(curto(v.sai.data))}</div></div>
           <div></div>
-          <div class="dir"><span class="pill">${esc(v.chega.hora)}</span><div class="muted" style="font-size:.9rem">${esc(curto(v.chega.data))}</div></div>
+          <div class="dir">${horaPill(v.chega.hora)}<div class="muted" style="font-size:.9rem">${carro ? "" : esc(curto(v.chega.data))}</div></div>
         </div>
         ${v.obs ? `<div class="muted" style="margin-top:10px">${esc(v.obs)}</div>` : ""}
-      </div>`).join("");
+      </div>`;
+    }).join("");
 
     // ---------- Hotéis ----------
     $("listaHoteis").innerHTML = V.hoteis.map((H) => {
@@ -405,7 +373,7 @@
       return `<div class="card hotel">
         <div class="label">${esc(H.cidade)}</div>
         <h3>${esc(H.nome)}</h3>
-        <div class="muted">📍 ${esc(H.endereco)}</div>
+        <div class="muted">📍 ${esc(H.endereco || "Endereço a confirmar")}</div>
         <div class="rows">
           <div><div class="label">Check-in</div><div class="big">${esc(curto(H.checkin))}</div>${H.horaCheckin ? `<div class="muted">a partir das ${esc(H.horaCheckin)}</div>` : ""}</div>
           <div><div class="label">Check-out</div><div class="big">${esc(curto(H.checkout))}</div>${H.horaCheckout ? `<div class="muted">até ${esc(H.horaCheckout)}</div>` : ""}</div>
@@ -413,12 +381,12 @@
         </div>
         ${H.obs ? `<p style="margin:0">${esc(H.obs)}</p>` : ""}
         <div class="btns">
-          <a class="btn" href="${mapa(q)}" target="_blank" rel="noopener">🗺️ Abrir no mapa</a>
+          ${H.endereco ? `<a class="btn" href="${mapa(q)}" target="_blank" rel="noopener">🗺️ Abrir no mapa</a>` : ""}
           ${H.telefone ? `<a class="btn ghost" href="${tel(H.telefone)}">📞 ${esc(H.telefone)}</a>` : ""}
           ${H.site ? `<a class="btn ghost" href="${esc(H.site)}" target="_blank" rel="noopener">🌐 Site</a>` : ""}
         </div>
-        <iframe class="map" loading="lazy" title="Mapa – ${esc(H.nome)}"
-          src="https://maps.google.com/maps?q=${encodeURIComponent(q)}&output=embed"></iframe>
+        ${H.endereco ? `<iframe class="map" loading="lazy" title="Mapa – ${esc(H.nome)}"
+          src="https://maps.google.com/maps?q=${encodeURIComponent(q)}&output=embed"></iframe>` : ""}
       </div>`;
     }).join("");
 
