@@ -158,10 +158,25 @@
     display: grid; align-content: end;
     background: #0d1626;
   }
-  .postal .foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+  .postal .foto {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2;
+    opacity: 0; transform: scale(1.06); transition: opacity 1.4s ease, transform 7s ease-out;
+  }
+  .postal .foto.on { opacity: 1; transform: scale(1); }
+  .postal .legenda {
+    position: absolute; top: 18px; right: 18px; z-index: 1;
+    font: 500 .72rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase;
+    padding: 8px 12px; border-radius: 999px; background: rgba(5,10,20,.45); border: 1px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .postal .pontos { display: flex; gap: 6px; }
+  .postal .pontos button { width: 22px; height: 3px; padding: 0; border: 0; border-radius: 2px; background: rgba(255,255,255,.35); cursor: pointer; }
+  .postal .pontos button[aria-current="true"] { background: #fff; }
   .postal::after {
     content: ""; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(5,10,20,0) 30%, rgba(5,10,20,.55) 62%, rgba(5,10,20,.88) 100%);
+    background:
+      linear-gradient(90deg, rgba(5,10,20,.55) 0%, rgba(5,10,20,0) 65%),
+      linear-gradient(180deg, rgba(5,10,20,0) 30%, rgba(5,10,20,.55) 62%, rgba(5,10,20,.88) 100%);
   }
   .postal .cena { position: absolute; inset: 0; z-index: -2; }
   .postal .txt { padding: clamp(22px, 4vw, 40px); display: grid; gap: 12px; max-width: 640px; }
@@ -596,18 +611,22 @@
     ).join("");
 
     // Destinos (cartões-postais)
-    $("etapas").innerHTML = V.destinos.map((d, i) => `<article class="postal">
-        ${d.foto ? `<img class="foto" src="${esc(d.foto)}" alt="${esc(tx(d.cidade))}" loading="lazy">` : `<div class="cena ${esc(d.tema)}" data-tema="${esc(d.tema)}">${CENAS[d.tema] || ""}</div>`}
+    $("etapas").innerHTML = V.destinos.map((d, i) => `<article class="postal" data-i="${i}">
+        ${fotosDe(d).length
+          ? fotosDe(d).map((f, k) => `<img class="foto ${k ? "" : "on"}" src="${esc(f.src)}" alt="${esc(tx(f.legenda) || tx(d.cidade))}" ${k ? 'loading="lazy"' : ""}>`).join("")
+            + `<span class="legenda">${esc(tx(fotosDe(d)[0].legenda))}</span>`
+          : `<div class="cena ${esc(d.tema)}" data-tema="${esc(d.tema)}">${CENAS[d.tema] || ""}</div>`}
         <div class="txt">
           <span class="n">${String(i + 1).padStart(2, "0")} · ${esc(curto(d.de))} → ${esc(curto(d.ate))}</span>
           <h3>${esc(tx(d.cidade))}</h3>
           ${tx(d.frase) ? `<p class="frase">${esc(tx(d.frase))}</p>` : ""}
           ${d.destaques ? `<div class="chips">${d.destaques.map((x) => `<span>${esc(tx(x))}</span>`).join("")}</div>` : ""}
           ${tx(d.obs) ? `<div class="obs">${esc(tx(d.obs))}</div>` : ""}
-          ${d.galeria && d.galeria.length ? `<div class="galeria">${d.galeria.map((g) => `<figure><img src="${esc(g.foto)}" alt="${esc(tx(g.legenda))}" loading="lazy"><figcaption>${esc(tx(g.legenda))}</figcaption></figure>`).join("")}</div>` : ""}
+          ${fotosDe(d).length > 1 ? `<div class="pontos">${fotosDe(d).map((f, k) => `<button type="button" data-ir="${k}" aria-label="${esc(tx(f.legenda))}" aria-current="${!k}"></button>`).join("")}</div>` : ""}
         </div>
       </article>`).join("");
     animaCenas();
+    iniciaSlides();
 
     // Cartões de embarque
     $("listaVoos").innerHTML = V.trajetos.map((v) => {
@@ -782,6 +801,36 @@
     ents.forEach((en) => { if (en.isIntersecting) links.forEach((a) => a.classList.toggle("ativo", a.getAttribute("href") === "#" + en.target.id)); });
   }, { rootMargin: "-40% 0px -55% 0px" });
   document.querySelectorAll("main section").forEach((s) => obs.observe(s));
+
+  // ---------- Fotos que passam sozinhas ----------
+  // Aceita "fotos: [{ src, legenda }]" ou o formato antigo "foto: '...'".
+  const fotosDe = (d) => d.fotos && d.fotos.length ? d.fotos : d.foto ? [{ src: d.foto, legenda: "" }] : [];
+  let slideTimer = null;
+  function mostra(postal, i) {
+    const imgs = postal.querySelectorAll(".foto");
+    if (!imgs.length) return;
+    i = (i + imgs.length) % imgs.length;
+    imgs.forEach((im, k) => im.classList.toggle("on", k === i));
+    postal.querySelectorAll(".pontos button").forEach((b, k) => b.setAttribute("aria-current", k === i));
+    const d = V.destinos[+postal.dataset.i];
+    postal.querySelector(".legenda").textContent = tx(fotosDe(d)[i].legenda);
+    postal.dataset.atual = i;
+  }
+  function iniciaSlides() {
+    clearInterval(slideTimer);
+    const postais = [...document.querySelectorAll(".postal")].filter((p) => p.querySelectorAll(".foto").length > 1);
+    if (!postais.length || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let passo = 0;
+    // Troca um cartão por vez, em sequência, a cada 2,5 s (cada cartão muda a cada ~7 s)
+    slideTimer = setInterval(() => {
+      const p = postais[passo++ % postais.length];
+      if (!p.matches(":hover")) mostra(p, (+p.dataset.atual || 0) + 1);
+    }, 2500);
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest(".pontos button"); if (!b) return;
+    mostra(b.closest(".postal"), +b.dataset.ir);
+  });
 
   // ---------- Cenas temáticas dos destinos ----------
   const CENAS = {

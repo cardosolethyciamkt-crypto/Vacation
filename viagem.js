@@ -39,8 +39,10 @@ const VIAGEM = {
     {
       cidade: { pt: "Nova York", en: "New York" }, de: "2026-12-19", ate: "2026-12-22",
       tema: "neve",
-      // Foto: coloque o arquivo na pasta "fotos" e escreva o nome aqui. Ex.: "fotos/nova-york.jpg"
-      foto: "fotos/nova-york.jpg",
+      // Fotos que passam sozinhas no cartão. Coloque os arquivos na pasta "fotos".
+      fotos: [
+        { src: "fotos/nova-york.jpg", legenda: { pt: "Árvore do Rockefeller Center", en: "Rockefeller Center Tree" } },
+      ],
       frase: { pt: "Natal de filme: neve, luzes e frio de verdade.", en: "A movie-style Christmas: snow, lights and real winter." },
       destaques: [
         { pt: "Árvore do Rockefeller", en: "Rockefeller Tree" },
@@ -53,7 +55,10 @@ const VIAGEM = {
     {
       cidade: "Miami", de: "2026-12-22", ate: "2026-12-24",
       tema: "sol",
-      foto: "fotos/miami.jpg",
+      fotos: [
+        { src: "fotos/miami.jpg", legenda: { pt: "South Beach", en: "South Beach" } },
+        { src: "fotos/miami-praia.jpg", legenda: { pt: "Praia e skyline de Miami Beach", en: "Miami Beach shore and skyline" } },
+      ],
       frase: { pt: "Sol, mar azul e o skyline de Brickell.", en: "Sunshine, blue water and the Brickell skyline." },
       destaques: [
         { pt: "South Beach", en: "South Beach" },
@@ -66,7 +71,11 @@ const VIAGEM = {
     {
       cidade: "Orlando", de: "2026-12-24", ate: "2027-01-05",
       tema: "parque",
-      foto: "fotos/orlando-disney.jpg",
+      fotos: [
+        { src: "fotos/orlando-disney.jpg", legenda: { pt: "Castelo da Cinderela · Disney", en: "Cinderella Castle · Disney" } },
+        { src: "fotos/orlando-universal.jpg", legenda: { pt: "Universal Studios", en: "Universal Studios" } },
+        { src: "fotos/orlando-outlets.jpg", legenda: { pt: "Orlando Premium Outlets", en: "Orlando Premium Outlets" } },
+      ],
       frase: { pt: "Parques, fogos de Réveillon e muitas compras.", en: "Theme parks, New Year's fireworks and lots of shopping." },
       destaques: [
         { pt: "Disney", en: "Disney" },
@@ -95,6 +104,21 @@ const VIAGEM = {
       oque: { pt: "Castelo da Cinderela, Magic Kingdom", en: "Cinderella Castle, Magic Kingdom" },
       autor: "Carlos Cruz (Rstoplabe14)", licenca: "CC BY-SA 3.0",
       link: "https://commons.wikimedia.org/wiki/File:Cinderella_Castle_@_Magic_Kingdom.jpg",
+    },
+    {
+      oque: { pt: "Praia de Miami Beach", en: "Miami Beach shore" },
+      autor: "Cristo Vlahos", licenca: "CC BY-SA 4.0",
+      link: "https://commons.wikimedia.org/wiki/File:Mia_beach.jpeg",
+    },
+    {
+      oque: { pt: "Globo da Universal", en: "Universal globe" },
+      autor: "ThrillZing", licenca: "CC BY 4.0",
+      link: "https://commons.wikimedia.org/wiki/File:The_Universal_globe_and_fountain_with_palms_behind,_Universal_Studios_Florida,_June_2006_-_ThrillZing.jpg",
+    },
+    {
+      oque: { pt: "Orlando Premium Outlets", en: "Orlando Premium Outlets" },
+      autor: "Miosotis Jade", licenca: "CC BY-SA 4.0",
+      link: "https://commons.wikimedia.org/wiki/File:Orlando_Premium_Outlets_02.JPG",
     },
   ],
 
