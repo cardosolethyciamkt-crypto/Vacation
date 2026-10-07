@@ -212,6 +212,33 @@
   .cena canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
   .cena .skyline { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 46%; }
 
+  /* Memórias da última viagem */
+  .mem-palco {
+    position: relative; overflow: hidden; border-radius: 20px; background: #0a1222;
+    aspect-ratio: 16 / 10; max-height: 78vh; width: 100%; max-width: 100%;
+  }
+  .mem-palco .fundo { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); object-fit: cover; filter: blur(28px) brightness(.55) saturate(1.2); }
+  .mem-palco .principal { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .9s ease; }
+  .mem-palco .principal.saindo { opacity: 0; }
+  .mem-palco::after { content: ""; position: absolute; inset: auto 0 0 0; height: 45%; background: linear-gradient(transparent, rgba(5,10,20,.8)); pointer-events: none; }
+  .mem-legenda { position: absolute; left: clamp(16px, 3vw, 28px); bottom: clamp(16px, 3vw, 26px); right: 120px; z-index: 2; color: #fff; display: grid; gap: 6px; }
+  .mem-legenda .onde { font: 500 .72rem/1 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: #e8c987; }
+  .mem-legenda .txt { font-family: var(--f-display); font-size: clamp(1.4rem, 3.6vw, 2.2rem); line-height: 1.1; text-wrap: balance; }
+  .mem-cont { position: absolute; top: 16px; right: 16px; z-index: 2; font: 500 .75rem/1 var(--f-mono); color: #fff; padding: 8px 12px; border-radius: 999px; background: rgba(5,10,20,.45); border: 1px solid rgba(255,255,255,.2); }
+  .mem-nav { position: absolute; right: 16px; bottom: 16px; z-index: 2; display: flex; gap: 8px; }
+  .mem-nav button {
+    width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; color: #fff;
+    background: rgba(5,10,20,.45); border: 1px solid rgba(255,255,255,.3); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .mem-barra { position: absolute; left: 0; top: 0; height: 2px; background: #e8c987; z-index: 3; width: 0; }
+  .mem-barra.anda { animation: mem-anda var(--mem-t, 5s) linear forwards; }
+  @keyframes mem-anda { to { width: 100%; } }
+  .mem-thumbs { display: flex; gap: 8px; overflow-x: auto; padding: 12px 2px 4px; scrollbar-width: thin; }
+  .mem-thumbs button { flex: none; width: 64px; height: 64px; padding: 0; border-radius: 10px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: .55; background: var(--line); }
+  .mem-thumbs button[aria-current="true"] { border-color: var(--gold); opacity: 1; }
+  .mem-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 600px) { .mem-palco { aspect-ratio: 4 / 5; } .mem-legenda { right: 16px; bottom: 76px; } }
+
   /* Cartões de embarque */
   .passes { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); }
   .pass {
@@ -376,6 +403,7 @@
 <nav>
   <div class="wrap">
     <a href="#destinos" data-i18n="navDestinos"></a>
+    <a href="#memorias" data-i18n="navMemorias" id="navMem" hidden></a>
     <a href="#voos" data-i18n="navTrajetos"></a>
     <a href="#hotel" data-i18n="navHoteis"></a>
     <a href="#roteiro" data-i18n="navRoteiro"></a>
@@ -391,6 +419,25 @@
       <h2 data-i18n="tDestinos"></h2>
     </div>
     <div class="postais" id="etapas"></div>
+  </section>
+
+  <section id="memorias" hidden>
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="eMemorias"></span>
+      <h2 data-i18n="tMemorias"></h2>
+    </div>
+    <div class="mem-palco" id="memPalco">
+      <span class="mem-barra" id="memBarra"></span>
+      <img class="fundo" id="memFundo" alt="" aria-hidden="true">
+      <img class="principal" id="memFoto" alt="">
+      <span class="mem-cont" id="memCont"></span>
+      <div class="mem-legenda"><span class="onde" id="memOnde"></span><span class="txt" id="memTxt"></span></div>
+      <div class="mem-nav">
+        <button type="button" id="memAnt" data-i18n-aria="anterior">‹</button>
+        <button type="button" id="memProx" data-i18n-aria="proxima">›</button>
+      </div>
+    </div>
+    <div class="mem-thumbs" id="memThumbs"></div>
   </section>
 
   <section id="voos">
@@ -452,6 +499,7 @@
 <footer class="wrap"><p data-i18n="rodape"></p><div class="creditos" id="creditos"></div></footer>
 
 <script src="viagem.js"></script>
+<script src="memorias.js"></script>
 <script>
   const V = VIAGEM;
   const $ = (id) => document.getElementById(id);
@@ -488,6 +536,7 @@
       prontos: (f, t, p) => `${f}/${t} itens · ${p}%`, malaPronta: "Mala pronta.",
       salvoAqui: "As marcações ficam salvas neste aparelho. Cada pessoa usa o seu.",
       rodape: "Feito para a nossa família.", fotos: "Fotos",
+      navMemorias: "Memórias", eMemorias: "Da última viagem", tMemorias: "Nossas memórias", anterior: "Foto anterior", proxima: "Próxima foto",
     },
     en: {
       marca: "Holiday trip · <b>2026/27</b>",
@@ -514,6 +563,7 @@
       prontos: (f, t, p) => `${f}/${t} items · ${p}%`, malaPronta: "All packed.",
       salvoAqui: "Your checks are saved on this device. Each person uses their own.",
       rodape: "Made for our family.", fotos: "Photos",
+      navMemorias: "Memories", eMemorias: "From our last trip", tMemorias: "Our memories", anterior: "Previous photo", proxima: "Next photo",
     },
   };
 
@@ -585,6 +635,7 @@
     document.documentElement.lang = lang === "en" ? "en" : "pt-BR";
     document.title = tx(V.titulo);
     document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = L()[el.dataset.i18n]; });
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => el.setAttribute("aria-label", L()[el.dataset.i18nAria]));
     document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === lang));
     $("pessoa").placeholder = L().seuNome;
     $("marca").innerHTML = L().marca;
@@ -702,6 +753,7 @@
 
     renderChecklist();
     renderLimpar(false);
+    renderMemorias();
 
     // Créditos das fotos (exigidos pelas licenças Creative Commons)
     $("creditos").innerHTML = (V.creditos || []).length
@@ -801,6 +853,58 @@
     ents.forEach((en) => { if (en.isIntersecting) links.forEach((a) => a.classList.toggle("ativo", a.getAttribute("href") === "#" + en.target.id)); });
   }, { rootMargin: "-40% 0px -55% 0px" });
   document.querySelectorAll("main section").forEach((s) => obs.observe(s));
+
+  // ---------- Memórias (fotos da última viagem) ----------
+  const MEM = typeof MEMORIAS !== "undefined" ? MEMORIAS : [];
+  const MEM_T = 5000;
+  let memI = 0, memTimer = null, memPausa = false;
+  function memMostra(i, anima = true) {
+    if (!MEM.length) return;
+    memI = (i + MEM.length) % MEM.length;
+    const m = MEM[memI], foto = $("memFoto");
+    const troca = () => {
+      foto.src = m.src; foto.alt = m[lang] || m.pt; $("memFundo").src = m.src;
+      foto.classList.remove("saindo");
+    };
+    if (anima && foto.src) { foto.classList.add("saindo"); setTimeout(troca, 450); } else troca();
+    $("memOnde").textContent = m.onde || "";
+    $("memTxt").textContent = m[lang] || m.pt;
+    $("memCont").textContent = `${String(memI + 1).padStart(2, "0")} / ${String(MEM.length).padStart(2, "0")}`;
+    $("memThumbs").querySelectorAll("button").forEach((b, k) => b.setAttribute("aria-current", k === memI));
+    const atual = $("memThumbs").children[memI];
+    if (atual) $("memThumbs").scrollTo({ left: atual.offsetLeft - $("memThumbs").clientWidth / 2 + 32, behavior: anima ? "smooth" : "auto" });
+    // pré-carrega a próxima
+    const prox = new Image(); prox.src = MEM[(memI + 1) % MEM.length].src;
+    memAgenda();
+  }
+  function memAgenda() {
+    clearTimeout(memTimer);
+    const barra = $("memBarra");
+    barra.classList.remove("anda"); void barra.offsetWidth;
+    if (memPausa || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    barra.style.setProperty("--mem-t", MEM_T + "ms"); barra.classList.add("anda");
+    memTimer = setTimeout(() => memMostra(memI + 1), MEM_T);
+  }
+  function renderMemorias() {
+    if (!MEM.length) return;
+    $("memorias").hidden = false; $("navMem").hidden = false;
+    if (!$("memThumbs").children.length) {
+      $("memThumbs").innerHTML = MEM.map((m, k) => `<button type="button" data-k="${k}" aria-label="${esc(m.pt)}"><img src="${esc(m.src)}" alt="" loading="lazy"></button>`).join("");
+      memMostra(0, false);
+    } else memMostra(memI, false);
+  }
+  if (MEM.length) {
+    $("memAnt").addEventListener("click", () => memMostra(memI - 1));
+    $("memProx").addEventListener("click", () => memMostra(memI + 1));
+    $("memThumbs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) memMostra(+b.dataset.k); });
+    const palco = $("memPalco");
+    palco.addEventListener("mouseenter", () => { memPausa = true; memAgenda(); });
+    palco.addEventListener("mouseleave", () => { memPausa = false; memAgenda(); });
+    let x0 = null;
+    palco.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    palco.addEventListener("touchend", (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) memMostra(memI + (dx < 0 ? 1 : -1)); x0 = null; });
+    document.addEventListener("visibilitychange", () => { memPausa = document.hidden; memAgenda(); });
+  }
 
   // ---------- Fotos que passam sozinhas ----------
   // Aceita "fotos: [{ src, legenda }]" ou o formato antigo "foto: '...'".

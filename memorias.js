@@ -1,0 +1,28 @@
+/* Fotos da última viagem da família (pasta "memorias").
+   Para adicionar uma foto: envie o arquivo para a pasta "memorias" e copie uma linha abaixo. */
+const MEMORIAS = [
+  { src: "memorias/16.jpg", pt: "Main Street iluminada para o Natal", en: "Main Street lit up for Christmas", onde: "Magic Kingdom" },
+  { src: "memorias/18.jpg", pt: "A turma toda na entrada do parque", en: "The whole crew at the park gates", onde: "Magic Kingdom" },
+  { src: "memorias/04.jpg", pt: "Fogos sobre o castelo", en: "Fireworks over the castle", onde: "Magic Kingdom" },
+  { src: "memorias/19.jpg", pt: "Todo mundo com o Mickey", en: "Everyone with Mickey", onde: "Town Square Theater" },
+  { src: "memorias/13.jpg", pt: "Noite de NBA", en: "NBA night", onde: "Kia Center · Orlando" },
+  { src: "memorias/09.jpg", pt: "A família reunida em casa", en: "The family together at the house", onde: "Orlando" },
+  { src: "memorias/22.jpg", pt: "Sol, céu azul e Natal na Disney", en: "Blue skies and Christmas at Disney", onde: "Magic Kingdom" },
+  { src: "memorias/05.jpg", pt: "Chegando na Universal", en: "Arriving at Universal", onde: "Universal Orlando" },
+  { src: "memorias/07.jpg", pt: "Com o Shrek e a Fiona", en: "With Shrek and Fiona", onde: "Universal Studios" },
+  { src: "memorias/12.jpg", pt: "Tarde na marina", en: "Afternoon at the marina", onde: "Bayside · Miami" },
+  { src: "memorias/17.jpg", pt: "Parada no Hard Rock", en: "A stop at the Hard Rock", onde: "Miami" },
+  { src: "memorias/06.jpg", pt: "Encontro com o Mickey", en: "Meeting Mickey", onde: "Town Square Theater" },
+  { src: "memorias/15.jpg", pt: "Selfie no meio da selva", en: "Jungle selfie", onde: "Animal Kingdom" },
+  { src: "memorias/02.jpg", pt: "Um brinde à viagem", en: "A toast to the trip", onde: "Disney Springs" },
+  { src: "memorias/10.jpg", pt: "Doce parada na M&M's", en: "A sweet stop at M&M's", onde: "Orlando" },
+  { src: "memorias/14.jpg", pt: "Pizza boa demais", en: "Pizza worth the trip", onde: "Ben's Pizza" },
+  { src: "memorias/11.jpg", pt: "Pai e filhos na Universal", en: "Father and kids at Universal", onde: "Universal Orlando" },
+  { src: "memorias/25.jpg", pt: "Mais uma com o Mickey", en: "One more with Mickey", onde: "Town Square Theater" },
+  { src: "memorias/23.jpg", pt: "Sorrisos na fila", en: "Smiles in line", onde: "Animal Kingdom" },
+  { src: "memorias/03.jpg", pt: "Selfie no Animal Kingdom", en: "Animal Kingdom selfie", onde: "Animal Kingdom" },
+  { src: "memorias/24.jpg", pt: "Esperando a próxima atração", en: "Waiting for the next ride", onde: "Universal Studios" },
+  { src: "memorias/20.jpg", pt: "Jantar em família", en: "Family dinner", onde: "Orlando" },
+  { src: "memorias/21.jpg", pt: "Café ao sol", en: "Coffee in the sun", onde: "Florida" },
+  { src: "memorias/08.jpg", pt: "Fila, mas com estilo", en: "In line, in style", onde: "Universal Studios" },
+];
