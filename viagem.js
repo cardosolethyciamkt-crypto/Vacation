@@ -40,7 +40,7 @@ const VIAGEM = {
       cidade: { pt: "Nova York", en: "New York" }, de: "2026-12-19", ate: "2026-12-22",
       tema: "neve",
       // Foto: coloque o arquivo na pasta "fotos" e escreva o nome aqui. Ex.: "fotos/nova-york.jpg"
-      foto: "",
+      foto: "fotos/nova-york.jpg",
       frase: { pt: "Natal de filme: neve, luzes e frio de verdade.", en: "A movie-style Christmas: snow, lights and real winter." },
       destaques: [
         { pt: "Árvore do Rockefeller", en: "Rockefeller Tree" },
@@ -53,7 +53,7 @@ const VIAGEM = {
     {
       cidade: "Miami", de: "2026-12-22", ate: "2026-12-24",
       tema: "sol",
-      foto: "",
+      foto: "fotos/miami.jpg",
       frase: { pt: "Sol, mar azul e o skyline de Brickell.", en: "Sunshine, blue water and the Brickell skyline." },
       destaques: [
         { pt: "South Beach", en: "South Beach" },
@@ -75,6 +75,21 @@ const VIAGEM = {
         { pt: "Jogo da NBA", en: "NBA game" },
       ],
       obs: { pt: "Natal e Réveillon · passeios a definir", en: "Christmas and New Year's · activities TBD" },
+    },
+  ],
+
+  // ---------------- Créditos das fotos ----------------
+  // As licenças Creative Commons pedem o nome do autor. Mantenha esta lista atualizada.
+  creditos: [
+    {
+      oque: { pt: "Árvore do Rockefeller Center", en: "Rockefeller Center Tree" },
+      autor: "JJonahJackalope", licenca: "CC BY-SA 4.0",
+      link: "https://commons.wikimedia.org/wiki/File:Rockefeller_Center_Christmas_Tree,_2023-12-02.jpg",
+    },
+    {
+      oque: { pt: "Posto de salva-vidas em Miami Beach", en: "Miami Beach lifeguard stand" },
+      autor: "Radomianin", licenca: "CC BY-SA 4.0",
+      link: "https://commons.wikimedia.org/wiki/File:Lifeguard_stand,_Miami_Beach.jpg",
     },
   ],
 
