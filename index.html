@@ -83,19 +83,6 @@
     padding: 7px 12px; border-radius: 999px; cursor: pointer;
   }
   .lang button[aria-pressed="true"] { background: var(--night-ink); color: var(--night); }
-  .controles { display: flex; gap: 8px; align-items: center; }
-  .musica {
-    display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
-    font: 500 .75rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase;
-    color: var(--night-ink); background: none; border: 1px solid var(--night-line); border-radius: 999px; padding: 9px 14px;
-  }
-  .musica:hover { border-color: var(--night-gold); }
-  .musica .eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 12px; }
-  .musica .eq i { width: 2px; height: 4px; background: var(--night-gold); border-radius: 1px; }
-  .musica[aria-pressed="true"] .eq i { animation: eq 1s ease-in-out infinite; }
-  .musica[aria-pressed="true"] .eq i:nth-child(2) { animation-delay: .2s; }
-  .musica[aria-pressed="true"] .eq i:nth-child(3) { animation-delay: .4s; }
-  @keyframes eq { 0%, 100% { height: 3px; } 50% { height: 12px; } }
 
   .hero h1 {
     font-family: var(--f-display);
@@ -392,18 +379,12 @@
 
 <header class="hero">
   <canvas id="ceu" aria-hidden="true"></canvas>
-  <audio id="audio" loop preload="none"></audio>
   <div class="wrap">
     <div class="topbar">
       <div class="marca" id="marca"></div>
-      <div class="controles">
-        <button type="button" class="musica" id="musicaBtn" aria-pressed="false" hidden>
-          <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="musicaTxt"></span>
-        </button>
-        <div class="lang" role="group" aria-label="Idioma / Language">
-          <button type="button" data-lang="pt" aria-pressed="true">PT</button>
-          <button type="button" data-lang="en" aria-pressed="false">EN</button>
-        </div>
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
     </div>
     <h1 id="titulo"></h1>
@@ -555,7 +536,7 @@
       prontos: (f, t, p) => `${f}/${t} itens · ${p}%`, malaPronta: "Mala pronta.",
       salvoAqui: "As marcações ficam salvas neste aparelho. Cada pessoa usa o seu.",
       rodape: "Feito para a nossa família.", fotos: "Fotos",
-      navMemorias: "Memórias", tocar: "Música", pausar: "Pausar", eMemorias: "Da última viagem", tMemorias: "Nossas memórias", anterior: "Foto anterior", proxima: "Próxima foto",
+      navMemorias: "Memórias", eMemorias: "Da última viagem", tMemorias: "Nossas memórias", anterior: "Foto anterior", proxima: "Próxima foto",
     },
     en: {
       marca: "Holiday trip · <b>2026/27</b>",
@@ -582,7 +563,7 @@
       prontos: (f, t, p) => `${f}/${t} items · ${p}%`, malaPronta: "All packed.",
       salvoAqui: "Your checks are saved on this device. Each person uses their own.",
       rodape: "Made for our family.", fotos: "Photos",
-      navMemorias: "Memories", tocar: "Music", pausar: "Pause", eMemorias: "From our last trip", tMemorias: "Our memories", anterior: "Previous photo", proxima: "Next photo",
+      navMemorias: "Memories", eMemorias: "From our last trip", tMemorias: "Our memories", anterior: "Previous photo", proxima: "Next photo",
     },
   };
 
@@ -773,7 +754,6 @@
     renderChecklist();
     renderLimpar(false);
     renderMemorias();
-    $("musicaTxt").textContent = $("audio").paused ? L().tocar : L().pausar;
 
     // Créditos das fotos (exigidos pelas licenças Creative Commons)
     $("creditos").innerHTML = (V.creditos || []).length
@@ -873,21 +853,6 @@
     ents.forEach((en) => { if (en.isIntersecting) links.forEach((a) => a.classList.toggle("ativo", a.getAttribute("href") === "#" + en.target.id)); });
   }, { rootMargin: "-40% 0px -55% 0px" });
   document.querySelectorAll("main section").forEach((s) => obs.observe(s));
-
-  // ---------- Música (o navegador só deixa tocar depois de um toque) ----------
-  (function musica() {
-    const audio = $("audio"), btn = $("musicaBtn");
-    if (!V.musica) return;
-    audio.src = V.musica.src; audio.volume = .45;
-    btn.hidden = false;
-    btn.addEventListener("click", async () => {
-      if (audio.paused) { try { await audio.play(); } catch { return; } }
-      else audio.pause();
-    });
-    const sync = () => { btn.setAttribute("aria-pressed", !audio.paused); $("musicaTxt").textContent = audio.paused ? L().tocar : L().pausar; };
-    audio.addEventListener("play", sync); audio.addEventListener("pause", sync);
-    audio.addEventListener("error", () => { btn.hidden = true; });
-  })();
 
   // ---------- Memórias (fotos da última viagem) ----------
   const MEM = typeof MEMORIAS !== "undefined" ? MEMORIAS : [];
