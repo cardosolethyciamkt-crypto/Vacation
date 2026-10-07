@@ -187,6 +187,30 @@
     .contato:first-child { border-top: 0; }
     .contato a { font-weight: 800; text-decoration: none; white-space: nowrap; }
 
+    /* Família */
+    .fam-resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 14px; }
+    .fam-resumo .card { padding: 16px; text-align: center; }
+    .fam-resumo strong { display: block; font-family: "Fraunces", serif; font-size: 2rem; line-height: 1.1; color: var(--accent); }
+    .grupo h3 { font-family: "Nunito", sans-serif; font-size: 1.05rem; font-weight: 800; }
+    .grupo .aviso { font-size: .9rem; background: var(--sea-soft); color: var(--ink); padding: 6px 10px; border-radius: 10px; margin: 8px 0 0; }
+    .pessoas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .pessoa { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px 4px 4px; }
+    .avatar { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--accent); font-size: .9rem; flex: none; }
+    .pessoa small { color: var(--muted); }
+
+    /* Destinos */
+    .etapas { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .etapa { position: relative; }
+    .etapa .emoji { font-size: 2rem; }
+    .etapa .num { position: absolute; top: 14px; right: 16px; color: var(--muted); font-weight: 800; }
+
+    /* Voos */
+    .voo-rota { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; margin: 10px 0; }
+    .voo-rota .ap { font-family: "Fraunces", serif; font-size: 1.7rem; font-weight: 800; line-height: 1; }
+    .voo-rota .dir { text-align: right; }
+    .voo-rota .seta { color: var(--muted); font-size: 1.3rem; }
+    .hotel + .hotel { margin-top: 14px; }
+
     footer { text-align: center; color: var(--muted); padding: 24px 16px 40px; font-size: .9rem; }
   </style>
 </head>
@@ -208,22 +232,36 @@
   </header>
 
   <nav>
-    <a href="#resumo">📅 Datas</a>
-    <a href="#hotel">🏨 Hotel</a>
+    <a href="#familia">👨‍👩‍👧‍👦 Quem vai</a>
+    <a href="#destinos">🌎 Destinos</a>
+    <a href="#voos">✈️ Voos</a>
+    <a href="#hotel">🏨 Hotéis</a>
     <a href="#roteiro">🗺️ Roteiro</a>
     <a href="#checklist">✅ Checklist</a>
     <a href="#contatos">📞 Contatos</a>
   </nav>
 
   <main>
-    <section id="resumo">
-      <h2>Datas e transporte</h2>
-      <div class="grid" id="transporte"></div>
+    <section id="familia">
+      <h2>Quem vai</h2>
+      <div class="fam-resumo" id="famResumo"></div>
+      <div class="grid" id="grupos"></div>
+    </section>
+
+    <section id="destinos">
+      <h2>Destinos</h2>
+      <div class="etapas" id="etapas"></div>
+    </section>
+
+    <section id="voos">
+      <h2>Voos</h2>
+      <p class="muted" style="margin-top:-8px">Todos os horários estão no horário local de cada cidade.</p>
+      <div class="grid" id="listaVoos"></div>
     </section>
 
     <section id="hotel">
       <h2>Onde vamos ficar</h2>
-      <div class="card hotel" id="hotelCard"></div>
+      <div id="listaHoteis"></div>
     </section>
 
     <section id="roteiro">
@@ -283,8 +321,8 @@
     $("titulo").textContent = V.titulo;
     $("frase").textContent = V.frase;
 
-    const partida = data(V.partida);
-    const retorno = data(V.retorno);
+    const partida = new Date(V.partida);
+    const retorno = V.retorno ? data(V.retorno) : null;
 
     function tick() {
       const agora = new Date();
@@ -295,10 +333,11 @@
         $("h").textContent = String(Math.floor((s % 86400) / 3600)).padStart(2, "0");
         $("m").textContent = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
         $("s").textContent = String(s % 60).padStart(2, "0");
-        $("sub").textContent = "até a partida · " + fmtDia(partida) + " às " + fmtHora(partida);
-      } else if (agora < retorno) {
+        const tz = { timeZone: "America/Sao_Paulo" };
+        $("sub").textContent = "até a partida · " + partida.toLocaleDateString("pt-BR", { ...tz, weekday: "long", day: "numeric", month: "long" }) + " às " + partida.toLocaleTimeString("pt-BR", { ...tz, hour: "2-digit", minute: "2-digit" }) + " (Curitiba)";
+      } else if (!retorno || agora < retorno) {
         $("contador").innerHTML = '<div class="chegou">🎉 Estamos de férias! Aproveitem! 🎉</div>';
-        $("sub").textContent = "Volta: " + fmtDia(retorno);
+        $("sub").textContent = retorno ? "Volta: " + fmtDia(retorno) : "";
         return true;
       } else {
         $("contador").innerHTML = '<div class="chegou">Que viagem incrível! Até a próxima 💛</div>';
@@ -308,38 +347,80 @@
     }
     if (!tick()) { const timer = setInterval(() => { if (tick()) clearInterval(timer); }, 1000); }
 
-    // ---------- Transporte ----------
-    $("transporte").innerHTML = V.transporte.map((t) => {
-      const q = data(t.quando);
-      return `<div class="card">
-        <div class="label">${esc(t.tipo)}</div>
-        <div class="big">${esc(fmtDia(q))}</div>
-        <div><span class="pill">${esc(fmtHora(q))}</span></div>
-        <p style="margin:10px 0 4px">${esc(t.detalhe)}</p>
-        ${t.obs ? `<div class="muted">${esc(t.obs)}</div>` : ""}
+    const curto = (txt) => txt ? fmtCurto(data(txt)) : "a confirmar";
+
+    // ---------- Família ----------
+    const todos = V.familia.flatMap((g) => g.pessoas.map((p) => ({ ...p, desde: g.desde })));
+    const desdeInicio = todos.filter((p) => !p.desde);
+    const idades = todos.map((p) => p.idade).filter((n) => typeof n === "number");
+    $("famResumo").innerHTML = `
+      <div class="card"><strong>${todos.length}</strong><span class="muted">pessoas no total</span></div>
+      <div class="card"><strong>${desdeInicio.length}</strong><span class="muted">desde o início</span></div>
+      ${idades.length ? `<div class="card"><strong>${Math.min(...idades)}–${Math.max(...idades)}</strong><span class="muted">anos de idade</span></div>` : ""}`;
+    const cores = ["#e8590c", "#0c8599", "#ae3ec9", "#2b8a3e", "#c2255c", "#1971c2"];
+    $("grupos").innerHTML = V.familia.map((g, gi) => `<div class="card grupo">
+        <h3>${esc(g.grupo)}</h3>
+        <div class="muted" style="font-size:.9rem">${g.pessoas.length} pessoas${g.desde ? " · a partir de " + esc(curto(g.desde)) : ""}</div>
+        <div class="pessoas">${g.pessoas.map((p) => `<div class="pessoa">
+          <span class="avatar" style="background:${cores[gi % cores.length]}">${esc(p.nome.replace(/^(Meu|Minha) /, "").charAt(0).toUpperCase())}</span>
+          <span>${esc(p.nome)}${typeof p.idade === "number" ? ` <small>· ${p.idade} anos</small>` : ""}</span>
+        </div>`).join("")}</div>
+        ${g.obs ? `<p class="aviso">ℹ️ ${esc(g.obs)}</p>` : ""}
+      </div>`).join("");
+
+    // ---------- Destinos ----------
+    $("etapas").innerHTML = V.destinos.map((d, i) => `<div class="card etapa">
+        <span class="num">${i + 1}</span>
+        <div class="emoji">${esc(d.emoji)}</div>
+        <div class="big">${esc(d.cidade)}</div>
+        <div><span class="pill">${esc(curto(d.de))} → ${esc(curto(d.ate))}</span></div>
+        ${d.obs ? `<div class="muted" style="margin-top:8px;font-size:.92rem">${esc(d.obs)}</div>` : ""}
+      </div>`).join("");
+
+    // ---------- Voos ----------
+    $("listaVoos").innerHTML = V.voos.map((v) => `<div class="card">
+        <div class="label">${esc(v.trecho)}</div>
+        <div class="big">${esc(v.companhia)} ${esc(v.voo)}</div>
+        <div class="voo-rota">
+          <div><div class="ap">${esc(v.sai.aeroporto)}</div><div class="muted">${esc(v.sai.cidade)}</div></div>
+          <div class="seta">✈</div>
+          <div class="dir"><div class="ap">${esc(v.chega.aeroporto)}</div><div class="muted">${esc(v.chega.cidade)}</div></div>
+        </div>
+        <div class="voo-rota" style="margin:0">
+          <div><span class="pill">${esc(v.sai.hora)}</span><div class="muted" style="font-size:.9rem">${esc(curto(v.sai.data))}</div></div>
+          <div></div>
+          <div class="dir"><span class="pill">${esc(v.chega.hora)}</span><div class="muted" style="font-size:.9rem">${esc(curto(v.chega.data))}</div></div>
+        </div>
+        ${v.obs ? `<div class="muted" style="margin-top:10px">${esc(v.obs)}</div>` : ""}
+      </div>`).join("");
+
+    // ---------- Hotéis ----------
+    $("listaHoteis").innerHTML = V.hoteis.map((H) => {
+      let noites = "";
+      if (H.checkin && H.checkout) {
+        const n = Math.round((data(H.checkout) - data(H.checkin)) / 86400000);
+        noites = n + (n === 1 ? " noite" : " noites");
+      }
+      const q = H.nome + ", " + H.endereco;
+      return `<div class="card hotel">
+        <div class="label">${esc(H.cidade)}</div>
+        <h3>${esc(H.nome)}</h3>
+        <div class="muted">📍 ${esc(H.endereco)}</div>
+        <div class="rows">
+          <div><div class="label">Check-in</div><div class="big">${esc(curto(H.checkin))}</div>${H.horaCheckin ? `<div class="muted">a partir das ${esc(H.horaCheckin)}</div>` : ""}</div>
+          <div><div class="label">Check-out</div><div class="big">${esc(curto(H.checkout))}</div>${H.horaCheckout ? `<div class="muted">até ${esc(H.horaCheckout)}</div>` : ""}</div>
+          ${noites || H.reserva ? `<div><div class="label">Estadia</div><div class="big">${esc(noites || "—")}</div><div class="muted">${esc(H.reserva)}</div></div>` : ""}
+        </div>
+        ${H.obs ? `<p style="margin:0">${esc(H.obs)}</p>` : ""}
+        <div class="btns">
+          <a class="btn" href="${mapa(q)}" target="_blank" rel="noopener">🗺️ Abrir no mapa</a>
+          ${H.telefone ? `<a class="btn ghost" href="${tel(H.telefone)}">📞 ${esc(H.telefone)}</a>` : ""}
+          ${H.site ? `<a class="btn ghost" href="${esc(H.site)}" target="_blank" rel="noopener">🌐 Site</a>` : ""}
+        </div>
+        <iframe class="map" loading="lazy" title="Mapa – ${esc(H.nome)}"
+          src="https://maps.google.com/maps?q=${encodeURIComponent(q)}&output=embed"></iframe>
       </div>`;
     }).join("");
-
-    // ---------- Hotel ----------
-    const H = V.hotel;
-    const ci = data(H.checkin), co = data(H.checkout);
-    const noites = Math.round((new Date(co.getFullYear(), co.getMonth(), co.getDate()) - new Date(ci.getFullYear(), ci.getMonth(), ci.getDate())) / 86400000);
-    $("hotelCard").innerHTML = `
-      <h3>${esc(H.nome)}</h3>
-      <div class="muted">📍 ${esc(H.endereco)}</div>
-      <div class="rows">
-        <div><div class="label">Check-in</div><div class="big">${esc(fmtCurto(ci))}</div><div class="muted">a partir das ${esc(fmtHora(ci))}</div></div>
-        <div><div class="label">Check-out</div><div class="big">${esc(fmtCurto(co))}</div><div class="muted">até ${esc(fmtHora(co))}</div></div>
-        <div><div class="label">Estadia</div><div class="big">${noites} noites</div><div class="muted">${esc(H.reserva)}</div></div>
-      </div>
-      ${H.obs ? `<p style="margin:0">${esc(H.obs)}</p>` : ""}
-      <div class="btns">
-        <a class="btn" href="${mapa(H.nome + ", " + H.endereco)}" target="_blank" rel="noopener">🗺️ Abrir no mapa</a>
-        ${H.telefone ? `<a class="btn ghost" href="${tel(H.telefone)}">📞 ${esc(H.telefone)}</a>` : ""}
-        ${H.site ? `<a class="btn ghost" href="${esc(H.site)}" target="_blank" rel="noopener">🌐 Site</a>` : ""}
-      </div>
-      <iframe class="map" loading="lazy" title="Mapa do hotel"
-        src="https://maps.google.com/maps?q=${encodeURIComponent(H.nome + ", " + H.endereco)}&output=embed"></iframe>`;
 
     // ---------- Roteiro ----------
     const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
@@ -353,10 +434,10 @@
           ${cls === "hoje" ? '<span class="pill">HOJE</span>' : ""}
         </header>
         ${d.atividades.map((a) => `<div class="ativ">
-          <time>${esc(a.hora)}</time>
+          <time>${esc(a.hora || "—")}</time>
           <div>
             <div class="nome">${esc(a.nome)}</div>
-            ${a.local ? `<div class="local">📍 <a href="${mapa(a.local + ", " + V.destino)}" target="_blank" rel="noopener">${esc(a.local)}</a></div>` : ""}
+            ${a.local ? `<div class="local">📍 <a href="${mapa(a.local)}" target="_blank" rel="noopener">${esc(a.local)}</a></div>` : ""}
             ${a.obs ? `<div class="obs">💡 ${esc(a.obs)}</div>` : ""}
           </div>
         </div>`).join("")}
