@@ -176,6 +176,12 @@
     backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   }
   .postal .obs { font-size: .85rem; color: rgba(255,255,255,.7); }
+  .galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; max-width: 560px; }
+  .galeria figure { margin: 0; position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4 / 3; max-width: 100%; border: 1px solid rgba(255,255,255,.25); }
+  .galeria img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .galeria figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 10px 8px; font: 600 .78rem/1.2 var(--f-body); background: linear-gradient(transparent, rgba(0,0,0,.7)); }
+  .creditos { margin-top: 18px; font-size: .75rem; color: var(--muted); max-width: 90ch; margin-inline: auto; line-height: 1.6; }
+  .creditos a { color: inherit; }
 
   /* Cenas temáticas */
   .cena.neve { background:
@@ -428,7 +434,7 @@
   </section>
 </main>
 
-<footer class="wrap"><p data-i18n="rodape"></p></footer>
+<footer class="wrap"><p data-i18n="rodape"></p><div class="creditos" id="creditos"></div></footer>
 
 <script src="viagem.js"></script>
 <script>
@@ -466,7 +472,7 @@
       desmarcar: "Desmarcar tudo", confirmaDesmarcar: "Desmarcar todos os itens?", sim: "Sim, desmarcar", nao: "Cancelar",
       prontos: (f, t, p) => `${f}/${t} itens · ${p}%`, malaPronta: "Mala pronta.",
       salvoAqui: "As marcações ficam salvas neste aparelho. Cada pessoa usa o seu.",
-      rodape: "Feito para a nossa família.",
+      rodape: "Feito para a nossa família.", fotos: "Fotos",
     },
     en: {
       marca: "Holiday trip · <b>2026/27</b>",
@@ -492,7 +498,7 @@
       desmarcar: "Uncheck all", confirmaDesmarcar: "Uncheck every item?", sim: "Yes, uncheck", nao: "Cancel",
       prontos: (f, t, p) => `${f}/${t} items · ${p}%`, malaPronta: "All packed.",
       salvoAqui: "Your checks are saved on this device. Each person uses their own.",
-      rodape: "Made for our family.",
+      rodape: "Made for our family.", fotos: "Photos",
     },
   };
 
@@ -598,6 +604,7 @@
           ${tx(d.frase) ? `<p class="frase">${esc(tx(d.frase))}</p>` : ""}
           ${d.destaques ? `<div class="chips">${d.destaques.map((x) => `<span>${esc(tx(x))}</span>`).join("")}</div>` : ""}
           ${tx(d.obs) ? `<div class="obs">${esc(tx(d.obs))}</div>` : ""}
+          ${d.galeria && d.galeria.length ? `<div class="galeria">${d.galeria.map((g) => `<figure><img src="${esc(g.foto)}" alt="${esc(tx(g.legenda))}" loading="lazy"><figcaption>${esc(tx(g.legenda))}</figcaption></figure>`).join("")}</div>` : ""}
         </div>
       </article>`).join("");
     animaCenas();
@@ -676,6 +683,11 @@
 
     renderChecklist();
     renderLimpar(false);
+
+    // Créditos das fotos (exigidos pelas licenças Creative Commons)
+    $("creditos").innerHTML = (V.creditos || []).length
+      ? `${L().fotos}: ` + V.creditos.map((c) => `<a href="${esc(c.link)}" target="_blank" rel="noopener">${esc(tx(c.oque))}</a> · ${esc(c.autor)} (${esc(c.licenca)})`).join(" — ")
+      : "";
 
     // Contatos
     $("listaContatos").innerHTML = V.contatos.map((c) =>
