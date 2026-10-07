@@ -15,6 +15,12 @@ Regras simples:
 - Não apague as aspas `" "`, as vírgulas `,` nem as chaves `{ }`.
 - Datas e horários no formato `"2026-12-27T07:00"` (ano-mês-dia T hora:minuto).
 - Para incluir mais um passeio, copie uma linha `{ hora: ..., nome: ..., local: ... },` e cole embaixo.
+- Textos no formato `{ pt: "...", en: "..." }` têm versão em português e em inglês. Escreva nas duas línguas.
+  Textos só entre aspas (nome de hotel, número de voo) aparecem iguais nas duas.
+
+## Português / English
+
+No topo do site há o botão **🇧🇷 PT / 🇺🇸 EN**. O site lembra a língua escolhida em cada celular.
 
 ## Como colocar o site no ar (de graça, com GitHub Pages)
 
