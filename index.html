@@ -309,6 +309,9 @@
   .ativ .local { font-size: .9rem; color: var(--muted); }
   .ativ .local a { text-decoration-color: var(--line); text-underline-offset: 3px; }
   .ativ .local a:hover { text-decoration-color: var(--gold); }
+  .ativ .carro { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; margin-top: 6px; font: 500 .8rem/1.4 var(--f-mono); color: var(--ink); }
+  .ativ .carro b { font-weight: 700; color: var(--gold); }
+  .ativ .carro span { color: var(--muted); font-family: var(--f-body); font-size: .82rem; }
   .ativ .obs { display: inline-block; margin-top: 6px; font-size: .86rem; background: var(--gold-soft); padding: 4px 10px; border-radius: 8px; }
 
   /* Checklist */
@@ -461,6 +464,7 @@
     <div class="sec-head">
       <span class="eyebrow" data-i18n="eRoteiro"></span>
       <h2 data-i18n="tRoteiro"></h2>
+      <p data-i18n="notaCarro"></p>
     </div>
     <div class="dias" id="dias"></div>
   </section>
@@ -522,7 +526,8 @@
       eDestinos: "O caminho", tDestinos: "Três cidades, dezenove dias",
       eTrajetos: "Cartões de embarque", tTrajetos: "Voos e estradas",
       eHoteis: "Onde vamos dormir", tHoteis: "Hospedagem",
-      eRoteiro: "Dia a dia", tRoteiro: "Roteiro",
+      eRoteiro: "Dia a dia", tRoteiro: "Roteiro", deCasa: "Carro desde a casa:",
+      notaCarro: "Tempos de carro saindo da casa em Kissimmee, sem trânsito. Nos feriados, conte com até o dobro.",
       eChecklist: "Antes de fechar a mala", tChecklist: "Checklist",
       eContatos: "Para guardar", tContatos: "Contatos importantes",
       horaLocal: "Horários no fuso local de cada cidade.",
@@ -549,7 +554,8 @@
       eDestinos: "The route", tDestinos: "Three cities, nineteen days",
       eTrajetos: "Boarding passes", tTrajetos: "Flights & drives",
       eHoteis: "Where we sleep", tHoteis: "Stays",
-      eRoteiro: "Day by day", tRoteiro: "Itinerary",
+      eRoteiro: "Day by day", tRoteiro: "Itinerary", deCasa: "Drive from the house:",
+      notaCarro: "Drive times from the Kissimmee house, without traffic. Around the holidays, allow up to twice as long.",
       eChecklist: "Before you zip the bag", tChecklist: "Checklist",
       eContatos: "Keep these handy", tContatos: "Important contacts",
       horaLocal: "All times are local to each city.",
@@ -744,6 +750,7 @@
             <div>
               <div class="nome">${esc(tx(a.nome))}</div>
               ${a.local ? `<div class="local"><a href="${mapa(tx(a.local))}" target="_blank" rel="noopener">${esc(tx(a.local))}</a></div>` : ""}
+              ${a.carro ? `<div class="carro">${L().deCasa} <b>~${a.carro.min} min</b> · ${a.carro.km} km${tx(a.carro.de) ? `<span>${esc(tx(a.carro.de))}</span>` : ""}</div>` : ""}
               ${tx(a.obs) ? `<div class="obs">${esc(tx(a.obs))}</div>` : ""}
             </div>
           </li>`).join("")}</ul>
