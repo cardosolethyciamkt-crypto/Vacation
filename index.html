@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="icones/icone-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Nossa Viagem">
+<meta name="apple-mobile-web-app-title" content="Family Vacation">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -541,8 +541,8 @@
 
 <footer class="wrap"><p data-i18n="rodape"></p><p class="dica-app" data-i18n="dicaApp"></p><div class="creditos" id="creditos"></div></footer>
 
-<script src="viagem.js?v=202610081309"></script>
-<script src="memorias.js?v=202610081309"></script>
+<script src="viagem.js?v=202610081632"></script>
+<script src="memorias.js?v=202610081632"></script>
 <script>
   const V = VIAGEM;
   const $ = (id) => document.getElementById(id);
@@ -806,6 +806,7 @@
     const fim = t.pop();
     $("titulo").innerHTML = `${esc(t.join(" "))} <em>${esc(fim)}</em>`;
     $("frase").textContent = tx(V.frase);
+    $("frase").hidden = !tx(V.frase);
 
     // Painel
     const tz = { timeZone: "America/Sao_Paulo" };

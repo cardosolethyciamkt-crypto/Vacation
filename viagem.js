@@ -21,12 +21,9 @@
    ===================================================================== */
 
 const VIAGEM = {
-  titulo: { pt: "Fim de Ano da Família nos EUA", en: "Family Holiday Trip to the USA" },
+  titulo: { pt: "Family Vacation - EUA", en: "Family Vacation - USA" },
   destino: { pt: "Nova York · Miami · Orlando", en: "New York · Miami · Orlando" },
-  frase: {
-    pt: "Natal e Réveillon com a família toda junta!",
-    en: "Christmas and New Year's with the whole family together!",
-  },
+  frase: "", // frase abaixo do título (deixe "" para não mostrar)
 
   // Momento exato da partida (é para cá que o contador conta).
   // O "-03:00" no final é o fuso de Curitiba — não apague.
