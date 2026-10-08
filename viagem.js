@@ -79,12 +79,16 @@ const VIAGEM = {
       ],
       frase: { pt: "Parques, fogos de Réveillon e muitas compras.", en: "Theme parks, New Year's fireworks and lots of shopping." },
       destaques: [
-        { pt: "Disney", en: "Disney" },
+        { pt: "Epic Universe", en: "Epic Universe" },
+        { pt: "EPCOT", en: "EPCOT" },
+        { pt: "Kennedy Space Center", en: "Kennedy Space Center" },
         { pt: "Universal", en: "Universal" },
+        { pt: "Magic Kingdom na virada", en: "Magic Kingdom on New Year's Eve" },
+        { pt: "Animal Kingdom", en: "Animal Kingdom" },
         { pt: "Outlets", en: "Outlets" },
         { pt: "Jogo da NBA", en: "NBA game" },
       ],
-      obs: { pt: "Natal e Réveillon · passeios a definir", en: "Christmas and New Year's · activities TBD" },
+      obs: { pt: "Natal e Réveillon · roteiro completo abaixo", en: "Christmas and New Year's · full itinerary below" },
     },
   ],
 
@@ -261,17 +265,85 @@ const VIAGEM = {
     },
     {
       dia: "2026-12-24",
-      titulo: { pt: "Estrada para Orlando", en: "Road trip to Orlando" },
+      titulo: { pt: "Chegada de Miami e Ceia de Natal", en: "Arrival from Miami and Christmas Eve dinner" },
       atividades: [
         { hora: "", nome: { pt: "Check-out do hotel em Miami", en: "Check out of the Miami hotel" }, local: "Comfort Inn & Suites Downtown Brickell, 100 SE 4th St, Miami" },
         { hora: "", nome: { pt: "Viagem de carro Miami → Orlando", en: "Drive Miami → Orlando" }, obs: { pt: "Cerca de 4 horas de estrada", en: "About a 4-hour drive" } },
         { hora: "", nome: { pt: "Chegada na casa em Orlando", en: "Arrival at the Orlando house" }, local: "2661 Calistoga Avenue, Kissimmee, FL 34741" },
+        { hora: "", nome: { pt: "Mercado", en: "Grocery run" } },
+        { hora: "", nome: { pt: "Ceia de Natal", en: "Christmas Eve dinner" } },
+      ],
+    },
+    {
+      dia: "2026-12-25",
+      titulo: { pt: "Epic Universe", en: "Epic Universe" },
+      atividades: [
+        { hora: "", nome: { pt: "Dia no Epic Universe", en: "Day at Epic Universe" }, local: "Epic Universe, Orlando, FL" },
+      ],
+    },
+    {
+      dia: "2026-12-26",
+      titulo: { pt: "Celebration e Winter Garden", en: "Celebration and Winter Garden" },
+      atividades: [
+        { hora: "", nome: { pt: "Café em Celebration", en: "Coffee in Celebration" }, local: "Celebration, FL" },
+        { hora: "", nome: { pt: "Compras em Winter Garden", en: "Shopping in Winter Garden" }, local: "Winter Garden, FL" },
+      ],
+    },
+    {
+      dia: "2026-12-27",
+      titulo: { pt: "Kennedy Space Center", en: "Kennedy Space Center" },
+      atividades: [
+        { hora: "", nome: { pt: "Dia no Kennedy Space Center", en: "Day at Kennedy Space Center" }, local: "Kennedy Space Center Visitor Complex, FL" },
+      ],
+    },
+    {
+      dia: "2026-12-28",
+      titulo: { pt: "EPCOT", en: "EPCOT" },
+      atividades: [
+        { hora: "", nome: { pt: "Dia no EPCOT", en: "Day at EPCOT" }, local: "EPCOT, Walt Disney World, FL" },
+      ],
+    },
+    {
+      dia: "2026-12-29",
+      titulo: { pt: "Universal Studios e Islands of Adventure", en: "Universal Studios and Islands of Adventure" },
+      atividades: [
+        { hora: "", nome: { pt: "Universal Studios + Islands of Adventure", en: "Universal Studios + Islands of Adventure" }, local: "Universal Orlando Resort, FL", obs: { pt: "Ou compras, para quem quiser", en: "Or shopping, for anyone who prefers" } },
+      ],
+    },
+    {
+      dia: "2026-12-30",
+      titulo: { pt: "Disney Springs", en: "Disney Springs" },
+      atividades: [
+        { hora: "", nome: { pt: "Passeio em Disney Springs", en: "Evening at Disney Springs" }, local: "Disney Springs, Lake Buena Vista, FL" },
+      ],
+    },
+    {
+      dia: "2026-12-31",
+      titulo: { pt: "Magic Kingdom e a virada", en: "Magic Kingdom and New Year's Eve" },
+      atividades: [
+        { hora: "", nome: { pt: "Dia no Magic Kingdom", en: "Day at Magic Kingdom" }, local: "Magic Kingdom, Walt Disney World, FL" },
+        { hora: "", nome: { pt: "Virada do ano no parque", en: "Ringing in the New Year at the park" }, obs: { pt: "Fogos de Réveillon sobre o castelo", en: "New Year's fireworks over the castle" } },
+      ],
+    },
+    {
+      dia: "2027-01-01",
+      titulo: { pt: "Dia livre", en: "Free day" },
+      atividades: [
+        { hora: "", nome: { pt: "Descanso, outlet ou passeios ao redor", en: "Rest, outlets or nearby outings" }, obs: { pt: "Cada um escolhe", en: "Everyone picks their own plan" } },
+      ],
+    },
+    {
+      dia: "2027-01-02",
+      titulo: { pt: "Animal Kingdom", en: "Animal Kingdom" },
+      atividades: [
+        { hora: "", nome: { pt: "Dia no Animal Kingdom", en: "Day at Animal Kingdom" }, local: "Disney's Animal Kingdom, FL" },
       ],
     },
     {
       dia: "2027-01-03",
-      titulo: { pt: "Jogo da NBA", en: "NBA Game" },
+      titulo: { pt: "Outlet e jogo da NBA", en: "Outlets and NBA game" },
       atividades: [
+        { hora: "", nome: { pt: "Compras no outlet", en: "Outlet shopping" } },
         {
           hora: "18:00", nome: "Orlando Magic vs. Memphis Grizzlies",
           local: "Kia Center, Orlando, FL",
@@ -280,6 +352,14 @@ const VIAGEM = {
             en: "Section 220 · Row 8 · Seats 6–18",
           },
         },
+      ],
+    },
+    {
+      dia: "2027-01-04",
+      titulo: { pt: "Dia livre e malas", en: "Free day and packing" },
+      atividades: [
+        { hora: "", nome: { pt: "Passeios ao redor", en: "Nearby outings" } },
+        { hora: "", nome: { pt: "Arrumar as malas", en: "Pack the bags" }, obs: { pt: "No dia seguinte saímos cedo", en: "We leave early the next day" } },
       ],
     },
     {
@@ -321,6 +401,7 @@ const VIAGEM = {
         { pt: "Cartão internacional e alguns dólares", en: "International card and some US dollars" },
         { pt: "Endereço dos hotéis anotado (pede na imigração)", en: "Hotel addresses written down (asked at immigration)" },
         { pt: "Ingresso do jogo da NBA (03/01)", en: "NBA game ticket (Jan 3)" },
+        { pt: "Ingressos dos parques (Disney, Universal, Epic, Kennedy)", en: "Park tickets (Disney, Universal, Epic, Kennedy)" },
       ],
     },
     {
