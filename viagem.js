@@ -346,11 +346,15 @@ const VIAGEM = {
       atividades: [
         { hora: "", nome: { pt: "Compras no outlet", en: "Outlet shopping" }, local: "Orlando Vineland Premium Outlets", carro: { min: 19, km: 16, de: { pt: "Vineland · o de International Drive fica a cerca de 28 min", en: "Vineland · the International Drive one is about 28 min away" } } },
         {
-          hora: "18:00", nome: "Orlando Magic vs. Memphis Grizzlies",
+          hora: "16:00", nome: { pt: "Chegada ao Kia Center", en: "Arrive at Kia Center" },
           local: "Kia Center, Orlando, FL", carro: { min: 32, km: 32 },
+          obs: { pt: "Vamos 2 horas antes do jogo", en: "We'll get there 2 hours before the game" },
+        },
+        {
+          hora: "18:00", nome: "Orlando Magic vs. Memphis Grizzlies",
           obs: {
-            pt: "20h no horário de Brasília · Seção 220 · Fileira 8 · Assentos 6 a 18",
-            en: "Section 220 · Row 8 · Seats 6–18",
+            pt: "Horário local de Orlando · Seção 220 · Fileira 8 · Assentos 6 a 18",
+            en: "Orlando local time · Section 220 · Row 8 · Seats 6–18",
           },
         },
       ],
