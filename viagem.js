@@ -38,6 +38,7 @@ const VIAGEM = {
   destinos: [
     {
       cidade: { pt: "Nova York", en: "New York" }, de: "2026-12-19", ate: "2026-12-22",
+      coords: [40.758, -73.9855], // usado na previsão do tempo
       tema: "neve",
       // Fotos que passam sozinhas no cartão. Coloque os arquivos na pasta "fotos".
       fotos: [
@@ -55,6 +56,7 @@ const VIAGEM = {
     },
     {
       cidade: "Miami", de: "2026-12-22", ate: "2026-12-24",
+      coords: [25.7709, -80.1904],
       tema: "sol",
       fotos: [
         { src: "fotos/miami.jpg", legenda: { pt: "South Beach", en: "South Beach" } },
@@ -71,6 +73,7 @@ const VIAGEM = {
     },
     {
       cidade: "Orlando", de: "2026-12-24", ate: "2027-01-05",
+      coords: [28.3257, -81.442],
       tema: "parque",
       fotos: [
         { src: "fotos/orlando-disney.jpg", legenda: { pt: "Castelo da Cinderela · Disney", en: "Cinderella Castle · Disney" } },

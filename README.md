@@ -39,6 +39,13 @@ No topo do site há o botão **🇧🇷 PT / 🇺🇸 EN**. O site lembra a lín
 3. Em 1–2 minutos aparece o link (algo como `https://SEU-USUARIO.github.io/Vacation/`)
 4. Mande o link no grupo da família 🎉
 
+## Durante a viagem
+
+- **Tela "Hoje":** a partir da partida, o topo do site mostra o programa do dia e o próximo compromisso, com o horário de sair de casa.
+- **Sem internet:** no celular, abra o link do GitHub e use **Adicionar à tela inicial**. O site vira um app e abre mesmo sem sinal.
+- **Previsão do tempo:** aparece nos cartões das cidades e na tela "Hoje" (só no link do GitHub).
+- Para testar a tela "Hoje" antes da viagem, abra o site com `?agora=2027-01-03T14:00` no fim do endereço.
+
 ## Sobre o checklist
 
 Cada pessoa marca os itens no próprio celular. As marcações ficam salvas naquele aparelho.

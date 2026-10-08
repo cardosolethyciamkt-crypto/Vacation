@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nossa Viagem</title>
+<meta name="theme-color" content="#0a1222">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icones/icone-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icones/icone-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nossa Viagem">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -115,6 +123,36 @@
   .sep { font: 700 2rem/1 var(--f-mono); color: var(--night-muted); padding-bottom: 30px; }
   .chegou { font-family: var(--f-display); font-style: italic; font-size: clamp(2rem, 6vw, 3rem); color: var(--night-gold); }
   .partida-txt { color: var(--night-muted); font-size: .92rem; }
+
+  /* Modo "Hoje" (durante a viagem) */
+  .hoje-box { display: grid; gap: 16px; max-width: 720px; }
+  .hoje-titulo { font-family: var(--f-display); font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1; color: var(--night-ink); }
+  .proximo {
+    display: grid; gap: 6px; padding: 18px 20px; border-radius: 16px;
+    background: rgba(224, 189, 118, .1); border: 1px solid rgba(224, 189, 118, .45);
+  }
+  .proximo .eyebrow { color: var(--night-gold); }
+  .proximo .linha1 { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .proximo .hora { font: 700 1.6rem/1 var(--f-mono); color: var(--night-gold); }
+  .proximo .nome { font-size: 1.15rem; font-weight: 600; }
+  .proximo .sair { font-size: .92rem; color: var(--night-ink); }
+  .proximo .sair b { color: var(--night-gold); }
+  .hoje-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .hoje-lista li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 10px; color: var(--night-muted); font-size: .95rem; }
+  .hoje-lista li time { font: 500 .85rem/1.6 var(--f-mono); }
+  .hoje-lista li.feito { opacity: .45; text-decoration: line-through; }
+  .hoje-lista li.agora { color: var(--night-ink); }
+  .clima-hoje { font: 500 .85rem/1.4 var(--f-mono); color: var(--night-muted); }
+
+  /* Previsão do tempo nos cartões das cidades */
+  .postal .clima { display: grid; gap: 8px; margin-top: 4px; }
+  .postal .clima .agora { font: 500 .8rem/1.3 var(--f-mono); letter-spacing: .04em; color: rgba(255,255,255,.85); }
+  .postal .clima .dias-clima { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .postal .clima .dias-clima div {
+    flex: none; display: grid; gap: 2px; text-align: center; min-width: 58px; padding: 6px 8px; border-radius: 10px;
+    background: rgba(5,10,20,.35); border: 1px solid rgba(255,255,255,.18); font: 500 .72rem/1.3 var(--f-mono);
+  }
+  .postal .clima .dias-clima b { font-size: .85rem; }
 
   .rota {
     margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--night-line);
@@ -350,6 +388,7 @@
   .contato a { font: 700 1.2rem/1 var(--f-mono); text-decoration: none; color: var(--gold); white-space: nowrap; }
 
   footer { padding-block: 72px 48px; text-align: center; }
+  footer .dica-app { font: 400 .85rem/1.6 var(--f-body); font-style: normal; color: var(--muted); max-width: 52ch; margin: 14px auto 0; }
   footer p { font-family: var(--f-display); font-style: italic; font-size: 1.4rem; color: var(--muted); margin: 0; }
 
   @media (max-width: 720px) {
@@ -500,10 +539,10 @@
   </section>
 </main>
 
-<footer class="wrap"><p data-i18n="rodape"></p><div class="creditos" id="creditos"></div></footer>
+<footer class="wrap"><p data-i18n="rodape"></p><p class="dica-app" data-i18n="dicaApp"></p><div class="creditos" id="creditos"></div></footer>
 
-<script src="viagem.js?v=202610081204"></script>
-<script src="memorias.js?v=202610081204"></script>
+<script src="viagem.js?v=202610081309"></script>
+<script src="memorias.js?v=202610081309"></script>
 <script>
   const V = VIAGEM;
   const $ = (id) => document.getElementById(id);
@@ -541,6 +580,9 @@
       prontos: (f, t, p) => `${f}/${t} itens · ${p}%`, malaPronta: "Mala pronta.",
       salvoAqui: "As marcações ficam salvas neste aparelho. Cada pessoa usa o seu.",
       rodape: "Feito para a nossa família.", fotos: "Fotos",
+      dicaApp: "Dica: no celular, use \"Adicionar à tela inicial\" no menu do navegador. O site vira um app e abre mesmo sem internet.",
+      hojeLabel: "Hoje", proximo: "Próximo", amanha: "Amanhã", sairCasa: "Sair de casa por volta de", emTransito: "Em viagem",
+      diaLivreEm: (c) => `Dia livre em ${c}`, semCompromissos: "Sem compromissos com horário hoje.", climaAgora: "Agora", previsao: "Previsão",
       navMemorias: "Memórias", eMemorias: "Da última viagem", tMemorias: "Nossas memórias", anterior: "Foto anterior", proxima: "Próxima foto",
     },
     en: {
@@ -569,6 +611,9 @@
       prontos: (f, t, p) => `${f}/${t} items · ${p}%`, malaPronta: "All packed.",
       salvoAqui: "Your checks are saved on this device. Each person uses their own.",
       rodape: "Made for our family.", fotos: "Photos",
+      dicaApp: "Tip: on your phone, use \"Add to Home Screen\" in the browser menu. The site becomes an app and opens even offline.",
+      hojeLabel: "Today", proximo: "Up next", amanha: "Tomorrow", sairCasa: "Leave the house around", emTransito: "Traveling",
+      diaLivreEm: (c) => `Free day in ${c}`, semCompromissos: "No timed plans today.", climaAgora: "Now", previsao: "Forecast",
       navMemorias: "Memories", eMemorias: "From our last trip", tMemorias: "Our memories", anterior: "Previous photo", proxima: "Next photo",
     },
   };
@@ -591,6 +636,13 @@
   const curto = (txt) => (txt ? fmtCurto(data(txt)) : L().aConfirmar);
   const mapa = (q) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
   const tel = (t) => "tel:" + String(t).replace(/[^\d+]/g, "");
+
+  // ---------- Relógio (aceita ?agora=AAAA-MM-DDTHH:MM para testar o modo "Hoje") ----------
+  const AGORA_TESTE = (() => { try { return new URLSearchParams(location.search).get("agora"); } catch { return null; } })();
+  const inicioTeste = Date.now();
+  const agoraReal = () => (AGORA_TESTE ? new Date(data(AGORA_TESTE).getTime() + (Date.now() - inicioTeste)) : new Date());
+  const chaveDia = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const hhmm = (d) => `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 
   // ---------- Contador (painel de embarque) ----------
   const partida = new Date(V.partida);
@@ -615,7 +667,7 @@
     ultimo[id] = valor;
   }
   function tick() {
-    const agora = new Date();
+    const agora = agoraReal();
     const falta = partida - agora;
     if (falta > 0) {
       const s = Math.floor(falta / 1000);
@@ -627,13 +679,116 @@
     }
     $("boardLabel").textContent = "";
     if (!retorno || agora < retorno) {
-      $("contador").innerHTML = `<div class="chegou">${esc(L().ferias)}</div>`;
-      $("sub").textContent = retorno ? `${L().volta} · ${fmtDia(retorno)}` : "";
+      renderHoje(agora);
+      return "hoje";
     } else {
       $("contador").innerHTML = `<div class="chegou">${esc(L().fim)}</div>`;
       $("sub").textContent = "";
     }
     return true;
+  }
+
+  // ---------- Modo "Hoje" (durante a viagem) ----------
+  function cidadeDoDia(chave) {
+    let atual = null;
+    for (const d of V.destinos) if (d.de && d.de <= chave) atual = d;
+    return atual;
+  }
+  function eventosDe(chave) {
+    const dia = V.roteiro.find((d) => d.dia === chave);
+    return dia ? dia.atividades : [];
+  }
+  function menosMin(hora, min) {
+    const [h, m] = hora.split(":").map(Number);
+    let t = h * 60 + m - min; t = Math.floor(t / 5) * 5;
+    return `${String(Math.floor(t / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`;
+  }
+  function renderHoje(agora) {
+    const chave = chaveDia(agora), agoraHM = hhmm(agora);
+    const dia = V.roteiro.find((d) => d.dia === chave);
+    const cidade = cidadeDoDia(chave);
+    const nomeCidade = cidade ? tx(cidade.cidade) : L().emTransito;
+    const evs = eventosDe(chave);
+    // Próximo compromisso com horário: hoje, ou o primeiro dos próximos dias
+    let prox = evs.find((a) => a.hora && a.hora > agoraHM), proxDia = chave;
+    if (!prox) {
+      const futuros = V.roteiro.filter((d) => d.dia > chave).sort((x, y) => (x.dia < y.dia ? -1 : 1));
+      for (const d of futuros) { const e = d.atividades.find((a) => a.hora); if (e) { prox = e; proxDia = d.dia; break; } }
+    }
+    let proxHtml = "";
+    if (prox) {
+      const quando = proxDia === chave ? "" : proxDia === chaveDia(new Date(agora.getTime() + 86400000)) ? L().amanha + " · " : fmtCurto(data(proxDia)) + " · ";
+      proxHtml = `<div class="proximo">
+        <span class="eyebrow">${L().proximo}</span>
+        <div class="linha1"><span class="hora">${esc(quando)}${esc(prox.hora)}</span><span class="nome">${esc(tx(prox.nome))}</span></div>
+        ${prox.carro ? `<div class="sair">${L().sairCasa} <b>${menosMin(prox.hora, prox.carro.min)}</b> · ~${prox.carro.min} min</div>` : ""}
+      </div>`;
+    }
+    const lista = evs.length
+      ? `<ul class="hoje-lista">${evs.map((a) => `<li class="${a === prox ? "agora" : a.hora && a.hora <= agoraHM ? "feito" : ""}"><time>${esc(a.hora || "—")}</time><span>${esc(tx(a.nome))}</span></li>`).join("")}</ul>`
+      : "";
+    $("boardLabel").textContent = `${L().hojeLabel} · ${fmtDia(agora)} · ${nomeCidade}`;
+    $("contador").innerHTML = `<div class="hoje-box">
+      <div class="hoje-titulo">${esc(dia ? tx(dia.titulo) : L().diaLivreEm(nomeCidade))}</div>
+      ${proxHtml}
+      ${lista || (prox ? "" : `<div class="clima-hoje">${L().semCompromissos}</div>`)}
+      <div class="clima-hoje" id="climaHoje"></div>
+    </div>`;
+    $("sub").textContent = retorno ? `${L().volta} · ${fmtDia(retorno)}` : "";
+    climaHoje(cidade, chave);
+  }
+
+  // ---------- Previsão do tempo (Open-Meteo, sem chave; no link do Claude a rede externa é bloqueada e a seção some) ----------
+  const WMO = {
+    0: ["Céu limpo", "Clear"], 1: ["Poucas nuvens", "Mostly clear"], 2: ["Parcialmente nublado", "Partly cloudy"], 3: ["Nublado", "Overcast"],
+    45: ["Neblina", "Fog"], 48: ["Neblina", "Fog"], 51: ["Garoa", "Drizzle"], 53: ["Garoa", "Drizzle"], 55: ["Garoa forte", "Heavy drizzle"],
+    56: ["Garoa gelada", "Freezing drizzle"], 57: ["Garoa gelada", "Freezing drizzle"], 61: ["Chuva fraca", "Light rain"], 63: ["Chuva", "Rain"],
+    65: ["Chuva forte", "Heavy rain"], 66: ["Chuva gelada", "Freezing rain"], 67: ["Chuva gelada", "Freezing rain"], 71: ["Neve fraca", "Light snow"],
+    73: ["Neve", "Snow"], 75: ["Neve forte", "Heavy snow"], 77: ["Neve", "Snow"], 80: ["Pancadas de chuva", "Showers"], 81: ["Pancadas de chuva", "Showers"],
+    82: ["Temporal", "Heavy showers"], 85: ["Neve", "Snow showers"], 86: ["Neve forte", "Heavy snow showers"], 95: ["Tempestade", "Thunderstorm"],
+    96: ["Tempestade com granizo", "Thunderstorm, hail"], 99: ["Tempestade com granizo", "Thunderstorm, hail"],
+  };
+  const descClima = (c) => (WMO[c] || ["—", "—"])[lang === "en" ? 1 : 0];
+  const temp = (c) => (lang === "en" ? `${Math.round(c * 9 / 5 + 32)}°F` : `${Math.round(c)}°C`);
+  // Uma única consulta para todas as cidades (a API aceita várias coordenadas de uma vez)
+  let climaTodas = null;
+  function buscaTodas() {
+    if (climaTodas) return climaTodas;
+    const cs = V.destinos.filter((d) => d.coords);
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${cs.map((d) => d.coords[0]).join(",")}&longitude=${cs.map((d) => d.coords[1]).join(",")}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=16`;
+    climaTodas = fetch(url).then((r) => (r.ok ? r.json() : Promise.reject())).then((j) => {
+      const lista = Array.isArray(j) ? j : [j];
+      const mapa = {};
+      cs.forEach((d, n) => { mapa[d.coords.join(",")] = lista[n]; });
+      store.set("clima", { t: Date.now(), mapa });
+      return mapa;
+    }).catch(() => { climaTodas = null; const salvo = store.get("clima", null); return salvo ? salvo.mapa : {}; }); // sem internet: última previsão salva
+    return climaTodas;
+  }
+  function buscaClima(d) {
+    if (!d || !d.coords) return Promise.resolve(null);
+    return buscaTodas().then((m) => m[d.coords.join(",")] || null);
+  }
+  function renderClimaCidades() {
+    V.destinos.forEach((d, i) => {
+      buscaClima(d).then((j) => {
+        const box = document.querySelector(`.postal[data-i="${i}"] .clima`);
+        if (!box || !j || !j.current) return;
+        const dias = (j.daily?.time || []).map((t, n) => ({ t, max: j.daily.temperature_2m_max[n], min: j.daily.temperature_2m_min[n], c: j.daily.weather_code[n] }))
+          .filter((x) => x.t >= d.de && (!d.ate || x.t <= d.ate));
+        box.innerHTML = `<div class="agora">${L().climaAgora}: ${temp(j.current.temperature_2m)} · ${esc(descClima(j.current.weather_code))}</div>
+          ${dias.length ? `<div class="dias-clima">${dias.map((x) => `<div><span>${esc(fmtCurto(data(x.t)))}</span><b>${temp(x.max)}</b><span>${temp(x.min)}</span></div>`).join("")}</div>` : ""}`;
+      });
+    });
+  }
+  function climaHoje(cidade, chave) {
+    buscaClima(cidade).then((j) => {
+      const el = $("climaHoje");
+      if (!el || !j || !j.daily) return;
+      const n = j.daily.time.indexOf(chave);
+      const hoje = n >= 0 ? ` · ${L().previsao}: ${temp(j.daily.temperature_2m_min[n])} – ${temp(j.daily.temperature_2m_max[n])}, ${descClima(j.daily.weather_code[n])}` : "";
+      el.textContent = j.current ? `${L().climaAgora}: ${temp(j.current.temperature_2m)} · ${descClima(j.current.weather_code)}${hoje}` : "";
+    });
   }
 
   // ---------- Montagem ----------
@@ -657,8 +812,11 @@
     $("boardLabel").textContent = L().boardLabel;
     $("sub").textContent = `${L().ateAPartida} · ${partida.toLocaleDateString(locale(), { ...tz, weekday: "long", day: "numeric", month: "long" })} ${L().as} ${partida.toLocaleTimeString(locale(), { ...tz, hour: "2-digit", minute: "2-digit" })} · Curitiba (CWB)`;
     montaPainel();
-    if (tick()) { clearInterval(timer); timer = null; }
-    else if (!timer) timer = setInterval(() => { if (tick()) { clearInterval(timer); timer = null; } }, 1000);
+    clearInterval(timer);
+    const r = tick();
+    // Antes da viagem: atualiza a cada segundo. Durante: a cada 30 s (modo "Hoje"). Depois: para.
+    if (r === false) timer = setInterval(() => { const x = tick(); if (x !== false) { clearInterval(timer); if (x === "hoje") timer = setInterval(tick, 30000); } }, 1000);
+    else if (r === "hoje") timer = setInterval(tick, 30000);
 
     // Rota completa em códigos de aeroporto
     const casa = V.trajetos[0].sai.sigla;
@@ -679,11 +837,13 @@
           ${tx(d.frase) ? `<p class="frase">${esc(tx(d.frase))}</p>` : ""}
           ${d.destaques ? `<div class="chips">${d.destaques.map((x) => `<span>${esc(tx(x))}</span>`).join("")}</div>` : ""}
           ${tx(d.obs) ? `<div class="obs">${esc(tx(d.obs))}</div>` : ""}
+          <div class="clima"></div>
           ${fotosDe(d).length > 1 ? `<div class="pontos">${fotosDe(d).map((f, k) => `<button type="button" data-ir="${k}" aria-label="${esc(tx(f.legenda))}" aria-current="${!k}"></button>`).join("")}</div>` : ""}
         </div>
       </article>`).join("");
     animaCenas();
     iniciaSlides();
+    renderClimaCidades();
 
     // Cartões de embarque
     $("listaVoos").innerHTML = V.trajetos.map((v) => {
@@ -735,7 +895,7 @@
     }).join("");
 
     // Roteiro
-    const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+    const hoje = agoraReal(); hoje.setHours(0, 0, 0, 0);
     $("dias").innerHTML = V.roteiro.map((d) => {
       const dia = data(d.dia);
       const cls = +dia === +hoje ? "hoje" : dia < hoje ? "passou" : "";
@@ -1038,6 +1198,11 @@
   })();
 
   renderTudo();
+
+  // ---------- Funcionar sem internet (só no link do GitHub; no link do Claude não é permitido) ----------
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+    addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+  }
 </script>
 </body>
 </html>
