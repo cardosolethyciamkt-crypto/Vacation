@@ -80,11 +80,11 @@ const VIAGEM = {
       frase: { pt: "Parques, fogos de Réveillon e muitas compras.", en: "Theme parks, New Year's fireworks and lots of shopping." },
       destaques: [
         { pt: "Epic Universe", en: "Epic Universe" },
-        { pt: "EPCOT", en: "EPCOT" },
-        { pt: "Kennedy Space Center", en: "Kennedy Space Center" },
         { pt: "Universal", en: "Universal" },
+        { pt: "EPCOT", en: "EPCOT" },
+        { pt: "NASA", en: "NASA" },
         { pt: "Magic Kingdom na virada", en: "Magic Kingdom on New Year's Eve" },
-        { pt: "Animal Kingdom", en: "Animal Kingdom" },
+        { pt: "Hollywood Studios", en: "Hollywood Studios" },
         { pt: "Outlets", en: "Outlets" },
         { pt: "Jogo da NBA", en: "NBA game" },
       ],
@@ -277,52 +277,56 @@ const VIAGEM = {
     },
     {
       dia: "2026-12-25",
-      titulo: { pt: "Epic Universe", en: "Epic Universe" },
+      titulo: { pt: "Dia de Parque · Epic Universe", en: "Park Day · Epic Universe" },
       atividades: [
-        { hora: "", nome: { pt: "Dia no Epic Universe", en: "Day at Epic Universe" }, local: "Epic Universe, Orlando, FL", carro: { min: 23, km: 19 } },
+        { hora: "", nome: { pt: "Epic Universe", en: "Epic Universe" }, local: "Epic Universe, Orlando, FL", carro: { min: 23, km: 19 } },
       ],
     },
     {
       dia: "2026-12-26",
-      titulo: { pt: "Celebration e Winter Garden", en: "Celebration and Winter Garden" },
+      titulo: { pt: "Celebration e Winter Garden Village", en: "Celebration and Winter Garden Village" },
       atividades: [
         { hora: "", nome: { pt: "Café em Celebration", en: "Coffee in Celebration" }, local: "Celebration, FL", carro: { min: 19, km: 16 } },
-        { hora: "", nome: { pt: "Compras em Winter Garden", en: "Shopping in Winter Garden" }, local: "Winter Garden, FL", carro: { min: 37, km: 44, de: { pt: "de Celebration até lá: cerca de 38 min", en: "from Celebration: about 38 min" } } },
+        { hora: "", nome: { pt: "Passeio por Winter Garden Village", en: "Stroll around Winter Garden Village" }, local: "Winter Garden Village at Fowler Groves, Winter Garden, FL",
+          carro: { min: 31, km: 34, desde: { pt: "Carro desde Celebration:", en: "Drive from Celebration:" }, de: { pt: "volta para casa: ~37 min", en: "back to the house: ~37 min" } } },
       ],
     },
     {
       dia: "2026-12-27",
-      titulo: { pt: "Kennedy Space Center", en: "Kennedy Space Center" },
+      titulo: { pt: "Dia de NASA e Outlet", en: "NASA and Outlet Day" },
       atividades: [
-        { hora: "", nome: { pt: "Dia no Kennedy Space Center", en: "Day at Kennedy Space Center" }, local: "Kennedy Space Center Visitor Complex, FL", carro: { min: 79, km: 95 } },
+        { hora: "", nome: { pt: "Kennedy Space Center (NASA)", en: "Kennedy Space Center (NASA)" }, local: "Kennedy Space Center Visitor Complex, FL", carro: { min: 79, km: 95 }, obs: { pt: "O passeio mais longe da casa: saia cedo", en: "The farthest trip from the house: leave early" } },
+        { hora: "", nome: { pt: "Orlando International Premium Outlets", en: "Orlando International Premium Outlets" }, local: "Orlando International Premium Outlets, 4951 International Dr, Orlando",
+          carro: { min: 77, km: 87, desde: { pt: "Carro desde a NASA:", en: "Drive from NASA:" }, de: { pt: "volta para casa: ~28 min · o Vineland fica a ~79 min da NASA", en: "back to the house: ~28 min · Vineland is ~79 min from NASA" } } },
       ],
     },
     {
       dia: "2026-12-28",
-      titulo: { pt: "EPCOT", en: "EPCOT" },
+      titulo: { pt: "Dia de Parque · Universal Studios e Islands of Adventure", en: "Park Day · Universal Studios and Islands of Adventure" },
       atividades: [
-        { hora: "", nome: { pt: "Dia no EPCOT", en: "Day at EPCOT" }, local: "EPCOT, Walt Disney World, FL", carro: { min: 20, km: 17 } },
+        { hora: "", nome: { pt: "Universal Studios + Islands of Adventure", en: "Universal Studios + Islands of Adventure" }, local: "Universal Orlando Resort, FL", carro: { min: 29, km: 25 } },
       ],
     },
     {
       dia: "2026-12-29",
-      titulo: { pt: "Universal Studios e Islands of Adventure", en: "Universal Studios and Islands of Adventure" },
+      titulo: { pt: "Dia de Parque · Disney EPCOT", en: "Park Day · Disney EPCOT" },
       atividades: [
-        { hora: "", nome: { pt: "Universal Studios + Islands of Adventure", en: "Universal Studios + Islands of Adventure" }, local: "Universal Orlando Resort, FL", carro: { min: 29, km: 25 }, obs: { pt: "Ou compras, para quem quiser", en: "Or shopping, for anyone who prefers" } },
+        { hora: "", nome: { pt: "EPCOT", en: "EPCOT" }, local: "EPCOT, Walt Disney World, FL", carro: { min: 20, km: 17 } },
       ],
     },
     {
       dia: "2026-12-30",
-      titulo: { pt: "Disney Springs", en: "Disney Springs" },
+      titulo: { pt: "Disney Springs e Universal à noite", en: "Disney Springs and Universal at night" },
       atividades: [
-        { hora: "", nome: { pt: "Passeio em Disney Springs", en: "Evening at Disney Springs" }, local: "Disney Springs, Lake Buena Vista, FL", carro: { min: 20, km: 17 } },
+        { hora: "", nome: { pt: "Passeio por Disney Springs", en: "Stroll around Disney Springs" }, local: "Disney Springs, Lake Buena Vista, FL", carro: { min: 20, km: 17 } },
+        { hora: "18:00", nome: { pt: "Universal após as 18h", en: "Universal after 6 pm" }, local: "Universal CityWalk, Orlando, FL", carro: { min: 28, km: 26 } },
       ],
     },
     {
       dia: "2026-12-31",
-      titulo: { pt: "Magic Kingdom e a virada", en: "Magic Kingdom and New Year's Eve" },
+      titulo: { pt: "Dia de Parque · Disney Magic Kingdom", en: "Park Day · Disney Magic Kingdom" },
       atividades: [
-        { hora: "", nome: { pt: "Dia no Magic Kingdom", en: "Day at Magic Kingdom" }, local: "Magic Kingdom, Walt Disney World, FL", carro: { min: 28, km: 24, de: { pt: "até o estacionamento (TTC) + 15 a 30 min de monotrilho ou balsa", en: "to the parking lot (TTC) + 15–30 min by monorail or ferry" } } },
+        { hora: "", nome: { pt: "Magic Kingdom", en: "Magic Kingdom" }, local: "Magic Kingdom, Walt Disney World, FL", carro: { min: 28, km: 24, de: { pt: "até o estacionamento (TTC) + 15 a 30 min de monotrilho ou balsa", en: "to the parking lot (TTC) + 15–30 min by monorail or ferry" } } },
         { hora: "", nome: { pt: "Virada do ano no parque", en: "Ringing in the New Year at the park" }, obs: { pt: "Fogos de Réveillon sobre o castelo", en: "New Year's fireworks over the castle" } },
       ],
     },
@@ -330,19 +334,19 @@ const VIAGEM = {
       dia: "2027-01-01",
       titulo: { pt: "Dia livre", en: "Free day" },
       atividades: [
-        { hora: "", nome: { pt: "Descanso, outlet ou passeios ao redor", en: "Rest, outlets or nearby outings" }, obs: { pt: "Cada um escolhe", en: "Everyone picks their own plan" } },
+        { hora: "", nome: { pt: "Compras, outlet, mercado ou passeio", en: "Shopping, outlets, groceries or an outing" }, obs: { pt: "Cada um escolhe", en: "Everyone picks their own plan" } },
       ],
     },
     {
       dia: "2027-01-02",
-      titulo: { pt: "Animal Kingdom", en: "Animal Kingdom" },
+      titulo: { pt: "Dia de Parque · Hollywood Studios", en: "Park Day · Hollywood Studios" },
       atividades: [
-        { hora: "", nome: { pt: "Dia no Animal Kingdom", en: "Day at Animal Kingdom" }, local: "Disney's Animal Kingdom, FL", carro: { min: 29, km: 24 } },
+        { hora: "", nome: { pt: "Disney's Hollywood Studios", en: "Disney's Hollywood Studios" }, local: "Disney's Hollywood Studios, Bay Lake, FL", carro: { min: 23, km: 19 } },
       ],
     },
     {
       dia: "2027-01-03",
-      titulo: { pt: "Outlet e jogo da NBA", en: "Outlets and NBA game" },
+      titulo: { pt: "Compras e jogo da NBA", en: "Shopping and NBA game" },
       atividades: [
         { hora: "", nome: { pt: "Compras no outlet", en: "Outlet shopping" }, local: "Orlando Vineland Premium Outlets", carro: { min: 19, km: 16, de: { pt: "Vineland · o de International Drive fica a cerca de 28 min", en: "Vineland · the International Drive one is about 28 min away" } } },
         {
@@ -363,7 +367,7 @@ const VIAGEM = {
       dia: "2027-01-04",
       titulo: { pt: "Dia livre e malas", en: "Free day and packing" },
       atividades: [
-        { hora: "", nome: { pt: "Passeios ao redor", en: "Nearby outings" } },
+        { hora: "", nome: { pt: "Compras finais", en: "Last-minute shopping" } },
         { hora: "", nome: { pt: "Arrumar as malas", en: "Pack the bags" }, obs: { pt: "No dia seguinte saímos cedo", en: "We leave early the next day" } },
       ],
     },
@@ -406,7 +410,7 @@ const VIAGEM = {
         { pt: "Cartão internacional e alguns dólares", en: "International card and some US dollars" },
         { pt: "Endereço dos hotéis anotado (pede na imigração)", en: "Hotel addresses written down (asked at immigration)" },
         { pt: "Ingresso do jogo da NBA (03/01)", en: "NBA game ticket (Jan 3)" },
-        { pt: "Ingressos dos parques (Disney, Universal, Epic, Kennedy)", en: "Park tickets (Disney, Universal, Epic, Kennedy)" },
+        { pt: "Ingressos dos parques (Disney, Universal, Epic, NASA)", en: "Park tickets (Disney, Universal, Epic, NASA)" },
       ],
     },
     {

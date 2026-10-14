@@ -541,8 +541,8 @@
 
 <footer class="wrap"><p data-i18n="rodape"></p><p class="dica-app" data-i18n="dicaApp"></p><div class="creditos" id="creditos"></div></footer>
 
-<script src="viagem.js?v=202610081632"></script>
-<script src="memorias.js?v=202610081632"></script>
+<script src="viagem.js?v=202610141655"></script>
+<script src="memorias.js?v=202610141655"></script>
 <script>
   const V = VIAGEM;
   const $ = (id) => document.getElementById(id);
@@ -911,7 +911,7 @@
             <div>
               <div class="nome">${esc(tx(a.nome))}</div>
               ${a.local ? `<div class="local"><a href="${mapa(tx(a.local))}" target="_blank" rel="noopener">${esc(tx(a.local))}</a></div>` : ""}
-              ${a.carro ? `<div class="carro">${L().deCasa} <b>~${a.carro.min} min</b> · ${a.carro.km} km${tx(a.carro.de) ? `<span>${esc(tx(a.carro.de))}</span>` : ""}</div>` : ""}
+              ${a.carro ? `<div class="carro">${a.carro.desde ? esc(tx(a.carro.desde)) : L().deCasa} <b>~${a.carro.min} min</b> · ${a.carro.km} km${tx(a.carro.de) ? `<span>${esc(tx(a.carro.de))}</span>` : ""}</div>` : ""}
               ${tx(a.obs) ? `<div class="obs">${esc(tx(a.obs))}</div>` : ""}
             </div>
           </li>`).join("")}</ul>
