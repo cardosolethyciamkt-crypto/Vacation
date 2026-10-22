@@ -44,12 +44,14 @@ const VIAGEM = {
       ],
       frase: { pt: "Natal de filme: neve, luzes e frio de verdade.", en: "A movie-style Christmas: snow, lights and real winter." },
       destaques: [
-        { pt: "Árvore do Rockefeller", en: "Rockefeller Tree" },
+        { pt: "Rockefeller Center", en: "Rockefeller Center" },
         { pt: "Times Square", en: "Times Square" },
-        { pt: "Patinação no gelo", en: "Ice skating" },
-        { pt: "Vitrines de Natal", en: "Holiday windows" },
+        { pt: "Estátua da Liberdade", en: "Statue of Liberty" },
+        { pt: "Memorial 11 de Setembro", en: "9/11 Memorial" },
+        { pt: "SUMMIT", en: "SUMMIT" },
+        { pt: "Central Park", en: "Central Park" },
       ],
-      obs: { pt: "Inverno: 0 °C ou menos · passeios a definir", en: "Winter: 32 °F (0 °C) or colder · activities TBD" },
+      obs: { pt: "Inverno: 0 °C ou menos · roteiro completo abaixo", en: "Winter: 32 °F (0 °C) or colder · full itinerary below" },
     },
     {
       cidade: "Miami", de: "2026-12-22", ate: "2026-12-24",
@@ -245,13 +247,37 @@ const VIAGEM = {
     },
     {
       dia: "2026-12-19",
-      titulo: { pt: "Chegada em Nova York", en: "Arrival in New York" },
+      titulo: { pt: "Chegada e Midtown", en: "Arrival and Midtown" },
       atividades: [
         {
           hora: "08:25", nome: { pt: "Chegada no JFK", en: "Landing at JFK" }, local: "JFK Airport",
           obs: { pt: "Imigração americana: passaporte e visto em mãos", en: "US immigration: have passport and visa ready" },
         },
-        { hora: "", nome: { pt: "Check-in no hotel", en: "Hotel check-in" }, local: "Hotel Edison Times Square" },
+        { hora: "", nome: { pt: "Deixar as malas no hotel", en: "Drop the bags at the hotel" }, local: "Hotel Edison Times Square" },
+        { hora: "", nome: "Grand Central Terminal", local: "Grand Central Terminal, New York" },
+        { hora: "", nome: "Rockefeller Center", local: "Rockefeller Center, New York", obs: { pt: "Árvore de Natal e pista de patinação", en: "Christmas tree and ice rink" } },
+        { hora: "", nome: { pt: "Catedral de St. Patrick", en: "St. Patrick's Cathedral" }, local: "St. Patrick's Cathedral, New York", obs: { pt: "Fica em frente ao Rockefeller, na 5ª Avenida", en: "Right across from Rockefeller, on 5th Avenue" } },
+        { hora: "", nome: "Times Square", local: "Times Square, New York", obs: { pt: "Melhor à noite, com tudo aceso · ao lado do hotel", en: "Best at night, all lit up · next to the hotel" } },
+      ],
+    },
+    {
+      dia: "2026-12-20",
+      titulo: { pt: "Downtown e Estátua da Liberdade", en: "Downtown and the Statue of Liberty" },
+      atividades: [
+        { hora: "", nome: { pt: "Ponte do Brooklyn", en: "Brooklyn Bridge" }, local: "Brooklyn Bridge, New York" },
+        { hora: "", nome: { pt: "Estátua da Liberdade", en: "Statue of Liberty" }, local: "Battery Park, New York", obs: { pt: "Barco sai do Battery Park · leve os ingressos", en: "Ferry leaves from Battery Park · bring the tickets" } },
+        { hora: "", nome: { pt: "Memorial 11 de Setembro", en: "9/11 Memorial" }, local: "9/11 Memorial & Museum, New York" },
+        { hora: "", nome: "Oculus", local: "Oculus, World Trade Center, New York" },
+        { hora: "", nome: "Wall Street", local: "Wall Street, New York", obs: { pt: "Memorial, Oculus e Wall Street ficam pertinho, dá para ir a pé", en: "The Memorial, Oculus and Wall Street are close together, walkable" } },
+      ],
+    },
+    {
+      dia: "2026-12-21",
+      titulo: { pt: "Summit, museu e Central Park", en: "Summit, museum and Central Park" },
+      atividades: [
+        { hora: "", nome: { pt: "Observatório SUMMIT One Vanderbilt · manhã", en: "SUMMIT One Vanderbilt observatory · morning" }, local: "SUMMIT One Vanderbilt, New York", obs: { pt: "Ao lado da Grand Central · entrada com horário marcado", en: "Next to Grand Central · timed-entry tickets" } },
+        { hora: "", nome: { pt: "Museu Americano de História Natural · tarde", en: "American Museum of Natural History · afternoon" }, local: "American Museum of Natural History, New York" },
+        { hora: "", nome: { pt: "Central Park · tarde", en: "Central Park · afternoon" }, local: "Central Park, New York", obs: { pt: "O museu fica de frente para o parque", en: "The museum faces the park" } },
       ],
     },
     {
@@ -411,6 +437,7 @@ const VIAGEM = {
         { pt: "Endereço dos hotéis anotado (pede na imigração)", en: "Hotel addresses written down (asked at immigration)" },
         { pt: "Ingresso do jogo da NBA (03/01)", en: "NBA game ticket (Jan 3)" },
         { pt: "Ingressos dos parques (Disney, Universal, Epic, NASA)", en: "Park tickets (Disney, Universal, Epic, NASA)" },
+        { pt: "Ingressos de Nova York (Estátua da Liberdade, SUMMIT, museu)", en: "New York tickets (Statue of Liberty, SUMMIT, museum)" },
       ],
     },
     {
